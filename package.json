@@ -1,0 +1,34 @@
+{
+  "scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build",
+    "test": "/bin/true"
+  },
+  "contributors": [
+    {
+      "name": "Xavier Bergeron",
+      "email": "xavbergeron@gmail.com"
+    },
+    {
+      "name": "Conan Browne",
+      "email": ""
+    },
+    {
+      "name": "James Post",
+      "email": ""
+    },
+    {
+      "name": "John Vasile",
+      "email": ""
+    }
+  ],
+  "dependencies": {
+    "canvas-confetti": "^1.2.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.12.11",
+    "@snowpack/plugin-babel": "^2.1.6",
+    "prettier": "^2.0.5",
+    "snowpack": "^3.0.1"
+  }
+}
