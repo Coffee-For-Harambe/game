@@ -3,9 +3,12 @@
  * When you're ready to start on your site, clear the file. Happy hacking!
  **/
 
-import confetti from "canvas-confetti"
+import "./testrenderer"
 
-confetti.create(document.getElementById("canvas"), {
+/*
+import confetti from "canvas-confetti"
+confetti?.create(document.getElementById("canvas2"), {
   resize: true,
   useWorker: true,
 })({ particleCount: 200, spread: 200 })
+*/

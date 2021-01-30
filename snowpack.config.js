@@ -2,7 +2,7 @@
 module.exports = {
   mount: {
     public: { url: "/", static: true },
-    src: { url: "/dist" },
+    client_src: { url: "/dist" },
   },
   plugins: ["@snowpack/plugin-babel"],
   routes: [
