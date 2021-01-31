@@ -1,5 +1,5 @@
 export default class CharacterDefinition {
-    constuctor (name, hp, damage, movement, attackRange, damageResist, initiative, pointValue){
+    constuctor (name, hp, damage, movement, attackRange, damageResist, initiative, points){
         this.name = name
         this.hp = hp
         this.damage = damage
@@ -7,7 +7,7 @@ export default class CharacterDefinition {
         this.attackRange = attackRange
         this.damageResist = damageResist
         this.initiative = initiative
-        this.pointValue = pointValue
+        this.points = points
     }
 
     receiveDamage (damage){
