@@ -11,7 +11,7 @@ export default class CharacterDefinition {
     }
 
     receiveDamage (damage){
-            this.hp -= (damage - (damage*this.damageResist))
+            this.hp -= (damage - (damage *this.damageResist))
     }
 
     moveSprite (){
