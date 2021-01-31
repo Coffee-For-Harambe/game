@@ -13,4 +13,9 @@ body,
 #ui {
   position: fixed;
   top: 0;
+  pointer-events: none;
+}
+
+#ui > * {
+  pointer-events: auto;
 }

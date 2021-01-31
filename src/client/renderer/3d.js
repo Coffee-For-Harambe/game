@@ -111,7 +111,7 @@ loader.load(
 
 new RGBELoader()
   .setDataType(THREE.UnsignedByteType)
-  .load("machine_shop_03_1k.hdr", function (texture) {
+  .load("images/machine_shop_03_1k.hdr", function (texture) {
     const envMap = pmremGenerator.fromEquirectangular(texture).texture
 
     scene.background = envMap
@@ -120,3 +120,11 @@ new RGBELoader()
     texture.dispose()
     pmremGenerator.dispose()
   })
+
+/*
+https://hdrihaven.com/hdri/?h=lythwood_room
+https://hdrihaven.com/hdri/?h=aft_lounge
+https://hdrihaven.com/hdri/?h=wooden_lounge
+*/
+
+export default function test() {}

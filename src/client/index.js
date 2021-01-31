@@ -3,7 +3,7 @@
  * When you're ready to start on your site, clear the file. Happy hacking!
  **/
 
-import "./testrenderer"
+import "./renderer/3d"
 
 /*
 import confetti from "canvas-confetti"
