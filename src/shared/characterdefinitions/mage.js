@@ -1,3 +1,5 @@
 import CharacterDefinition from "../characterdefinition"
 
-export default class Mage extends CharacterDefinition {}
+export default class Mage extends CharacterDefinition {
+  hp = 2
+}
