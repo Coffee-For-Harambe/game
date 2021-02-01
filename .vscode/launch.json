@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "(Node) Launch Sandbox",
+      "skipFiles": ["<node_internals>/**"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run"],
+      "program": "sandbox"
+    },
+    {
+      "name": "(Browser) Launch Harambe",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://127.0.0.1:8080/",
+      "pathMapping": {
+        "/dist": "${workspaceFolder}/src",
+        "/": "${workspaceFolder}/public"
+      }
+    }
+  ]
+}
