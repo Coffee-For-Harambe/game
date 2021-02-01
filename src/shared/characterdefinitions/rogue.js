@@ -8,5 +8,7 @@ export default class Rogue extends CharacterDefinition {
   attackRange = 
   damageResist = -.5
   initiative  = 1
-  points = 1000
+  points = 0
+  influencePos = 0
+  influenceDiag = 0
 }

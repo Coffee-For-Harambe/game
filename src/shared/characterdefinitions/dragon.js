@@ -8,5 +8,7 @@ export default class Dragon extends CharacterDefinition {
   attackRange = 5
   damageResist = -.3
   initiative = 2
-  points = -1
+  points = 0
+  influencePos = 0
+  influenceDiag = 0
 }

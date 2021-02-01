@@ -8,5 +8,7 @@ export default class Ranger extends CharacterDefinition {
   attackRange = 5
   damageResist = 0
   initiative = 2
-  points = 1000
+  points = 0
+  influencePos = 0
+  influenceDiag = 0
 }

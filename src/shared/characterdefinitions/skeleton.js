@@ -8,5 +8,7 @@ export default class Skeleton extends CharacterDefinition {
   attackRange = 1
   damageResist = -.10
   initiative = 1
-  points = -1
+  points = 0
+  influencePos = 0
+  influenceDiag = 0
 }

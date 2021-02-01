@@ -7,5 +7,7 @@ export default class Mage extends CharacterDefinition {
   movement = 5
   attackRange = 6
   damageResist = -.1
-  points = 1000
+  points = 0
+  influencePos = 0
+  influenceDiag = 0
 }

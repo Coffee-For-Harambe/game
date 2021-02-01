@@ -8,5 +8,7 @@ export default class Warrior extends CharacterDefinition {
     damageResist = .2
     attackRange = 1
     initiative = 5
-    points = 1000
+    points = 0
+    influencePos = 0
+    influenceDiag = 0
 }

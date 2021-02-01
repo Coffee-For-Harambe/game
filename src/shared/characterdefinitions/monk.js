@@ -8,5 +8,7 @@ export default class Monk extends CharacterDefinition {
     damageResist = .15
     attackRange = 1
     initiative = 4
-    points = 1000
+    points = 0
+    influencePos = 0
+    influenceDiag = 0
 }
