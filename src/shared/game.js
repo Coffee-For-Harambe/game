@@ -2,6 +2,7 @@ import Team from "./team"
 
 export default class Game {
   constructor() {
+    this.round = 1
     this.turn = 0
 
     this.teams = []
@@ -14,15 +15,18 @@ export default class Game {
     ])
 
     this.teams[1] = new Team([
-      new Character.Dragon(0, 0),
-      new Character.Dragon(1, 0),
+      new Character.Skeleton(0, 0),
+      new Character.Skeleton(1, 0),
       new Character.Skeleton(2, 0),
-      new Character.Skeleton(3, 0),
+      new Character.Dragon(3, 0),
       new Character.Skeleton(4, 0),
       new Character.Skeleton(5, 0),
     ])
   }
-
+  advanceRound() {
+    for (Character in this.teams) {
+    }
+  }
   advanceTurn() {
     this.turn = (this.turn + 1) % this.teams.length
   }
