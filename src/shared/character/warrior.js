@@ -14,4 +14,5 @@ export default class Warrior extends Character {
   influencePos = 10
   influenceDiag = 4
   movedThisRound = false
+  attackedThisRound = false
 }

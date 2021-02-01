@@ -12,6 +12,7 @@ export default class Character {
   influencePos = 0
   influenceDiag = 0
   movedThisRound = false
+  attackedThisRound = false
   renderer = null
 
   constructor(x, y) {
@@ -41,6 +42,10 @@ export default class Character {
   }
   selected() {
     console.log(whoAmI)
+  }
+
+  attack() {
+    console.log("attack")
   }
 
   receiveDamage(damage) {
