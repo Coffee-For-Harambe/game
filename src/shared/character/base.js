@@ -10,11 +10,20 @@ export default class Character {
   points = 0
   influencePos = 0
   influenceDiag = 0
-  movedThisRound = false
+  renderer = null
 
   constructor(x, y) {
     this.x = x
     this.y = y
+  }
+
+  setTeam(team) {
+    this.team = team
+    this.game = team.game
+  }
+
+  setRenderer(renderer) {
+    this.renderer = renderer
   }
 
   whoAmI() {

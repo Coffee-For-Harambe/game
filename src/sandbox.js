@@ -1,3 +1,5 @@
 import "./shared/index"
-const test = "asd"
-console.log("woo")
+import Game from "./shared/game"
+const game = new Game()
+
+console.log("Game is woo", game)

@@ -3,8 +3,6 @@
  * When you're ready to start on your site, clear the file. Happy hacking!
  **/
 
-import "./renderer/3d"
-
 /*
 import confetti from "canvas-confetti"
 confetti?.create(document.getElementById("canvas2"), {
@@ -14,3 +12,7 @@ confetti?.create(document.getElementById("canvas2"), {
 */
 
 import "../shared/index"
+
+import Renderer from "./renderer/3d"
+
+window.RENDERER = new Renderer(window.GAME)

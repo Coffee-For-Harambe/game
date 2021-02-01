@@ -1,4 +1,5 @@
 import Team from "./team"
+import Character from "./character"
 
 export default class Game {
   constructor() {
@@ -22,6 +23,10 @@ export default class Game {
       new Character.Skeleton(4, 0),
       new Character.Skeleton(5, 0),
     ])
+
+    this.teams.forEach((team) => {
+      team.setGame(this)
+    })
   }
   advanceRound() {
     for (Character in this.teams) {
@@ -29,15 +34,14 @@ export default class Game {
   }
   advanceTurn() {
     this.turn = (this.turn + 1) % this.teams.length
+    this.update()
   }
 
   getActiveTeam() {
     return this.teams[this.turn]
   }
-}
-const move = (x, y) => {
-  x = this.x + x
-  y = this.y + y
-}
 
-window.GAME = new Game()
+  update() {
+    this.teams.forEach((team) => team.update())
+  }
+}

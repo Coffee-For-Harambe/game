@@ -1,4 +1,4 @@
-export function buildZeroGrid(size) {
+export function buildZeroGrid(size = 16) {
   const grid = Array(size)
   for (let i = 0; i < size; i++) {
     grid[i] = Array(size).fill(1)
@@ -26,7 +26,7 @@ export function printGrid(grid, nc) {
 
 export function rebuildInfluenceGrid(team) {
   // Reset the grid because we build it up from scratch each time to avoid conflicts
-  const grid = buildZeroGrid(16)
+  const grid = buildZeroGrid()
 
   // Output grid example: https://xavier.lol/i/1Z9UKtD.png
   team.forEach((character) => {
