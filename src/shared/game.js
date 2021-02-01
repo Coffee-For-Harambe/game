@@ -31,5 +31,9 @@ export default class Game {
     return this.teams[this.turn]
   }
 }
+const move = (x, y) => {
+  x = this.x + x
+  y = this.y + y
+}
 
 window.GAME = new Game()
