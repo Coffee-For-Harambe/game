@@ -28,10 +28,21 @@ export default class Game {
       team.setGame(this)
     })
   }
+
+  static _Instance = null
+  static get Instance() {
+    if (!Game._Instance) {
+      Game._Instance = new Game()
+    }
+
+    return Game._Instance
+  }
+
   advanceRound() {
     for (Character in this.teams) {
     }
   }
+
   advanceTurn() {
     this.turn = (this.turn + 1) % this.teams.length
     this.update()
@@ -43,5 +54,15 @@ export default class Game {
 
   update() {
     this.teams.forEach((team) => team.update())
+  }
+
+  selectSquare({ x, y }) {
+    if (typeof x === "undefined" || typeof y === "undefined") {
+      this.selectedSquare = null
+    } else {
+      this.selectedSquare = { x, y }
+    }
+
+    console.log("Selected square changed to", this.selectedSquare)
   }
 }

@@ -14,5 +14,6 @@ confetti?.create(document.getElementById("canvas2"), {
 import "../shared/index"
 
 import Renderer from "./renderer/3d"
+import Game from "../shared/game"
 
-window.RENDERER = new Renderer(window.GAME)
+window.RENDERER = new Renderer(Game.Instance)
