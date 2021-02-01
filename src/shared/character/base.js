@@ -17,10 +17,10 @@ export default class Character {
 
   whoAmI() {
     console.log(
-      this.name
+      this.name,
       this.x,
       this.y,
-      this.hp,
+      this.hp
       // this.hasMoved,
       // this.active,
       // this.turn
@@ -34,8 +34,10 @@ export default class Character {
     this.hp -= damage - damage * this.damageResist
   }
 
-  moveSprite() {
-    /*https://stackoverflow.com/questions/27532099/moving-chess-pieces-in-native-javascript*/
+  moveSprite(x, y) {
+    this.y = y
+    this.x = x
+    this.game.update()
   }
 
   influenceGrid(g) {
