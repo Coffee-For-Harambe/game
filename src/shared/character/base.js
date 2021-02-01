@@ -10,6 +10,7 @@ export default class Character {
   points = 0
   influencePos = 0
   influenceDiag = 0
+  movedThisRound = false
 
   constructor(x, y) {
     this.x = x
