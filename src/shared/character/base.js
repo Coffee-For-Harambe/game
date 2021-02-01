@@ -1,16 +1,28 @@
 export default class Character {
-  name = "Basic Character"
-  hp = 5000
-  damage = 3000
-  movement = 5
-  attackRange = 5
-  damageResist = -0.3
-  initiative = 2
-  points = 0
-  influencePos = 0
-  influenceDiag = 0
-
-  constructor(x, y) {
+  constructor(
+    name,
+    hp,
+    damage,
+    movement,
+    attackRange,
+    damageResist,
+    initiative,
+    points,
+    influencePos,
+    influenceDiag,
+    x,
+    y
+  ) {
+    this.name = name
+    this.hp = hp
+    this.damage = damage
+    this.movement = movement
+    this.attackRange = attackRange
+    this.damageResist = damageResist
+    this.initiative = initiative
+    this.points = points
+    this.influencePos = influencePos
+    this.influenceDiag = influenceDiag
     this.x = x
     this.y = y
   }
