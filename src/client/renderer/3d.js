@@ -97,7 +97,7 @@ loader.load(
     // Play a specific animation
     const clip = THREE.AnimationClip.findByName(clips, "Victory")
     const action = mixer.clipAction(clip)
-    action.play()
+    // action.play()
   },
   // called while loading is progressing
   function (xhr) {
@@ -127,4 +127,33 @@ https://hdrihaven.com/hdri/?h=aft_lounge
 https://hdrihaven.com/hdri/?h=wooden_lounge
 */
 
-export default function test() {}
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  animate()
+
+  console.log("resized idk")
+}
+window.addEventListener("resize", onWindowResize)
+
+const raycaster = new THREE.Raycaster()
+const mouse = new THREE.Vector2()
+
+function onMouseDown(e) {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
+
+  raycaster.setFromCamera(mouse, camera)
+
+  // calculate objects intersecting the picking ray
+  const intersects = raycaster.intersectObjects(scene.children)
+
+  console.log(intersects)
+  for (let i = 0; i < intersects.length; i++) {
+    intersects[i].object.material.color.set(0xff0000)
+  }
+}
+window.addEventListener("pointerdown", onMouseDown, false)
+console.log("peach")
