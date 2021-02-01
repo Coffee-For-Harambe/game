@@ -14,11 +14,14 @@
       "name": "(Browser) Launch Harambe",
       "type": "chrome",
       "request": "launch",
-      "url": "http://127.0.0.1:8080/",
+      "url": "http://localhost:8080/",
+      "webRoot": "${workspaceFolder}",
       "pathMapping": {
-        "/dist": "${workspaceFolder}/src",
-        "/": "${workspaceFolder}/public"
-      }
+        "/dist": "${workspaceFolder}/src"
+      },
+      "breakOnLoad": true,
+      "breakOnLoadStrategy": "instrument",
+      "trace": true
     }
   ]
 }
