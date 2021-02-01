@@ -12,3 +12,5 @@ confetti?.create(document.getElementById("canvas2"), {
   useWorker: true,
 })({ particleCount: 200, spread: 200 })
 */
+
+import "../shared/index"
