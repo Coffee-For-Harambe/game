@@ -1,28 +1,62 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 
-class Renderer {
-  constructor() {
+import Game from "../../shared/game"
+import { Model, AnimatedModel, GridSquare } from "./model"
+import { buildZeroGrid } from "../../shared/gridutils"
+
+export default class Renderer {
+  constructor(game) {
+    this.game = game
+
     this.canvas = document.getElementById("canvas")
 
     this.scene = this.setupScene()
 
-    this.setupCamera()
+    this.camera = this.setupCamera()
     this.renderer = this.setupRenderer()
     this.setupHDR()
 
     this.setupGrid()
+    this.setupControls()
 
     window.addEventListener("resize", this.onWindowResize.bind(this))
 
     window.addEventListener("pointerdown", this.onMouseDown.bind(this), false)
 
-    redraw()
+    const plight = new THREE.PointLight(0xffffff, 1, 100)
+    plight.position.set(5, 5, 5)
+    this.scene.add(plight)
+
+    const geometry = new THREE.BoxGeometry()
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+    const cube = new THREE.Mesh(geometry, material)
+    const scale = new THREE.Vector3(3, 0.01, 3)
+    cube.scale.copy(scale)
+    this.scene.add(cube)
+
+    this.ring = new AnimatedModel("/3d/Swoosh.glb", this.scene, 0, 0)
+    this.ring.setWorldPos(1, 1)
+    this.ring.onModelLoaded(() => {
+      this.ring.playAnimation("Swoosh")
+    })
+
+    this.redraw()
   }
 
-  render() {
-    renderer.render(scene, camera)
+  render(time) {
+    for (let model of this.scene.children) {
+      if (model.model) {
+        model.model.render(time)
+      }
+    }
+
+    this.redraw()
+
+    this.renderer.render(this.scene, this.camera)
+    this.controls.update()
   }
 
   redraw() {
@@ -38,10 +72,10 @@ class Renderer {
 
   setupCamera() {
     const camera = new THREE.PerspectiveCamera(
-      90,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
+      90, // FOV
+      window.innerWidth / window.innerHeight, // Aspect Ratio
+      0.1, // zNear
+      1000 // zFar
     )
 
     camera.position.z = 5
@@ -72,11 +106,11 @@ class Renderer {
 
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
-      .load("images/machine_shop_03_1k.hdr", function (texture) {
+      .load("/images/machine_shop_03_1k.hdr", (texture) => {
         const envMap = pmremGenerator.fromEquirectangular(texture).texture
 
-        scene.background = envMap
-        scene.environment = envMap
+        this.scene.background = envMap
+        this.scene.environment = envMap
 
         texture.dispose()
         pmremGenerator.dispose()
@@ -84,11 +118,24 @@ class Renderer {
   }
 
   setupControls() {
-    const controls = new OrbitControls(camera, renderer.domElement)
+    const controls = new OrbitControls(this.camera, this.renderer.domElement)
     controls.update()
+
+    this.controls = controls
   }
 
-  setupGrid() {}
+  setupGrid() {
+    this.grid = buildZeroGrid()
+    this.linearGrid = []
+
+    for (let y = 0; y < 16; y++) {
+      for (let x = 0; x < 16; x++) {
+        const square = new GridSquare(this.scene, x, y)
+        this.grid[y][x] = square
+        this.linearGrid.push(square)
+      }
+    }
+  }
 
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight
@@ -106,11 +153,18 @@ class Renderer {
     this.raycaster.setFromCamera(this.mouse, this.camera)
 
     // calculate objects intersecting the picking ray
-    const intersects = raycaster.intersectObjects(this.scene.children)
+    const intersects = this.raycaster.intersectObjects(this.scene.children)
 
     console.log(intersects)
     for (let i = 0; i < intersects.length; i++) {
-      intersects[i].object.material.color.set(0xff0000)
+      if (intersects[i].object.model instanceof GridSquare) {
+        const gridPos = intersects[i].object.model.gridPos
+        Game.Instance.selectSquare(gridPos)
+        this.ring.setWorldPos(gridPos.x, gridPos.y)
+        break
+      }
+      // intersects[i].object.material.color.set(0xff0000)
+      // console.log
     }
   }
 }
