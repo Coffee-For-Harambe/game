@@ -18,9 +18,9 @@ export default class Character {
   whoAmI() {
     console.log(
       this.name
-      // this.position.x,
-      // this.position.y,
-      // this.hasAttacked,
+      this.x,
+      this.y,
+      this.hp,
       // this.hasMoved,
       // this.active,
       // this.turn
@@ -29,8 +29,6 @@ export default class Character {
   selected() {
     console.log(whoAmI)
   }
-
-  dealDamage(damage) {}
 
   receiveDamage(damage) {
     this.hp -= damage - damage * this.damageResist

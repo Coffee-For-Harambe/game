@@ -1,7 +1,7 @@
 import Character from "./base"
 
 export default class Dragon extends Character {
-  name = "Methuul, the Burninator"
+  name = "Trogdor, the Burninator"
   hp = 7000
   damage = Math.random() * 5 * 1000
   movement = 7
