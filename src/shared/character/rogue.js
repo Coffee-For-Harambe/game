@@ -6,6 +6,7 @@ export default class Rogue extends Character {
   damage = Math.random() * 3 * 1000 * 2
   movement = 7
   attackRange = 1
+  attackName = "Slice and Dice!"
   damageResist = -0.5
   initiative = 1
   points = 0

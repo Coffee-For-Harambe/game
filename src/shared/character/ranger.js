@@ -6,6 +6,7 @@ export default class Ranger extends Character {
   damage = Math.random(0 * 4) * 1000
   movement = 5
   attackRange = 5
+  attackName = "Sure Shot"
   damageResist = 0
   initiative = 2
   points = 0

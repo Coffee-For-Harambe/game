@@ -4,6 +4,7 @@ export default class Character {
   damage = 3000
   movement = 5
   attackRange = 5
+  attackName = "Splash"
   damageResist = -0.3
   initiative = 2
   points = 0

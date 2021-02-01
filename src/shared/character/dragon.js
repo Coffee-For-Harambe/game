@@ -6,6 +6,7 @@ export default class Dragon extends Character {
   damage = Math.random() * 5 * 1000
   movement = 7
   attackRange = 5
+  attackName = "Burninate!"
   damageResist = -0.3
   initiative = 2
   points = 0

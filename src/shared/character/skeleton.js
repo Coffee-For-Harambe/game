@@ -6,6 +6,7 @@ export default class Skeleton extends Character {
   damage = Math.random() * 3 * 1000
   movement = 8
   attackRange = 1
+  attackName = "Bash and Slash"
   damageResist = -0.1
   initiative = 1
   points = 0

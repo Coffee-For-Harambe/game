@@ -7,6 +7,7 @@ export default class Monk extends Character {
   movement = 6
   damageResist = 0.15
   attackRange = 1
+  attackName = "Knuckle Flurry"
   initiative = 4
   points = 0
   influencePos = 10
