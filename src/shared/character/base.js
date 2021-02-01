@@ -11,6 +11,7 @@ export default class Character {
   points = 0
   influencePos = 0
   influenceDiag = 0
+  movedThisRound = false
   renderer = null
 
   constructor(x, y) {
@@ -32,8 +33,8 @@ export default class Character {
       this.name,
       this.x,
       this.y,
-      this.hp
-      // this.hasMoved,
+      this.hp,
+      this.movedThisRound
       // this.active,
       // this.turn
     )
