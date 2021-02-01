@@ -15,6 +15,10 @@ export default class Character {
     this.y = y
   }
 
+  whoAmI() {
+    console.log(this.name)
+  }
+
   receiveDamage(damage) {
     this.hp -= damage - damage * this.damageResist
   }
