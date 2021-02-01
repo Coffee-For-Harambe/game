@@ -6,6 +6,7 @@ export default class Character {
   attackRange = 5
   attackName = "Splash"
   attackSound = "sound"
+  damageSound = "sound"
   damageResist = -0.3
   initiative = 2
   points = 0
@@ -44,12 +45,13 @@ export default class Character {
     console.log(whoAmI)
   }
 
-  attack() {
-    console.log("attack")
-  }
-
   receiveDamage(damage) {
     this.hp -= damage - damage * this.damageResist
+  }
+
+  attack(targetCharacter) {
+    console.log("attack")
+    targetCharacter.receiveDamage(this.damage)
   }
 
   moveSprite(x, y) {

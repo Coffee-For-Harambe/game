@@ -8,6 +8,7 @@ export default class Dragon extends Character {
   attackRange = 5
   attackName = "Burninate!"
   attackSound = "sound"
+  damageSound = "sound"
   damageResist = -0.3
   initiative = 2
   points = 0

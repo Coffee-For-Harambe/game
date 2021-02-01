@@ -9,6 +9,7 @@ export default class Monk extends Character {
   attackRange = 1
   attackName = "Knuckle Flurry"
   attackSound = "sound"
+  damageSound = "sound"
   initiative = 4
   points = 0
   influencePos = 10

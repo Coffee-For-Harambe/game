@@ -8,6 +8,7 @@ export default class Mage extends Character {
   attackRange = 6
   attackName = "Smite-ning"
   attackSound = "sound"
+  damageSound = "sound"
   damageResist = -0.1
   points = 0
   influencePos = 10

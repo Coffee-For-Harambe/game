@@ -8,6 +8,7 @@ export default class Skeleton extends Character {
   attackRange = 1
   attackName = "Bash and Slash"
   attackSound = "sound"
+  damageSound = "sound"
   damageResist = -0.1
   initiative = 1
   points = 0
