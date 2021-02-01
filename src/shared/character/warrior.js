@@ -8,6 +8,7 @@ export default class Warrior extends Character {
   damageResist = 0.2
   attackRange = 1
   attackName = "CONAN SMAAASH"
+  attackSound = "sound"
   initiative = 5
   points = 0
   influencePos = 10

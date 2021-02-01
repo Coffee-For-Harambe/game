@@ -7,6 +7,7 @@ export default class Ranger extends Character {
   movement = 5
   attackRange = 5
   attackName = "Sure Shot"
+  attackSound = "sound"
   damageResist = 0
   initiative = 2
   points = 0

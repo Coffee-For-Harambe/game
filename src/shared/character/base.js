@@ -5,6 +5,7 @@ export default class Character {
   movement = 5
   attackRange = 5
   attackName = "Splash"
+  attackSound = "sound"
   damageResist = -0.3
   initiative = 2
   points = 0
