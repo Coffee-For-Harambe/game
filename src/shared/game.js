@@ -55,6 +55,9 @@ export default class Game {
 
   update() {
     this.teams.forEach((team) => team.update())
+    if (this.renderer) {
+      this.renderer.update()
+    }
   }
 
   squareClicked(x, y) {

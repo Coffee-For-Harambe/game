@@ -146,3 +146,32 @@ export class SquareHighlighter extends AnimatedModel {
     }
   }
 }
+
+export class CharacterModel extends AnimatedModel {
+  constructor(character, scene) {
+    super(character.modelName, scene, 0, 0)
+    this.character = character
+    this.positionToCharacter
+  }
+
+  modelLoaded(model) {
+    super.modelLoaded(model)
+    this.playAnimation("Idle")
+  }
+
+  positionToCharacter() {
+    this.setWorldPos(this.character.x, this.character.y)
+  }
+
+  render(time) {
+    super.render(time)
+
+    if (!this.character) {
+      return
+    }
+    if (this.character.health < 0) {
+      // AND NOT IS PLAYING DYING ANIMATION
+      this.scene.remove(this.mesh)
+    }
+  }
+}

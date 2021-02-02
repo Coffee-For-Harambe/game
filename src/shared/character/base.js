@@ -1,6 +1,6 @@
 export default class Character {
   name = "Basic Character"
-  model = "Skeleton.glb"
+  modelName = "Skeleton.glb"
   hp = 5000
   damage = 3000
   movement = 5

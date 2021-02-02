@@ -4,7 +4,14 @@ import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 
 import Game from "../../shared/game"
-import { Model, AnimatedModel, GridSquare, SquareHighlighter } from "./model"
+import {
+  Model,
+  AnimatedModel,
+  GridSquare,
+  SquareHighlighter,
+  CharacterModel,
+} from "./model"
+
 import { buildZeroGrid } from "../../shared/gridutils"
 
 export default class Renderer {
@@ -30,6 +37,7 @@ export default class Renderer {
 
     this.ring = new SquareHighlighter(this.scene)
 
+    game.update()
     this.redraw()
   }
 
@@ -48,6 +56,18 @@ export default class Renderer {
 
   redraw() {
     requestAnimationFrame(this.render.bind(this))
+  }
+
+  update() {
+    Game.Instance.teams.forEach((team) => {
+      team.characters.forEach((character) => {
+        if (!character.model) {
+          character.model = new CharacterModel(character, this.scene)
+        }
+
+        character.model.positionToCharacter()
+      })
+    })
   }
 
   setupScene() {
@@ -145,11 +165,7 @@ export default class Renderer {
     newMouse.x = (e.clientX / window.innerWidth) * 2 - 1
     newMouse.y = -(e.clientY / window.innerHeight) * 2 + 1
 
-    console.log(Math.abs(newMouse.x - this.mouse.x + newMouse.y - this.mouse.y))
-    if (
-      Math.abs(newMouse.x - this.mouse.x + newMouse.y - this.mouse.y) >
-      2 / window.innerHeight
-    ) {
+    if (!newMouse.equals(this.mouse)) {
       return
     }
 

@@ -12,7 +12,7 @@ export default class Team {
   }
 
   removeTheDead() {
-    this.characters = this.characters.filter((x) => x.health > 0)
+    this.characters = this.characters.filter((x) => x.hp > 0)
   }
 
   update() {
