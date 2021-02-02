@@ -3,8 +3,7 @@ import Character from "./character"
 
 export default class Game {
   constructor() {
-    this.round = 1
-    this.turn = 0
+    this.createInitialState()
 
     this.teams = []
     this.teams[0] = new Team([
@@ -29,6 +28,16 @@ export default class Game {
     })
   }
 
+  createInitialState() {
+    this.state = {}
+    this.state.teamsTurn = 0
+  }
+
+  resetTurnState() {
+    this.state.selectedCharacter = null
+    //etc
+  }
+
   static _Instance = null
   static get Instance() {
     if (!Game._Instance) {
@@ -39,24 +48,14 @@ export default class Game {
     return Game._Instance
   }
 
-  advanceRound() {
-    for (Character in this.teams) {
-    }
-  }
-
   advanceTurn() {
-    this.turn = (this.turn + 1) % this.teams.length
+    this.state.teamsTurn = (this.state.teamsTurn + 1) % this.teams.length
+    this.resetTurnState()
     this.update()
   }
 
   getActiveTeam() {
-    activeTeam = []
-    if (round % 2 === 0) {
-      activeTeam.push(this.teams[1])
-    } else {
-      activeTeam.push(this.teams[0])
-    }
-    return activeTeam
+    return this.teams[this.state.teamsTurn]
   }
 
   update() {
