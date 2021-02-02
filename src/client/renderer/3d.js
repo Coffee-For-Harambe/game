@@ -10,6 +10,7 @@ import { buildZeroGrid } from "../../shared/gridutils"
 export default class Renderer {
   constructor(game) {
     this.game = game
+    game.renderer = this
 
     this.canvas = document.getElementById("canvas")
 
@@ -42,6 +43,7 @@ export default class Renderer {
     this.ring.onModelLoaded(() => {
       this.ring.playAnimation("Swoosh")
     })
+    this.ring.visible = false
 
     this.redraw()
   }
@@ -157,12 +159,21 @@ export default class Renderer {
     // calculate objects intersecting the picking ray
     const intersects = this.raycaster.intersectObjects(this.scene.children)
 
-    console.log(intersects)
     for (let i = 0; i < intersects.length; i++) {
       if (intersects[i].object.model instanceof GridSquare) {
         const gridPos = intersects[i].object.model.gridPos
-        Game.Instance.selectSquare(gridPos)
-        this.ring.setWorldPos(gridPos.x, gridPos.y)
+        if (gridPos) {
+          Game.Instance.selectSquare(gridPos.x, gridPos.y)
+          this.ring.setWorldPos(gridPos.x, gridPos.y)
+          this.ring.setWorldPos(gridPos.x, gridPos.y)
+          this.ring.setWorldPos(gridPos.x, gridPos.y)
+          this.ring.visible = true
+          console.log("Selected", gridPos)
+        } else {
+          Game.Instance.selectSquare()
+          this.ring.visible = false
+        }
+
         break
       }
       // intersects[i].object.material.color.set(0xff0000)

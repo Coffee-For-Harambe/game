@@ -20,10 +20,15 @@ export class Model {
   }
 
   setWorldPos(x, y) {
-    this.pos = gridToWorld(x, y)
+    this.setPos(gridToWorld(x, y))
+  }
+
+  setPos(pos) {
     if (this.mesh) {
-      this.mesh.position.set(this.pos.x, this.pos.y)
+      this.mesh.position.copy(this.pos)
+      console.log("Set pos to", pos)
     }
+    this.pos = pos
   }
 
   modelLoadedQueue = []
@@ -67,6 +72,15 @@ export class GridSquare extends Model {
   constructor(scene, x, y) {
     super("/3d/Floor_Modular.glb", scene, x, y)
     this.gridPos = { x, y }
+    this.setWorldPos(x, y)
+  }
+
+  setPos(pos) {
+    if (this.gridPos) {
+      pos.y = -(((this.gridPos.y % 2) + (this.gridPos.x % 2)) % 2) * 0.03
+      console.log("y", pos.y)
+    }
+    super.setPos(pos)
   }
 
   render(time) {}
@@ -74,6 +88,11 @@ export class GridSquare extends Model {
   modelLoaded(model) {
     super.modelLoaded(model)
     this.originalColor = this.mesh.material.color
+    this.mesh.rotation.set(
+      0,
+      ((Math.floor(Math.random() * 4) * 90) / 360) * Math.PI * 2,
+      0
+    )
   }
 }
 

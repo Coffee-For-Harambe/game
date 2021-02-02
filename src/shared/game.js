@@ -33,6 +33,7 @@ export default class Game {
   static get Instance() {
     if (!Game._Instance) {
       Game._Instance = new Game()
+      window.GAME = Game._Instance
     }
 
     return Game._Instance
@@ -56,7 +57,7 @@ export default class Game {
     this.teams.forEach((team) => team.update())
   }
 
-  selectSquare({ x, y }) {
+  selectSquare(x, y) {
     if (typeof x === "undefined" || typeof y === "undefined") {
       this.selectedSquare = null
     } else {
