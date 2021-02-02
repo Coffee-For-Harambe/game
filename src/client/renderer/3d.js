@@ -28,17 +28,6 @@ export default class Renderer {
     window.addEventListener("pointerdown", this.onMouseDown.bind(this), false)
     window.addEventListener("pointerup", this.onMouseUp.bind(this), false)
 
-    const plight = new THREE.PointLight(0xffffff, 1, 100)
-    plight.position.set(5, 5, 5)
-    this.scene.add(plight)
-
-    const geometry = new THREE.BoxGeometry()
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-    const cube = new THREE.Mesh(geometry, material)
-    const scale = new THREE.Vector3(3, 0.01, 3)
-    cube.scale.copy(scale)
-    this.scene.add(cube)
-
     this.ring = new AnimatedModel("/3d/Swoosh.glb", this.scene, 0, 0)
     this.ring.setWorldPos(1, 1)
     this.ring.onModelLoaded(() => {
