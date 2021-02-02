@@ -31,10 +31,16 @@ export default class Game {
   createInitialState() {
     this.state = {}
     this.state.teamsTurn = 0
+    this.state.selectedCharacter = null
+    this.state.selectedSquare = null
+    this.state.turnStage = "Moving"
   }
 
   resetTurnState() {
+    this.state = {}
     this.state.selectedCharacter = null
+    this.selectedSquare = null
+    turnStage = "Moving"
     //etc
   }
 
