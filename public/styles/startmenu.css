@@ -92,3 +92,18 @@
 #right-panel-characters {
   background-image: url("/images/stats enemy.png");
 }
+
+/* Slide out vertically - and fade   using Dom and JS*/
+#ui {
+  height: 100vh;
+  width: 100vw;
+  opacity: 1;
+  transition: all 0.75s ease;
+}
+
+#ui.hide {
+  opacity: 0;
+  height: 1px;
+  width: 100vw;
+}
+/* Slide out vertically - and fade  using Dom and JS */
