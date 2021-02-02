@@ -2,6 +2,7 @@ import Character from "./base"
 
 export default class Dragon extends Character {
   name = "Trogdor, the Burninator"
+  shortCode = "Dr"
   hp = 7000
   damage = Math.random() * 5 * 1000
   movement = 7

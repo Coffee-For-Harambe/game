@@ -2,6 +2,7 @@ import Character from "./base"
 
 export default class Rogue extends Character {
   name = "Xavier, the Shadow Maw"
+  shortCode = "Ro"
   hp = 3500
   damage = Math.random() * 3 * 1000 * 2
   movement = 7

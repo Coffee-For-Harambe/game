@@ -2,6 +2,8 @@ import Character from "./base"
 
 export default class Mage extends Character {
   name = "Ishmael, Storm Bender"
+  shortCode = "Wz"
+  modelName = "Wizard.glb"
   hp = 3500
   damage = Math.random() * 4 * 1000
   movement = 5

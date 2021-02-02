@@ -2,6 +2,7 @@ import Character from "./base"
 
 export default class Ranger extends Character {
   name = "Santi, of The Post Wood"
+  shortCode = "Rn"
   hp = 4000
   damage = Math.random(0 * 4) * 1000
   movement = 5

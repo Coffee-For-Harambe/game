@@ -2,6 +2,7 @@ import Character from "./base"
 
 export default class Warrior extends Character {
   name = "Conan, the Bar-... Warrior"
+  shortCode = "Wa"
   hp = 6000
   damage = Math.random() * 5 * 1000
   movement = 4

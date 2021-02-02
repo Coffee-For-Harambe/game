@@ -2,6 +2,7 @@ import Character from "./base"
 
 export default class Skeleton extends Character {
   name = "Revenant"
+  shortCode = "Sk"
   modelName = "Skeleton.glb"
   hp = 3000
   damage = Math.random() * 3 * 1000
