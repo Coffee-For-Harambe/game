@@ -24,11 +24,12 @@ export class Model {
   }
 
   setPos(pos) {
+    this.pos = pos
     if (this.mesh) {
       this.mesh.position.copy(this.pos)
+      this.mesh.updateMatrix()
       console.log("Set pos to", pos)
     }
-    this.pos = pos
   }
 
   modelLoadedQueue = []
@@ -60,11 +61,11 @@ export class Model {
   }
 
   modelLoadProgress(xhr) {
-    console.log("Model", this.src, (xhr.loaded / xhr.total) * 100 + "% loaded")
+    // console.log("Model", this.src, (xhr.loaded / xhr.total) * 100 + "% loaded")
   }
 
   modelLoadError(err) {
-    console.error("Model couldn't load", this.src, err)
+    // console.error("Model couldn't load", this.src, err)
   }
 }
 
@@ -78,7 +79,6 @@ export class GridSquare extends Model {
   setPos(pos) {
     if (this.gridPos) {
       pos.y = -(((this.gridPos.y % 2) + (this.gridPos.x % 2)) % 2) * 0.03
-      console.log("y", pos.y)
     }
     super.setPos(pos)
   }

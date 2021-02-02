@@ -26,6 +26,7 @@ export default class Renderer {
     window.addEventListener("resize", this.onWindowResize.bind(this))
 
     window.addEventListener("pointerdown", this.onMouseDown.bind(this), false)
+    window.addEventListener("pointerup", this.onMouseUp.bind(this), false)
 
     const plight = new THREE.PointLight(0xffffff, 1, 100)
     plight.position.set(5, 5, 5)
@@ -153,6 +154,20 @@ export default class Renderer {
   onMouseDown(e) {
     this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
     this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
+  }
+
+  onMouseUp(e) {
+    const newMouse = new THREE.Vector2()
+    newMouse.x = (e.clientX / window.innerWidth) * 2 - 1
+    newMouse.y = -(e.clientY / window.innerHeight) * 2 + 1
+
+    console.log(Math.abs(newMouse.x - this.mouse.x + newMouse.y - this.mouse.y))
+    if (
+      Math.abs(newMouse.x - this.mouse.x + newMouse.y - this.mouse.y) >
+      2 / window.innerHeight
+    ) {
+      return
+    }
 
     this.raycaster.setFromCamera(this.mouse, this.camera)
 
@@ -165,10 +180,7 @@ export default class Renderer {
         if (gridPos) {
           Game.Instance.selectSquare(gridPos.x, gridPos.y)
           this.ring.setWorldPos(gridPos.x, gridPos.y)
-          this.ring.setWorldPos(gridPos.x, gridPos.y)
-          this.ring.setWorldPos(gridPos.x, gridPos.y)
           this.ring.visible = true
-          console.log("Selected", gridPos)
         } else {
           Game.Instance.selectSquare()
           this.ring.visible = false
