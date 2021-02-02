@@ -71,8 +71,10 @@ export default class Renderer {
   }
 
   setupCamera() {
+    // Two different types of camera are setup.
+    // const camera = new THREE.OrthographicCamera(-10, 10, 4, -4, 0.1, 1000)
     const camera = new THREE.PerspectiveCamera(
-      90, // FOV
+      16, // FOV
       window.innerWidth / window.innerHeight, // Aspect Ratio
       0.1, // zNear
       1000 // zFar
