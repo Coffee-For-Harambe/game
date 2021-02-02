@@ -4,7 +4,7 @@ import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 
 import Game from "../../shared/game"
-import { Model, AnimatedModel, GridSquare } from "./model"
+import { Model, AnimatedModel, GridSquare, SquareHighlighter } from "./model"
 import { buildZeroGrid } from "../../shared/gridutils"
 
 export default class Renderer {
@@ -28,12 +28,7 @@ export default class Renderer {
     window.addEventListener("pointerdown", this.onMouseDown.bind(this), false)
     window.addEventListener("pointerup", this.onMouseUp.bind(this), false)
 
-    this.ring = new AnimatedModel("/3d/Swoosh.glb", this.scene, 0, 0)
-    this.ring.setWorldPos(1, 1)
-    this.ring.onModelLoaded(() => {
-      this.ring.playAnimation("Swoosh")
-    })
-    this.ring.visible = false
+    this.ring = new SquareHighlighter(this.scene)
 
     this.redraw()
   }
@@ -167,31 +162,13 @@ export default class Renderer {
       if (intersects[i].object.model instanceof GridSquare) {
         const gridPos = intersects[i].object.model.gridPos
         if (gridPos) {
-          Game.Instance.selectSquare(gridPos.x, gridPos.y)
-          this.ring.setWorldPos(gridPos.x, gridPos.y)
-          this.ring.visible = true
+          Game.Instance.squareClicked(gridPos.x, gridPos.y)
         } else {
           Game.Instance.selectSquare()
-          this.ring.visible = false
         }
 
         break
       }
-      // intersects[i].object.material.color.set(0xff0000)
-      // console.log
     }
   }
 }
-
-/*
-const plight = new THREE.PointLight(0xffffff, 1, 100)
-plight.position.set(5, 5, 5)
-scene.add(plight)
-
-const geometry = new THREE.BoxGeometry()
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-const cube = new THREE.Mesh(geometry, material)
-const scale = new THREE.Vector3(3, 0.01, 3)
-cube.scale.copy(scale)
-scene.add(cube)
-*/

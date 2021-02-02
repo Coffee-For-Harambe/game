@@ -57,7 +57,8 @@ export default class Game {
     this.teams.forEach((team) => team.update())
   }
 
-  selectSquare(x, y) {
+  squareClicked(x, y) {
+    // TODO: Do something other than changing the selectedSquare if one is already selected etc
     if (typeof x === "undefined" || typeof y === "undefined") {
       this.selectedSquare = null
     } else {

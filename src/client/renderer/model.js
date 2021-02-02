@@ -12,7 +12,7 @@ export class Model {
     this.loader = new GLTFLoader()
 
     this.loader.load(
-      src,
+      "/3d/" + src,
       this.modelLoaded.bind(this),
       this.modelLoadProgress.bind(this),
       this.modelLoadError.bind(this)
@@ -28,7 +28,6 @@ export class Model {
     if (this.mesh) {
       this.mesh.position.copy(this.pos)
       this.mesh.updateMatrix()
-      console.log("Set pos to", pos)
     }
   }
 
@@ -71,7 +70,7 @@ export class Model {
 
 export class GridSquare extends Model {
   constructor(scene, x, y) {
-    super("/3d/Floor_Modular.glb", scene, x, y)
+    super("Floor_Modular.glb", scene, x, y)
     this.gridPos = { x, y }
     this.setWorldPos(x, y)
   }
@@ -124,5 +123,26 @@ export class AnimatedModel extends Model {
     const clip = AnimationClip.findByName(this.model.animations, anim)
     this.action = this.mixer.clipAction(clip)
     this.action.play()
+  }
+}
+
+export class SquareHighlighter extends AnimatedModel {
+  constructor(scene) {
+    super("Swoosh.glb", scene, 0, 0)
+    this.visible = false
+    this.lastPos = null
+  }
+
+  render(time) {
+    const square = Game.Instance.selectedSquare
+    if (square !== this.lastPos) {
+      this.lastPos = square
+      if (square) {
+        this.setWorldPos(square.x, square.y)
+        this.visible = true
+      } else {
+        this.visible = false
+      }
+    }
   }
 }
