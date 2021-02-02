@@ -1,4 +1,4 @@
-import { rebuildInfluenceGrid, buildZeroGrid } from "./gridutils"
+import { rebuildInfluenceGrid, buildGrid } from "./gridutils"
 export default class Team {
   constructor(characters) {
     this.characters = characters
@@ -26,9 +26,9 @@ export default class Team {
   }
 
   getTeamGrid() {
-    const grid = buildZeroGrid()
-    this.characters.forEach((c) => {
-      grid[c.y][c.x] = c
+    const grid = buildGrid()
+    this.characters.forEach((character) => {
+      grid[character.y][character.x] = character
     })
 
     return grid

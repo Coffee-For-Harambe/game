@@ -1,7 +1,7 @@
-export function buildZeroGrid(size = 16) {
+export function buildGrid(initial = 0, size = 16) {
   const grid = Array(size)
   for (let i = 0; i < size; i++) {
-    grid[i] = Array(size).fill(1)
+    grid[i] = Array(size).fill(initial)
   }
 
   return grid
@@ -24,14 +24,21 @@ export function printGrid(grid, nc) {
   return ret
 }
 
+window.printGrid = printGrid
+
 export function distanceTo(v1, v2) {
   let distance = v2.y - v1.y + (v2.x - v2.x)
   return distance
 }
 
+export function attackTo(v1, v2) {
+  let distance = v2.y - v1.y + (v2.x - v1.x)
+  return distance
+}
+
 export function rebuildInfluenceGrid(team) {
   // Reset the grid because we build it up from scratch each time to avoid conflicts
-  const grid = buildZeroGrid()
+  const grid = buildGrid(1)
 
   // Output grid example: https://xavier.lol/i/1Z9UKtD.png
   team.forEach((character) => {

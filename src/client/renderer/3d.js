@@ -12,7 +12,7 @@ import {
   CharacterModel,
 } from "./model"
 
-import { buildZeroGrid } from "../../shared/gridutils"
+import { buildGrid } from "../../shared/gridutils"
 
 export default class Renderer {
   constructor(game) {
@@ -83,6 +83,7 @@ export default class Renderer {
     const camera = new THREE.PerspectiveCamera(
       16, // FOV
       window.innerWidth / window.innerHeight, // Aspect Ratio
+
       0.1, // zNear
       1000 // zFar
     )
@@ -134,7 +135,7 @@ export default class Renderer {
   }
 
   setupGrid() {
-    this.grid = buildZeroGrid()
+    this.grid = buildGrid()
     this.linearGrid = []
 
     for (let y = 0; y < 16; y++) {
@@ -178,9 +179,9 @@ export default class Renderer {
       if (intersects[i].object.model instanceof GridSquare) {
         const gridPos = intersects[i].object.model.gridPos
         if (gridPos) {
-          Game.Instance.squareClicked(gridPos.x, gridPos.y)
+          Game.Instance.squareClicked({ x: gridPos.x, y: gridPos.y })
         } else {
-          Game.Instance.selectSquare()
+          Game.Instance.squareClicked()
         }
 
         break

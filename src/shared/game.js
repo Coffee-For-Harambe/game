@@ -3,7 +3,12 @@ import Character from "./character"
 
 export default class Game {
   constructor() {
-    this.createInitialState()
+    this.state = {
+      teamsTurn: 0,
+      selectedCharacter: null,
+      selectedSquare: null,
+      turnStage: "Moving",
+    }
 
     this.teams = []
     this.teams[0] = new Team([
@@ -28,20 +33,12 @@ export default class Game {
     })
   }
 
-  createInitialState() {
-    this.state = {}
-    this.state.teamsTurn = 0
+  // createInitialState() {}
+
+  resetTurnState() {
     this.state.selectedCharacter = null
     this.state.selectedSquare = null
     this.state.turnStage = "Moving"
-  }
-
-  resetTurnState() {
-    this.state = {}
-    this.state.selectedCharacter = null
-    this.selectedSquare = null
-    turnStage = "Moving"
-    //etc
   }
 
   static _Instance = null
@@ -71,19 +68,42 @@ export default class Game {
     }
   }
 
-  squareClicked(x, y) {
-    // TODO: Do something other than changing the selectedSquare if one is already selected etc
-    if (typeof x === "undefined" || typeof y === "undefined") {
-      this.selectedSquare = null
-    } else {
-      this.selectedSquare = { x, y }
+  // export function distanceTo(v1, v2) {
+  //   let distance = v2.y - v1.y + (v2.x - v2.x)
+  //   return distance
+  // }
+
+  squareClicked(square) {
+    let x, y
+    if (square !== null) {
+      x = square.x
+      y = square.y
     }
+
+    if (this.state.selectedCharacter == null) {
+      const selected = this.getActiveTeam().teamGrid[y][x]
+      if (selected !== 0) {
+        this.state.selectedCharacter = selected
+        console.log("We picked our character!", selected)
+      }
+    }
+
+    if (
+      this.state.selectedCharacter !== null &&
+      this.state.selectedSquare == null
+    ) {
+      this.state.selectedSquare = square
+      if (square == null) {
+        this.state.selectedCharacter == null
+      } else if (square !== null && this.state.selectedCharacter) {
+        moveSprite()
+      }
+    }
+
     //Active team?
     //Select any character on active team and
     //IF actionPoints > 0, any square clicked with d<=character.movement, move character ELSE "you are out of action points!" OR
     //IF actionPoints > 0, any enemy held square clicked with d<=character.movement or d<=character.movement+character.attackRange, attack ELSE "you are out of action points!" OR
     // any square anywhere holding an ally character (same team, active), character.selected = true
-
-    console.log("Selected square changed to", this.selectedSquare)
   }
 }

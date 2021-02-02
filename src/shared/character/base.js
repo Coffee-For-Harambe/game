@@ -67,6 +67,27 @@ export default class Character {
     this.game.update()
   }
 
+  characterCanReach(square) {
+    const ourPos = game.state.selectedSquare
+    //is distanceTo <= this.character.movement
+    let distance = distanceTo(square, ourPos)
+    if (distance <= this.movement) {
+      moveSprite()
+    } else {
+      alert("Impassible! Try clicking on a higlighted square.")
+    }
+  }
+
+  characterCanAttack(square) {
+    const ourAtt = game.state.selectedsquare
+    let distance = attackTo(square, ourAtt)
+    if (distance <= this.attackRange) {
+      attack()
+    } else {
+      alert("You cannot attack that! Find something closer.")
+    }
+  }
+
   influenceGrid(g) {
     const touchCell = (x, y, influence) => {
       if (x < 0 || y < 0 || x >= g.length || y >= g.length) {
