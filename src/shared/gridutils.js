@@ -24,7 +24,10 @@ export function printGrid(grid, nc) {
   return ret
 }
 
-export function distanceTo(v1, v2) {}
+export function distanceTo(v1, v2) {
+  let distance = v2.y - v1.y + (v2.x - v2.x)
+  return distance
+}
 
 export function rebuildInfluenceGrid(team) {
   // Reset the grid because we build it up from scratch each time to avoid conflicts
