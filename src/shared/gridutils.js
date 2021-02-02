@@ -24,6 +24,8 @@ export function printGrid(grid, nc) {
   return ret
 }
 
+export function distanceTo(v1, v2) {}
+
 export function rebuildInfluenceGrid(team) {
   // Reset the grid because we build it up from scratch each time to avoid conflicts
   const grid = buildZeroGrid()
