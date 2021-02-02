@@ -32,35 +32,38 @@ https://opengameart.org/content/cant-stop-winning-rpg-orchestral-essentials-batt
 Game Over (Lose)
 https://opengameart.org/content/the-fallen-rpg-orchestral-essentials-defeated-music
 
+/ . / M U S I C / . /
 Copyright/Attribution Notice:
   Studio Theme Song:
-    "Mushroom Dance" Composed by bart (https://opengameart.org/users/bart)
+        "Mushroom Dance" Composed by bart (https://opengameart.org/users/bart)
   Battle Theme A:
-    "Showdown of Misdeeds" Composed by Jonathan Shaw (www.jshaw.co.uk)
+        "Showdown of Misdeeds" Composed by Jonathan Shaw (www.jshaw.co.uk)
   Battle Theme B:
-    "A Fight in the Fields" Composed by Jonathan Shaw (www.jshaw.co.uk)
+        "A Fight in the Fields" Composed by Jonathan Shaw (www.jshaw.co.uk)
   Game Over Win Song:
-    "Can't Stop Winning" Composed by Jonathan Shaw (www.jshaw.co.uk)
+        "Can't Stop Winning" Composed by Jonathan Shaw (www.jshaw.co.uk)
   End Credits:
-    "Visions of Freedom" Composed by Jonathan Shaw (www.jshaw.co.uk)
+        "Visions of Freedom" Composed by Jonathan Shaw (www.jshaw.co.uk)
   Game Over Win Song:
-    "The Fallen" Composed by Jonathan Shaw (www.jshaw.co.uk)
+        "The Fallen" Composed by Jonathan Shaw (www.jshaw.co.uk)
 
-
-Attack sounds
-  1 Damage sound
-
-  2 Take hit sound
-
-  3 Thunder sound
-
-  4 Sword sound
-
-  5 Fist Attack
-
-  6 Dagger
-
-
-Walking
-
-Flying
+/ . / S F X / . /
+Copyright/Attribution Notice:
+  Attack Sounds:
+      "Hit" By Independent.nu submi by qubodup (https://opengameart.org)
+  Dragon Noises:
+      "Dragon Growl" By Little Robot Sound Factory (www.littlerobotsoundfactory.com)
+  Walking Sounds:
+      "Footsteps" By Little Robot Sound Factory (www.littlerobotsoundfactory.com)
+  Dragon Flying:
+      "Dragon Flying" By VishwaJai (https://opengameart.org)
+  Dragon Noises:
+      "Dragon Growl" By Little Robot Sound Factory (www.littlerobotsoundfactory.)
+  Skeleton Noises:
+      "Shade" By artisticdude (https://opengameart.org)
+  Sword Sounds:
+      "Sword Unsheathe" By artisticdude (https://opengameart.org)
+  Swish Sounds:
+      "Swishes" By artisticdude (https://opengameart.org)
+  Spell Sounds:
+      "Lightning Spell" By qubodup https://opengameart.org
