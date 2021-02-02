@@ -47,11 +47,15 @@ export default class Character {
 
   receiveDamage(damage) {
     this.hp -= damage - damage * this.damageResist
+    let audio = new Audio(this.damageSound)
+    audio.play()
   }
 
   attack(targetCharacter) {
     console.log("attack")
     targetCharacter.receiveDamage(this.damage)
+    let audio = new Audio(this.damageSound)
+    audio.play()
   }
 
   moveSprite(x, y) {
