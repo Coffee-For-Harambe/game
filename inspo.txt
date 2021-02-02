@@ -2,9 +2,6 @@
 
 Sound
 
-/./ Intro Song /./
-https://opengameart.org/content/mushroom-dance
-
 https://opengameart.org/content/fantasy-sound-effects-library
 
 https://opengameart.org/content/dungeon-crawler-effects
@@ -19,3 +16,51 @@ https://opengameart.org/content/forest-ambience
 UI
 https://opengameart.org/content/ui-0
 
+Intro Song
+https://opengameart.org/content/mushroom-dance
+
+Combat Music
+  BattleA: https://opengameart.org/content/showdown-of-misdeeds-rpg-orchestral-essentials-boss-music
+  BattleB: https://opengameart.org/content/a-fight-in-the-fields-rpg-orchestral-essentials-combat-music
+  BattleC:
+
+End / . / Credits
+https://opengameart.org/content/visions-of-freedom-rpg-orchestral-essentials-sad-music
+
+Game Over (Win)
+https://opengameart.org/content/cant-stop-winning-rpg-orchestral-essentials-battle-victory-music
+Game Over (Lose)
+https://opengameart.org/content/the-fallen-rpg-orchestral-essentials-defeated-music
+
+Copyright/Attribution Notice:
+  Studio Theme Song:
+    "Mushroom Dance" Composed by bart (https://opengameart.org/users/bart)
+  Battle Theme A:
+    "Showdown of Misdeeds" Composed by Jonathan Shaw (www.jshaw.co.uk)
+  Battle Theme B:
+    "A Fight in the Fields" Composed by Jonathan Shaw (www.jshaw.co.uk)
+  Game Over Win Song:
+    "Can't Stop Winning" Composed by Jonathan Shaw (www.jshaw.co.uk)
+  End Credits:
+    "Visions of Freedom" Composed by Jonathan Shaw (www.jshaw.co.uk)
+  Game Over Win Song:
+    "The Fallen" Composed by Jonathan Shaw (www.jshaw.co.uk)
+
+
+Attack sounds
+  1 Damage sound
+
+  2 Take hit sound
+
+  3 Thunder sound
+
+  4 Sword sound
+
+  5 Fist Attack
+
+  6 Dagger
+
+
+Walking
+
+Flying
