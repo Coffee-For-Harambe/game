@@ -67,6 +67,11 @@ export default class Game {
     } else {
       this.selectedSquare = { x, y }
     }
+    //Active team?
+    //Select any character on active team and
+    //IF actionPoints > 0, any square clicked with d<=character.movement, move character ELSE "you are out of action points!" OR
+    //IF actionPoints > 0, any enemy held square clicked with d<=character.movement or d<=character.movement+character.attackRange, attack ELSE "you are out of action points!" OR
+    // any square anywhere holding an ally character (same team, active), character.selected = true
 
     console.log("Selected square changed to", this.selectedSquare)
   }

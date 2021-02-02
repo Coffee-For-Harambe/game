@@ -13,6 +13,8 @@ export default class Mage extends Character {
   points = 0
   influencePos = 10
   influenceDiag = 4
+  characterSelected = false
+  actionPoints = 2
   movedThisRound = false
   attackedThisRound = false
 }

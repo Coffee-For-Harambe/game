@@ -13,6 +13,8 @@ export default class Character {
   points = 0
   influencePos = 0
   influenceDiag = 0
+  characterSelected = false
+  actionPoints = 2
   movedThisRound = false
   attackedThisRound = false
   renderer = null
