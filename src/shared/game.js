@@ -50,7 +50,13 @@ export default class Game {
   }
 
   getActiveTeam() {
-    return this.teams[this.turn]
+    activeTeam = []
+    if (round % 2 === 0) {
+      activeTeam.push(this.teams[1])
+    } else {
+      activeTeam.push(this.teams[0])
+    }
+    return activeTeam
   }
 
   update() {
