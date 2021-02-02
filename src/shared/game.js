@@ -1,5 +1,6 @@
 import Team from "./team"
 import Character from "./character"
+import { buildZeroGrid } from "./gridutils"
 
 export default class Game {
   constructor() {
@@ -31,6 +32,19 @@ export default class Game {
     this.teams.forEach((team) => {
       team.setGame(this)
     })
+
+    this.update()
+  }
+
+  getCharacterGrid() {
+    const grid = buildZeroGrid()
+    this.teams.forEach((team) => {
+      team.characters.forEach((c) => {
+        grid[c.y][c.x] = c
+      })
+    })
+
+    return grid
   }
 
   // createInitialState() {}
@@ -63,6 +77,7 @@ export default class Game {
 
   update() {
     this.teams.forEach((team) => team.update())
+    this.characterGrid = this.getCharacterGrid()
     if (this.renderer) {
       this.renderer.update()
     }
