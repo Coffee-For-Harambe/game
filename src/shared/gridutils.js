@@ -8,6 +8,10 @@ export function buildGrid(initial = 0, size = 16) {
 }
 
 export function padNum(i, nc) {
+  if (i.shortCode) {
+    i = i.shortCode
+  }
+
   return ("0" + i).slice(-nc)
 }
 
