@@ -2,10 +2,11 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "sandbox": "babel-node src/sandbox.js",
-    "sandbox-watch": "nodemon --exec babel-node src/sandbox.js",
+    "sandbox": "node --experimental-specifier-resolution=node src/sandbox.js",
+    "sandbox-watch": "nodemon --experimental-specifier-resolution=node src/sandbox.js",
     "test": "/bin/true"
   },
+  "type": "module",
   "contributors": [
     {
       "name": "Xavier Bergeron",
@@ -31,7 +32,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@babel/node": "^7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.11",
     "@snowpack/plugin-babel": "^2.1.6",

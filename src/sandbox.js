@@ -7,14 +7,14 @@ import { printGrid } from "./shared/gridutils"
 const human = game.teams[0]
 const computer = game.teams[1]
 
-function showGrid(grid, hide = "00") {
+function showGrid(grid, hide = "01") {
   let gridStr = printGrid(grid)
-  gridStr = gridStr.replaceAll(hide, "--")
+  gridStr = gridStr.replace(new RegExp(hide, "g"), "--")
   console.log(gridStr)
 }
 
 function show() {
-  showGrid(game.getCharacterGrid(), "01")
+  showGrid(game.characterGrid, "00")
 }
 
 function clamp(i) {
