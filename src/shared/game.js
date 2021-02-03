@@ -105,20 +105,30 @@ export default class Game {
 
     if (
       this.state.selectedCharacter !== null &&
-      this.state.selectedSquare == null
+      this.state.selectedSquare == null &&
+      this.state.turnStage == "Moving"
     ) {
       this.state.selectedSquare = square
       if (square == null) {
         this.state.selectedCharacter == null
-      } else if (square !== null && this.state.selectedCharacter) {
-        moveSprite()
+      } else {
+        characterCanReach()
+        this.state.turnStage = "Attacking"
       }
     }
 
-    //Active team?
-    //Select any character on active team and
-    //IF actionPoints > 0, any square clicked with d<=character.movement, move character ELSE "you are out of action points!" OR
-    //IF actionPoints > 0, any enemy held square clicked with d<=character.movement or d<=character.movement+character.attackRange, attack ELSE "you are out of action points!" OR
-    // any square anywhere holding an ally character (same team, active), character.selected = true
+    if (
+      this.state.selectedCharacter !== null &&
+      (this.state.selectedSquare == null) &
+        (this.state.turnStage == "Attacking")
+    ) {
+      if (square == null) {
+        return "Wiff! There's nothing to attack there."
+      } else {
+        characterCanAttack()
+      }
+    }
+
+    //RESET STATE//
   }
 }
