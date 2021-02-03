@@ -16,10 +16,11 @@ import droidJSON from "three/examples/fonts/droid/droid_sans_regular.typeface.js
 const font = new Font(droidJSON)
 
 export class Model {
-  constructor(src, scene, x, y) {
+  constructor(src, scene, x, y, fullScene = false) {
     this.setWorldPos(x, y)
     this.src = src
     this.scene = scene
+    this.fullScene = fullScene
 
     this.loader = new GLTFLoader()
 
@@ -62,9 +63,14 @@ export class Model {
   modelLoaded(model) {
     this.model = model
 
+    if (this.fullScene) {
+      this.mesh = model.scene
+    } else {
+      this.mesh = model.scene.children[0]
+    }
+
     model.model = this
 
-    this.mesh = model.scene.children[0]
     this.mesh.model = this
     this.mesh.scale.copy(WORLD_SCALE_V)
 
@@ -77,7 +83,7 @@ export class Model {
   }
 
   modelLoadError(err) {
-    // console.error("Model couldn't load", this.src, err)
+    console.error("Model couldn't load", this.src, err)
   }
 }
 

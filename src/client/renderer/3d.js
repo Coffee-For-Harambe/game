@@ -39,6 +39,10 @@ export default class Renderer {
 
     this.ring = new SquareHighlighter(this.scene)
 
+    this.scenery = new Model("Scene.glb", this.scene, 0, 0, true)
+    this.scenery.onModelLoaded((x) => {
+      this.scenery.mesh.frustumCulled = false
+    })
     game.update()
     this.redraw()
   }
