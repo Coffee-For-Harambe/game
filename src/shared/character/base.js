@@ -1,3 +1,5 @@
+import { distanceTo } from "../gridutils"
+
 export default class Character {
   name = "Basic Character"
   shortCode = "??"
@@ -62,30 +64,31 @@ export default class Character {
     audio.play()
   }
 
-  moveSprite(x, y) {
-    this.y = y
-    this.x = x
+  moveSprite({ x, y }) {
+    //vec
+    this.y = y //vec.y
+    this.x = x //vec.x
     this.game.update()
   }
 
   characterCanReach(square) {
-    const ourPos = game.state.selectedSquare
+    const ourPos = { y: this.y, x: this.x }
     //is distanceTo <= this.character.movement
     let distance = distanceTo(square, ourPos)
     if (distance <= this.movement) {
-      moveSprite()
+      return true
     } else {
-      alert("Impassible! Try clicking on a higlighted square.")
+      return false
     }
   }
 
   characterCanAttack(square) {
-    const ourAtt = game.state.selectedsquare
+    const ourAtt = { y: this.y, x: this.x }
     let distance = attackTo(square, ourAtt)
     if (distance <= this.attackRange) {
-      attack()
+      return true
     } else {
-      alert("You cannot attack that! Find something closer.")
+      return false
     }
   }
 

@@ -35,7 +35,10 @@ function moveRandomCharacter(team) {
   const randY =
     Math.floor(Math.random() * character.movement * 2) - character.movement
 
-  character.moveSprite(clamp(character.x + randX), clamp(character.y + randY))
+  character.moveSprite({
+    x: clamp(character.x + randX),
+    y: clamp(character.y + randY),
+  })
 }
 
 /*  ***** USEFUL *****

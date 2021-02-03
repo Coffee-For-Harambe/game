@@ -100,6 +100,7 @@ export default class Game {
       if (selected !== 0) {
         this.state.selectedCharacter = selected
         console.log("We picked our character!", selected)
+        return
       }
     }
 
@@ -111,21 +112,29 @@ export default class Game {
       this.state.selectedSquare = square
       if (square == null) {
         this.state.selectedCharacter == null
+        return
       } else {
-        characterCanReach()
-        this.state.turnStage = "Attacking"
+        if (this.state.selectedCharacter.characterCanReach(square) == true) {
+          this.state.selectedCharacter.moveSprite(square)
+          this.state.turnStage = "Attacking"
+          return
+        } else {
+          alert("You cannot reach this! Try moving somewhere highlighted!")
+          return
+        }
       }
     }
 
     if (
       this.state.selectedCharacter !== null &&
-      (this.state.selectedSquare == null) &
-        (this.state.turnStage == "Attacking")
+      this.state.selectedSquare == null &&
+      this.state.turnStage == "Attacking"
     ) {
       if (square == null) {
         return "Wiff! There's nothing to attack there."
       } else {
-        characterCanAttack()
+        this.character.characterCanAttack(square)
+        return
       }
     }
 
