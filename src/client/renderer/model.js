@@ -9,7 +9,7 @@ import {
 } from "three"
 
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
-import { gridToWorld } from "./3dutils"
+import { gridToWorld, WORLD_SCALE, WORLD_SCALE_V } from "./3dutils"
 import Game from "../../shared/game"
 
 import droidJSON from "three/examples/fonts/droid/droid_sans_regular.typeface.json"
@@ -66,6 +66,7 @@ export class Model {
 
     this.mesh = model.scene.children[0]
     this.mesh.model = this
+    this.mesh.scale.copy(WORLD_SCALE_V)
 
     this.scene.add(this.mesh)
     this.mesh.position.copy(this.pos)
@@ -100,8 +101,8 @@ export class GridSquare extends Model {
     if (!this.coordinates) {
       const text = new TextGeometry(`(${this.gridPos.x}, ${this.gridPos.y})`, {
         font,
-        size: 1 / 3,
-        height: 0.01,
+        size: WORLD_SCALE / 3,
+        height: 0.1,
       })
 
       text.computeBoundingBox()
@@ -118,7 +119,7 @@ export class GridSquare extends Model {
       )
 
       textMesh.position.x = this.pos.x + centerOffsetX
-      textMesh.position.y = this.pos.y + 0.02
+      textMesh.position.y = this.pos.y + 0.5
       textMesh.position.z = this.pos.z + centerOffsetZ
 
       // textMesh.rotation.x = Math.Pi

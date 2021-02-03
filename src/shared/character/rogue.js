@@ -3,6 +3,7 @@ import Character from "./base"
 export default class Rogue extends Character {
   name = "Xavier, the Shadow Maw"
   shortCode = "Ro"
+  modelName = "Rogue.glb"
   hp = 3500
   damage = Math.random() * 3 * 1000 * 2
   movement = 7

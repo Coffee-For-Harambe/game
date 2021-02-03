@@ -3,6 +3,7 @@ import Character from "./base"
 export default class Monk extends Character {
   name = "Vasily, Fist Whisperer"
   shortCode = "Mo"
+  modelName = "Monk.glb"
   hp = 4500
   damage = Math.random() * 5 * 1000
   movement = 6

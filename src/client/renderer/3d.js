@@ -86,8 +86,8 @@ export default class Renderer {
       16, // FOV
       window.innerWidth / window.innerHeight, // Aspect Ratio
 
-      0.1, // zNear
-      1000 // zFar
+      0.75, // zNear
+      16000 // zFar
     )
 
     camera.position.set(-64, 100, 64)
@@ -105,7 +105,8 @@ export default class Renderer {
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(window.innerWidth, window.innerHeight)
 
-    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    // renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMapping = THREE.LinearToneMapping
     renderer.toneMappingExposure = 1
     renderer.outputEncoding = THREE.sRGBEncoding
 
