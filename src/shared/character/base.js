@@ -84,7 +84,7 @@ export default class Character {
 
   characterCanAttack(square) {
     const ourAtt = { y: this.y, x: this.x }
-    let distance = attackTo(square, ourAtt)
+    let distance = distanceTo(square, ourAtt)
     if (distance <= this.attackRange) {
       return true
     } else {

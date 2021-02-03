@@ -22,7 +22,7 @@ export default class Game {
 
     this.teams[1] = new Team([
       new Character.Skeleton(0, 0),
-      new Character.Skeleton(3, 0),
+      new Character.Skeleton(3, 13),
       new Character.Skeleton(7, 0),
       new Character.Dragon(9, 0),
 
@@ -76,6 +76,10 @@ export default class Game {
     return this.teams[this.state.teamsTurn]
   }
 
+  getActiveTurnStage() {
+    return this.teams[this.state.turnStage]
+  }
+
   update() {
     this.teams.forEach((team) => team.update())
     this.characterGrid = this.getCharacterGrid()
@@ -118,6 +122,7 @@ export default class Game {
         if (this.state.selectedCharacter.characterCanReach(square) == true) {
           this.state.selectedCharacter.moveSprite(square)
           this.state.turnStage = "Attacking"
+          this.state.selectedSquare = null
           return
         } else {
           alert("You cannot reach this! Try moving somewhere highlighted!")
@@ -132,10 +137,16 @@ export default class Game {
       this.state.turnStage == "Attacking"
     ) {
       if (this.state.selectedCharacter.characterCanAttack(square) == true) {
-        this.state.selectedCharacter.attackTo(square)
-        this.state.turnStage = "Moving"
+        let enemy = this.characterGrid[y][x]
+
+        if (enemy.team !== this.state.team) {
+          this.state.selectedCharacter.attack(enemy)
+          this.advanceTurn()
+        }
       } else {
-        alert("You wiff, Serr! Try targeting an enemy this time.")
+        alert(
+          "You wiff, Serr! Try targeting some within the attack range this time."
+        )
         return
       }
     }
