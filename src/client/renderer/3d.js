@@ -55,8 +55,6 @@ export default class Renderer {
       }
     }
 
-    const home = gridToWorld(1, 1)
-
     const dir1 = this.controls.target
       .clone()
       .sub(this.camera.position.clone())
@@ -71,7 +69,14 @@ export default class Renderer {
           obj.getWorldPosition(pos)
           obj.material.opacity =
             1 -
-            this.controls.target.clone().sub(pos.clone()).normalize().dot(dir1)
+            Math.pow(
+              this.controls.target
+                .clone()
+                .sub(pos.clone())
+                .normalize()
+                .dot(dir1),
+              3
+            )
         }
       })
     }
