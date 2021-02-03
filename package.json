@@ -6,7 +6,6 @@
     "sandbox-watch": "nodemon --experimental-specifier-resolution=node src/sandbox.js",
     "test": "/bin/true"
   },
-  "type": "module",
   "contributors": [
     {
       "name": "Xavier Bergeron",
