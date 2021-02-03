@@ -90,7 +90,7 @@ export default class Renderer {
       1000 // zFar
     )
 
-    camera.position.set(-64, 64, -64)
+    camera.position.set(-64, 100, 64)
 
     return camera
   }
@@ -148,6 +148,7 @@ export default class Renderer {
         const square = new GridSquare(this.scene, x, y)
         this.grid[y][x] = square
         this.linearGrid.push(square)
+        square.enableCoordinates()
       }
     }
   }

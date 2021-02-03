@@ -1,7 +1,19 @@
-import { Vector3, AnimationMixer, AnimationClip } from "three"
+import {
+  Vector3,
+  AnimationMixer,
+  AnimationClip,
+  TextGeometry,
+  Font,
+  MeshBasicMaterial,
+  Mesh,
+} from "three"
+
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { gridToWorld } from "./3dutils"
 import Game from "../../shared/game"
+
+import droidJSON from "three/examples/fonts/droid/droid_sans_regular.typeface.json"
+const font = new Font(droidJSON)
 
 export class Model {
   constructor(src, scene, x, y) {
@@ -83,6 +95,39 @@ export class GridSquare extends Model {
   }
 
   render(time) {}
+
+  enableCoordinates() {
+    if (!this.coordinates) {
+      const text = new TextGeometry(`(${this.gridPos.x}, ${this.gridPos.y})`, {
+        font,
+        size: 1 / 3,
+        height: 0.01,
+      })
+
+      text.computeBoundingBox()
+
+      const centerOffsetX =
+        -0.5 * (text.boundingBox.max.x - text.boundingBox.min.x)
+
+      const centerOffsetZ =
+        -0.5 * (text.boundingBox.max.z - text.boundingBox.min.z)
+
+      const textMesh = new Mesh(
+        text,
+        new MeshBasicMaterial({ color: 0xffffff })
+      )
+
+      textMesh.position.x = this.pos.x + centerOffsetX
+      textMesh.position.y = this.pos.y + 0.02
+      textMesh.position.z = this.pos.z + centerOffsetZ
+
+      // textMesh.rotation.x = Math.Pi
+      textMesh.rotation.x = -Math.PI / 2
+
+      this.coordinates = textMesh
+      this.scene.add(textMesh)
+    }
+  }
 
   modelLoaded(model) {
     super.modelLoaded(model)
