@@ -33,4 +33,8 @@ export default class Team {
 
     return grid
   }
+
+  getOpposingTeam() {
+    return this.game.getOpposingTeam(this)
+  }
 }

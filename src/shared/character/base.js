@@ -134,4 +134,8 @@ export default class Character {
     touchCell(x, y + 1, this.influencePos)
     touchCell(x + 1, y + 1, this.influenceDiag)
   }
+
+  getOpposingTeam() {
+    return this.team.getOpposingTeam()
+  }
 }

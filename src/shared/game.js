@@ -50,6 +50,14 @@ export default class Game {
 
   // createInitialState() {}
 
+  getOpposingTeam(team) {
+    if (team == this.teams[0]) {
+      return this.teams[1]
+    } else if (team == this.teams[1]) {
+      return this.teams[0]
+    }
+  }
+
   resetTurnState() {
     this.state.selectedCharacter = null
     this.state.selectedSquare = null
