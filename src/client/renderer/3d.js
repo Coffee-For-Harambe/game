@@ -42,6 +42,7 @@ export default class Renderer {
     this.scenery = new Model("Scene.glb", this.scene, 0, 0, true)
     this.scenery.onModelLoaded((x) => {
       this.scenery.mesh.frustumCulled = false
+      this.scenery.fadable = this.scenery.mesh.getObjectByName("FadableDecor")
     })
     game.update()
     this.redraw()
@@ -52,6 +53,27 @@ export default class Renderer {
       if (model.model) {
         model.model.render(time)
       }
+    }
+
+    const home = gridToWorld(1, 1)
+
+    const dir1 = this.controls.target
+      .clone()
+      .sub(this.camera.position.clone())
+      .normalize()
+
+    // TODO: Don't fade on elevated Y axis difference unless it also occludes
+    const pos = new THREE.Vector3()
+    if (this.scenery.fadable) {
+      this.scenery.fadable.traverse((obj) => {
+        if (obj.material) {
+          obj.material.transparent = true
+          obj.getWorldPosition(pos)
+          obj.material.opacity =
+            1 -
+            this.controls.target.clone().sub(pos.clone()).normalize().dot(dir1)
+        }
+      })
     }
 
     this.redraw()
@@ -90,7 +112,7 @@ export default class Renderer {
       16, // FOV
       window.innerWidth / window.innerHeight, // Aspect Ratio
 
-      0.75, // zNear
+      1, // zNear
       16000 // zFar
     )
 
@@ -123,7 +145,7 @@ export default class Renderer {
 
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
-      .load("/images/machine_shop_03_1k.hdr", (texture) => {
+      .load("/images/lilienstein_1k.hdr", (texture) => {
         const envMap = pmremGenerator.fromEquirectangular(texture).texture
 
         this.scene.background = envMap
