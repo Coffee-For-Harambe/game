@@ -12,6 +12,8 @@ import {
   CharacterModel,
 } from "./model"
 
+import { gridToWorld } from "./3dutils"
+
 import { buildGrid } from "../../shared/gridutils"
 
 export default class Renderer {
@@ -88,7 +90,7 @@ export default class Renderer {
       1000 // zFar
     )
 
-    camera.position.z = 5
+    camera.position.set(-64, 64, -64)
 
     return camera
   }
@@ -130,6 +132,9 @@ export default class Renderer {
   setupControls() {
     const controls = new OrbitControls(this.camera, this.renderer.domElement)
     controls.update()
+
+    const center = gridToWorld(15 / 2, 15 / 2)
+    controls.target = center
 
     this.controls = controls
   }
