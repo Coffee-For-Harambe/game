@@ -130,10 +130,11 @@ export default class Game {
       this.state.selectedSquare == null &&
       this.state.turnStage == "Attacking"
     ) {
-      if (square == null) {
-        return "Wiff! There's nothing to attack there."
+      if (this.state.selectedCharacter.characterCanAttack(square) == true) {
+        this.state.selectedCharacter.attackTo(square)
+        this.state.turnStage = "Moving"
       } else {
-        this.character.characterCanAttack(square)
+        alert("You wiff, Serr! Try targeting an enemy this time.")
         return
       }
     }
