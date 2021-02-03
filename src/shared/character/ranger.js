@@ -5,7 +5,8 @@ export default class Ranger extends Character {
   shortCode = "Rn"
   modelName = "Ranger.glb"
   hp = 4000
-  damage = Math.random(0 * 4) * 1000
+  damage = 10000
+  //Math.random(0 * 4) * 1000
   movement = 5
   attackRange = 5
   attackName = "Sure Shot"

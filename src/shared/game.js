@@ -68,6 +68,7 @@ export default class Game {
 
   advanceTurn() {
     this.state.teamsTurn = (this.state.teamsTurn + 1) % this.teams.length
+    console.log("Next teams turn")
     this.resetTurnState()
     this.update()
   }
@@ -116,7 +117,8 @@ export default class Game {
     ) {
       this.state.selectedSquare = square
       if (square == null) {
-        this.state.selectedCharacter == null
+        this.state.selectedCharacter = null
+        console.log(this.state.selectedCharacter)
         return
       } else {
         if (this.state.selectedCharacter.characterCanReach(square) == true) {
@@ -147,6 +149,8 @@ export default class Game {
         alert(
           "You wiff, Serr! Try targeting some within the attack range this time."
         )
+        // reset squer to null??
+        this.state.selectedSquare = null
         return
       }
     }
