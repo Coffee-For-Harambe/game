@@ -1,4 +1,5 @@
 import { distanceTo } from "../gridutils"
+import { Vector2 } from "three"
 
 export default class Character {
   name = "Basic Character"
@@ -25,7 +26,7 @@ export default class Character {
   constructor(x, y) {
     this.x = x
     this.y = y
-    this.pos = { x, y }
+    this.pos = new Vector2(x, y)
   }
 
   setTeam(team) {
@@ -50,9 +51,7 @@ export default class Character {
   }
 
   debugStr() {
-    return (
-      this.constructor.name + ": " + this.hp + " hp " + this.x + "," + this.y
-    )
+    return this.constructor.name + ": " + this.hp + " hp " + this.x + "," + this.y
   }
 
   selected() {
@@ -76,7 +75,7 @@ export default class Character {
     //vec
     this.y = y //vec.y
     this.x = x //vec.x
-    this.pos = { x, y }
+    this.pos = new Vector2(x, y)
     this.game.update()
   }
 

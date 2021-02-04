@@ -255,6 +255,7 @@ export class CharacterModel extends AnimatedModel {
     super(character.modelName, scene, 0, 0)
     this.character = character
     this.lastPos = null
+    character.model = this
   }
 
   modelLoaded(model) {
@@ -272,8 +273,9 @@ export class CharacterModel extends AnimatedModel {
   render(time) {
     super.render(time)
 
-    if (this.character.pos != this.lastPos) {
-      this.setWorldPos(this.character.x, this.character.y)
+    if (this.character.pos.equals(this.lastPos)) {
+      this.lastPos = this.character.pos.copy()
+      this.targetPos = gridToWorld(this.character.x, this.character.y)
     }
 
     if (!this.character) {
