@@ -1,19 +1,25 @@
 import Team from "./team"
-import squareClicked from "./game"
+import squareClicked from "../game"
 import buildGrid from "./gridutils"
 
 export default class astar {
+  constructor(grid, selectedCharacter, square) {
+    this.grid = grid
+    this.selectedCharacter = game.selectedCharacter
+    this.square = game.square
+  }
+
   init(grid) {
     grid = buildGrid()
     return grid
   }
-
+  //remove the node from openlist, add it to closedList
   removeGraphNode(node) {
     for (node in openList) {
       if (node == currentNode) closedList.push(node)
     }
   }
-
+  //search closedlist for node, return truthy if present
   findGraphNode(node) {
     for (i = 0; i < closedList.length; i++) {
       if (closedList[i] == node) {
@@ -21,7 +27,7 @@ export default class astar {
       }
     }
   }
-
+  //callout tiles we can't move on
   isWall(neighbor) {
     if (
       neighbor.y == 16 ||
@@ -99,13 +105,7 @@ export default class astar {
           neighbor.parent = currentNode
           neighbor.g = gScore
           neighbor.f = neighbor.g + neighbor.h
-          neighbor.debug =
-            "F: " +
-            neighbor.f +
-            "<br />G: " +
-            neighbor.g +
-            "<br />H: " +
-            neighbor.h
+          neighbor.debug = "F: " + neighbor.f + "<br />G: " + neighbor.g + "<br />H: " + neighbor.h
         }
       }
     }
@@ -141,3 +141,5 @@ export default class astar {
     return ret
   }
 }
+
+let astarInstance = new astar.search(grid, { x: 3, y: 5 }, { x: 9, y: 8 })
