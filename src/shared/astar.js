@@ -1,21 +1,38 @@
+import Team from "./team"
+import Game from "./game"
+import buildGrid from "./gridutils"
+
+// function isWall(neighbor) {
+//   if (neighbor == selectedCharacter || neighbor == getCharacterGrid()) {
+//     true
+//   } else {
+//     //not necessary, but for illustrating thought process of this function
+//     false
+//   }
+// }
+
 let astar = {
-  init: function (grid) { //REWRITE THIS / NEED TO IMPORT GRID(S) REQUIRE:ASTAR GRID FOR MOVE, TEAMGRID FOR OBSTACLES AND EXCEPTIONS
-    for (let x = 0; x < 16; x++) {
-      for (let y = 0; y < 16; y++) {
-        grid[x][y].f = []
-        grid[x][y].g = []
-        grid[x][y].h = []
-        grid[x][y].debug = ""
-        grid[x][y].parent = null
+  init: function (grid) {
+    buildGrid()
+  },
+  removeGraphNode: function removeGraphNode(node) {
+    for (node in openList) {
+      if (node == currentNode) closedList.push(node)
+    }
+  },
+  findGraphNode: function findGraphNode(node) {
+    for (i = 0; i < closedList.length; i++) {
+      if (closedList[i] == node) {
+        break
       }
     }
   },
-  search: function (grid, start, end) {
+  search: function (grid, selectedCharacter, square) {
     astar.init(grid)
 
     let openList = []
     let closedList = []
-    openList.push(start)
+    openList.push(selectedCharacter)
 
     while (openList.length > 0) {
       // Grab the lowest f(x) to process next
@@ -27,8 +44,8 @@ let astar = {
       }
       let currentNode = openList[lowInd]
 
-      // End case -- result has been found, return the traced path
-      if (currentNode.pos == end.pos) {
+      // square case -- result has been found, return the traced path
+      if (currentNode.pos == square.pos) {
         let curr = currentNode
         let ret = []
         while (curr.parent) {
@@ -62,7 +79,7 @@ let astar = {
           // Also, we need to take the h (heuristic) score since we haven't done so yet
 
           gScoreIsBest = true
-          neighbor.h = astar.heuristic(neighbor.pos, end.pos)
+          neighbor.h = astar.heuristic(neighbor.pos, square.pos)
           openList.push(neighbor)
         } else if (gScore < neighbor.g) {
           // We have already seen the node, but last time it had a worse g (distance from start)
