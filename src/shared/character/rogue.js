@@ -9,8 +9,6 @@ export default class Rogue extends Character {
   movement = 7
   attackRange = 1
   attackName = "Slice and Dice!"
-  attackSound = "sound"
-  damageSound = "sound"
   damageResist = -0.5
   initiative = 1
   points = 0

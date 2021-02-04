@@ -1,11 +1,11 @@
 /****************************************************************
  * M U S I C ****************************************************
  ****************************************************************/
-"songBattle1" : {
+"songBattle0" : {
   url : "./music/shadowsOfMisdeeds_battleA.mp3"
 },
 
-"songBattle2" : {
+"songBattle1" : {
   url : "./music/aFightInFields_battleB.mp3"
 },
 
@@ -119,15 +119,15 @@
   url : "./sfx/swish/swish3.wav"
 },
 
-/* Swishy swooshy */
+/* Sword */
 "sword0" : {
   url : "./sfx/sword/sword0.wav"
 },
 
-"sword0" : {
+"sword1" : {
   url : "./sfx/sword/sword1.wav"
 },
 
-"sword0" : {
+"sword2" : {
   url : "./sfx/sword/sword2.wav"
 }

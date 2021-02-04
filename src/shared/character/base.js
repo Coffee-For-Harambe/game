@@ -1,5 +1,6 @@
 import { distanceTo } from "../gridutils"
 import { Vector2 } from "three"
+import sounds from "../../client/sounds"
 
 export default class Character {
   name = "Basic Character"
@@ -10,6 +11,11 @@ export default class Character {
   movement = 5
   attackRange = 5
   attackName = "Splash"
+  sounds = {
+    attack: [sounds.swish0, sounds.swish1, sounds.swish2, sounds.swish3]
+    footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4]
+    ouch: [sounds.hit0, sounds.hit1, sounds.hit2]
+  }
   attackSound = "sound"
   damageSound = "sound"
   damageResist = -0.3
