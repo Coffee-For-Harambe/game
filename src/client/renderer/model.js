@@ -232,9 +232,9 @@ export class CharacterModel extends AnimatedModel {
       return
     }
 
-    if (this.character.health < 0) {
+    if (this.character.hp < 0) {
       // AND NOT IS PLAYING DYING ANIMATION
-      this.scene.remove(this.mesh)
+      this.shouldRemove = true
     }
   }
 }

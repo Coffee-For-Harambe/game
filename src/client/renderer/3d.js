@@ -75,19 +75,22 @@ export default class Renderer {
         </div>
 
     `
-  
-    // for (let model of this.scene.children) {
-    //   if (model.model) {
-    //     model.model.render(time)
-    //   }
-    // }
+
+    const toRemove = []
 
     this.scene.traverse((obj) => {
       if (obj.model instanceof Model) {
         obj.model.render(time)
+
+        if (obj.model.shouldRemove) {
+          toRemove.push(obj)
+        }
       }
     })
 
+    for (let obj of toRemove) {
+      this.scene.remove(obj)
+    }
 
     const dir1 = this.controls.target
       .clone()

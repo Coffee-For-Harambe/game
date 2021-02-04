@@ -138,6 +138,9 @@ export default class Game {
               } else {
                 this.advanceTurn()
               }
+            } else if (selected.canReachAttack(square)) {
+              selected.attack(clicked)
+              this.advanceTurn()
             }
           } else {
             alert("You can't reach that")
