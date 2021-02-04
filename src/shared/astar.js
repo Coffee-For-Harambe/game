@@ -1,15 +1,6 @@
 import Team from "./team"
-import Game from "./game"
+import squareClicked from "./game"
 import buildGrid from "./gridutils"
-
-// function isWall(neighbor) {
-//   if (neighbor == selectedCharacter || neighbor == getCharacterGrid()) {
-//     true
-//   } else {
-//     //not necessary, but for illustrating thought process of this function
-//     false
-//   }
-// }
 
 let astar = {
   init: function (grid) {
@@ -25,6 +16,17 @@ let astar = {
       if (closedList[i] == node) {
         break
       }
+    }
+  },
+  isWall: function isWall(neighbor) {
+    if (
+      neighbor.y == 16 ||
+      neighbor.x == 16 ||
+      neighbor.y == 0 ||
+      neighbor.x == 0 ||
+      neighbor == getCharacterGrid()
+    ) {
+      true
     }
   },
   search: function (grid, selectedCharacter, square) {
