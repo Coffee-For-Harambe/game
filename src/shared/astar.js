@@ -1,5 +1,5 @@
 let astar = {
-  init: function (grid) {
+  init: function (grid) { //REWRITE THIS / NEED TO IMPORT GRID(S) REQUIRE:ASTAR GRID FOR MOVE, TEAMGRID FOR OBSTACLES AND EXCEPTIONS
     for (let x = 0; x < 16; x++) {
       for (let y = 0; y < 16; y++) {
         grid[x][y].f = []
@@ -39,14 +39,14 @@ let astar = {
       }
 
       // Normal case -- move currentNode from open to closed, process each of its neighbors
-      openList.removeGraphNode(currentNode) //rewrite this
+      openList.removeGraphNode(currentNode) //REWRITE THIS TO TAKE CURRENT NODE OUT OF OPENLIST
       closedList.push(currentNode)
       let neighbors = astar.neighbors(grid, currentNode)
 
       for (let i = 0; i < neighbors.length; i++) {
         let neighbor = neighbors[i]
         if (closedList.findGraphNode(neighbor) || neighbor.isWall()) {
-          //rewrite this
+          //REWRITE THIS TO TAKE OUT EXCEPTIONS TO NODE PROCESS (ENEMIES, ALLIES, ETC.)
           // not a valid node to process, skip to next neighbor
           continue
         }
