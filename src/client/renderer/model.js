@@ -238,6 +238,7 @@ export class SquareHighlighter extends AnimatedModel {
 
     const square = Game.Instance.state.selectedCharacter?.pos
     if (square != this.lastPos) {
+      this.playAnimation("Swoosh")
       this.lastPos = square
       if (square) {
         this.setWorldPos(square.x, square.y)
@@ -259,6 +260,9 @@ export class CharacterModel extends AnimatedModel {
   modelLoaded(model) {
     super.modelLoaded(model)
     this.playAnimation("Idle")
+    if (this.character.pos.y > 7) {
+      this.mesh.rotation.set(0, Math.PI, 0)
+    }
   }
 
   positionToCharacter() {
