@@ -2,23 +2,27 @@ import Team from "./team"
 import squareClicked from "./game"
 import buildGrid from "./gridutils"
 
-let astar = {
-  init: function (grid) {
-    buildGrid()
-  },
-  removeGraphNode: function removeGraphNode(node) {
+export default class astar {
+  init(grid) {
+    grid = buildGrid()
+    return grid
+  }
+
+  removeGraphNode(node) {
     for (node in openList) {
       if (node == currentNode) closedList.push(node)
     }
-  },
-  findGraphNode: function findGraphNode(node) {
+  }
+
+  findGraphNode(node) {
     for (i = 0; i < closedList.length; i++) {
       if (closedList[i] == node) {
         break
       }
     }
-  },
-  isWall: function isWall(neighbor) {
+  }
+
+  isWall(neighbor) {
     if (
       neighbor.y == 16 ||
       neighbor.x == 16 ||
@@ -28,8 +32,9 @@ let astar = {
     ) {
       true
     }
-  },
-  search: function (grid, selectedCharacter, square) {
+  }
+
+  search(grid, selectedCharacter, square) {
     astar.init(grid)
 
     let openList = []
@@ -107,14 +112,16 @@ let astar = {
 
     // No result was found -- empty array signifies failure to find path
     return []
-  },
-  heuristic: function (pos0, pos1) {
+  }
+
+  heuristic(pos0, pos1) {
     // This is the Manhattan distance
     let d1 = Math.abs(pos1.x - pos0.x)
     let d2 = Math.abs(pos1.y - pos0.y)
     return d1 + d2
-  },
-  neighbors: function (grid, node) {
+  }
+
+  neighbors(grid, node) {
     let ret = []
     let x = node.pos.x
     let y = node.pos.y
@@ -132,5 +139,5 @@ let astar = {
       ret.push(grid[x][y + 1])
     }
     return ret
-  },
+  }
 }
