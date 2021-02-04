@@ -11,6 +11,7 @@ import {
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { gridToWorld, WORLD_SCALE, WORLD_SCALE_V } from "./3dutils"
 import Game from "../../shared/game"
+import { distanceTo } from "../../shared/gridutils"
 
 import droidJSON from "three/examples/fonts/droid/droid_sans_regular.typeface.json"
 const font = new Font(droidJSON)
@@ -101,7 +102,26 @@ export class GridSquare extends Model {
     super.setPos(pos)
   }
 
-  render(time) {}
+  modelLoaded(model) {
+    super.modelLoaded(model)
+    this.originalColor = 0xffffff
+  }
+
+  render(time) {
+    const state = Game.Instance.state
+    const selected = state.selectedCharacter
+
+    if (selected) {
+      const start = selected.pos
+      if (distanceTo(start, this.gridPos) <= selected.movement) {
+        this.mesh.material.color.set(0xffff00)
+      } else {
+        this.mesh.material.color.set(this.originalColor)
+      }
+    } else {
+      this.mesh.material.color.set(this.originalColor)
+    }
+  }
 
   enableCoordinates() {
     if (!this.coordinates) {
