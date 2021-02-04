@@ -1,5 +1,5 @@
-import Team from "./team"
-import endClicked from "../game"
+import getCharacterGrid from "../team"
+import Game from "../game"
 import buildGrid from "./gridutils"
 
 export default class astar {
@@ -34,7 +34,7 @@ export default class astar {
       neighbor.x == 16 ||
       neighbor.y == 0 ||
       neighbor.x == 0 ||
-      neighbor == getCharacterGrid()
+      neighbor == getCharacterGrid(Game.teams)
     ) {
       true
     }
