@@ -33,8 +33,9 @@ if (typeof window !== "undefined") {
 }
 
 export function distanceTo(v1, v2) {
-  let distance = v2.y - v1.y + (v2.x - v2.x)
-  return distance
+  let deltaX = Math.max(v1.x, v2.x) - Math.min(v1.x, v2.x)
+  let deltaY = Math.max(v1.y, v2.y) - Math.min(v1.y, v2.y)
+  return deltaX + deltaY
 }
 
 export function rebuildInfluenceGrid(team) {
