@@ -11,8 +11,7 @@
         "/dist": "${workspaceFolder}/src"
       },
       "breakOnLoad": true,
-      "breakOnLoadStrategy": "instrument",
-      "trace": true
+      "breakOnLoadStrategy": "instrument"
     },
     {
       "type": "pwa-node",
