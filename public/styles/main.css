@@ -10,7 +10,8 @@ body,
   height: 100%;
 }
 
-#ui {
+#ui,
+#debug {
   position: fixed;
   top: 0;
   pointer-events: none;
@@ -18,4 +19,14 @@ body,
 
 #ui > * {
   pointer-events: auto;
+}
+
+#debug {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  padding: 4px;
+  color: white;
+  font-family: monospace;
+  background: rgba(0, 0, 0, 0.25);
 }

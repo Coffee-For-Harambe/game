@@ -22,6 +22,7 @@ export default class Renderer {
     game.renderer = this
 
     this.canvas = document.getElementById("canvas")
+    this.debug = document.getElementById("debug")
 
     this.scene = this.setupScene()
 
@@ -49,6 +50,32 @@ export default class Renderer {
   }
 
   render(time) {
+   this.debug.innerHTML = `
+      <strong>GAME STATE:</strong>
+        <div style="padding-left: 1rem">
+          turnStage: ${Game.Instance.state.turnStage}<br/>
+          selectedCharacter: ${
+            Game.Instance.state.selectedCharacter
+              ? Game.Instance.state.selectedCharacter.debugStr()
+              : "null"
+          }<br/>
+          teamsTurn: ${Game.Instance.state.teamsTurn}<br/>
+        </div>
+      <strong>TEAM1:</strong>
+        <div style="padding-left: 1rem">
+          ${Game.Instance.teams[0].characters
+            .map((c) => c.debugStr())
+            .join("<br />")}
+        </div>
+      <strong>TEAM2:</strong>
+        <div style="padding-left: 1rem">
+          ${Game.Instance.teams[1].characters
+            .map((c) => c.debugStr())
+            .join("<br />")}
+        </div>
+
+    `
+  
     for (let model of this.scene.children) {
       if (model.model) {
         model.model.render(time)

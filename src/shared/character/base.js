@@ -47,6 +47,13 @@ export default class Character {
       // this.turn
     )
   }
+
+  debugStr() {
+    return (
+      this.constructor.name + ": " + this.hp + " hp " + this.x + "," + this.y
+    )
+  }
+
   selected() {
     console.log(whoAmI)
   }
