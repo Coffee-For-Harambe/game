@@ -125,8 +125,7 @@ export default class Game {
               selected.moveSprite(square)
 
               let canAttack = false
-              for (let potentialEnemy of selected.getOpposingTeam()
-                .characters) {
+              for (let potentialEnemy of selected.getOpposingTeam().characters) {
                 if (selected.canReachAttack(potentialEnemy.pos)) {
                   canAttack = true
                   break

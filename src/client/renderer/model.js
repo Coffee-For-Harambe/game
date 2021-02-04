@@ -6,6 +6,7 @@ import {
   Font,
   MeshBasicMaterial,
   Mesh,
+  Color,
 } from "three"
 
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
@@ -70,6 +71,10 @@ export class Model {
       this.mesh = model.scene.children[0]
     }
 
+    if (this.layer) {
+      this.mesh.layers.set(this.layer)
+    }
+
     model.model = this
 
     this.mesh.model = this
@@ -95,6 +100,16 @@ export class GridSquare extends Model {
     this.setWorldPos(x, y)
   }
 
+  layer = 1
+
+  static Colors = {
+    default: new Color(0.181, 0.181, 0.181),
+    walkable: new Color(0.044, 0.328, 0.638),
+    highlighted: new Color(0.348, 0.348, 0.348),
+    attackRange: new Color(0.147, 0, 0),
+    attackable: new Color(0.421, 0, 0),
+  }
+
   setPos(pos) {
     if (this.gridPos) {
       pos.y = -(((this.gridPos.y % 2) + (this.gridPos.x % 2)) % 2) * 0.03
@@ -104,23 +119,37 @@ export class GridSquare extends Model {
 
   modelLoaded(model) {
     super.modelLoaded(model)
-    this.originalColor = 0xffffff
   }
 
   render(time) {
     const state = Game.Instance.state
     const selected = state.selectedCharacter
 
+    let col = GridSquare.Colors.default
+
     if (selected) {
       const start = selected.pos
-      if (distanceTo(start, this.gridPos) <= selected.movement) {
-        this.mesh.material.color.set(0xffff00)
-      } else {
-        this.mesh.material.color.set(this.originalColor)
+      const dist = distanceTo(start, this.gridPos)
+      const standingOnUs = Game.Instance.characterGrid[this.gridPos.y][this.gridPos.x]
+
+      if (
+        state.turnStage == "Moving" &&
+        dist <= selected.movement &&
+        (!standingOnUs || standingOnUs != selected)
+      ) {
+        col = GridSquare.Colors.walkable
+      } else if (state.turnStage == "Attacking" && dist <= selected.attackRange) {
+        if (standingOnUs) {
+          if (standingOnUs.team !== selected.team) {
+            col = GridSquare.Colors.attackable
+          }
+        } else {
+          col = GridSquare.Colors.attackRange
+        }
       }
-    } else {
-      this.mesh.material.color.set(this.originalColor)
     }
+
+    this.mesh.material.color.set(col)
   }
 
   enableCoordinates() {
@@ -133,16 +162,11 @@ export class GridSquare extends Model {
 
       text.computeBoundingBox()
 
-      const centerOffsetX =
-        -0.5 * (text.boundingBox.max.x - text.boundingBox.min.x)
+      const centerOffsetX = -0.5 * (text.boundingBox.max.x - text.boundingBox.min.x)
 
-      const centerOffsetZ =
-        -0.5 * (text.boundingBox.max.z - text.boundingBox.min.z)
+      const centerOffsetZ = -0.5 * (text.boundingBox.max.z - text.boundingBox.min.z)
 
-      const textMesh = new Mesh(
-        text,
-        new MeshBasicMaterial({ color: 0xffffff })
-      )
+      const textMesh = new Mesh(text, new MeshBasicMaterial({ color: 0xffffff }))
 
       textMesh.position.x = this.pos.x + centerOffsetX
       textMesh.position.y = this.pos.y + 0.5
@@ -159,11 +183,7 @@ export class GridSquare extends Model {
   modelLoaded(model) {
     super.modelLoaded(model)
     this.originalColor = this.mesh.material.color
-    this.mesh.rotation.set(
-      0,
-      ((Math.floor(Math.random() * 4) * 90) / 360) * Math.PI * 2,
-      0
-    )
+    this.mesh.rotation.set(0, ((Math.floor(Math.random() * 4) * 90) / 360) * Math.PI * 2, 0)
   }
 }
 

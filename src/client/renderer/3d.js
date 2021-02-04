@@ -4,17 +4,13 @@ import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 
 import Game from "../../shared/game"
-import {
-  Model,
-  AnimatedModel,
-  GridSquare,
-  SquareHighlighter,
-  CharacterModel,
-} from "./model"
+import { Model, AnimatedModel, GridSquare, SquareHighlighter, CharacterModel } from "./model"
 
-import { gridToWorld } from "./3dutils"
+import { gridToWorld, WORLD_SCALE } from "./3dutils"
 
 import { buildGrid } from "../../shared/gridutils"
+
+window.THREE = THREE
 
 export default class Renderer {
   constructor(game) {
@@ -63,22 +59,18 @@ export default class Renderer {
         </div>
       <strong>TEAM1:</strong>
         <div style="padding-left: 1rem">
-          ${Game.Instance.teams[0].characters
-            .map((c) => c.debugStr())
-            .join("<br />")}
+          ${Game.Instance.teams[0].characters.map((c) => c.debugStr()).join("<br />")}
         </div>
       <strong>TEAM2:</strong>
         <div style="padding-left: 1rem">
-          ${Game.Instance.teams[1].characters
-            .map((c) => c.debugStr())
-            .join("<br />")}
+          ${Game.Instance.teams[1].characters.map((c) => c.debugStr()).join("<br />")}
         </div>
 
     `
 
     const toRemove = []
 
-    this.scene.traverse((obj) => {
+    this.scene.traverse(function (obj) {
       if (obj.model instanceof Model) {
         obj.model.render(time)
 
@@ -92,10 +84,7 @@ export default class Renderer {
       this.scene.remove(obj)
     }
 
-    const dir1 = this.controls.target
-      .clone()
-      .sub(this.camera.position.clone())
-      .normalize()
+    const dir1 = this.controls.target.clone().sub(this.camera.position.clone()).normalize()
 
     // TODO: Don't fade on elevated Y axis difference unless it also occludes
     const pos = new THREE.Vector3()
@@ -105,15 +94,7 @@ export default class Renderer {
           obj.material.transparent = true
           obj.getWorldPosition(pos)
           obj.material.opacity =
-            1 -
-            Math.pow(
-              this.controls.target
-                .clone()
-                .sub(pos.clone())
-                .normalize()
-                .dot(dir1),
-              3
-            )
+            1 - Math.pow(this.controls.target.clone().sub(pos.clone()).normalize().dot(dir1), 3)
         }
       })
     }
@@ -142,7 +123,6 @@ export default class Renderer {
 
   setupScene() {
     const scene = new THREE.Scene()
-    const light = new THREE.AmbientLight(0x404040) // soft white light
 
     return scene
   }
@@ -159,6 +139,7 @@ export default class Renderer {
     )
 
     camera.position.set(807, 889, 912)
+    camera.layers.enable(1)
 
     return camera
   }
@@ -173,9 +154,11 @@ export default class Renderer {
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(window.innerWidth, window.innerHeight)
 
-    // renderer.toneMapping = THREE.ACESFilmicToneMapping
-    renderer.toneMapping = THREE.LinearToneMapping
+    renderer.physicallyCorrectLights = true
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    // renderer.toneMapping = THREE.LinearToneMappina
     renderer.toneMappingExposure = 1
+    // renderer.outputEncoding = THREE.LinearEncoding
     renderer.outputEncoding = THREE.sRGBEncoding
 
     return renderer
@@ -184,17 +167,18 @@ export default class Renderer {
   setupHDR() {
     const pmremGenerator = new THREE.PMREMGenerator(this.renderer)
     pmremGenerator.compileEquirectangularShader()
+    // pmremGenerator.compileCubemapShader()
 
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
       .load("/images/lilienstein_1k.hdr", (texture) => {
         const envMap = pmremGenerator.fromEquirectangular(texture).texture
 
+        texture.magFilter = THREE.LinearFilter
+        texture.needsUpdate = true
+
         this.scene.background = envMap
         this.scene.environment = envMap
-
-        texture.dispose()
-        pmremGenerator.dispose()
       })
   }
 
@@ -244,6 +228,8 @@ export default class Renderer {
     if (!newMouse.equals(this.mouse)) {
       return
     }
+
+    this.raycaster.layers.set(1)
 
     this.raycaster.setFromCamera(this.mouse, this.camera)
 
