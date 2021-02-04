@@ -69,7 +69,19 @@ export default class Renderer {
     `
 
     const toRemove = []
-    this.scene.traverse(function (obj) {
+
+    let blockInput = false
+    this.scene.traverse((obj) => {
+      if (obj.model instanceof AnimatedModel) {
+        const isAnimating = obj.model.animate(time)
+        if (isAnimating) {
+          blockInput = true
+        }
+      }
+    })
+
+    // Traverse Scene twice to first determine blockInput and _then_ update
+    this.scene.traverse((obj) => {
       if (obj.model instanceof Model) {
         obj.model.render(time)
 
@@ -78,6 +90,8 @@ export default class Renderer {
         }
       }
     })
+
+    this.blockInput = blockInput
 
     for (let obj of toRemove) {
       this.scene.remove(obj)
@@ -114,8 +128,6 @@ export default class Renderer {
         if (!character.model) {
           character.model = new CharacterModel(character, this.scene)
         }
-
-        character.model.positionToCharacter()
       })
     })
   }
@@ -212,12 +224,6 @@ export default class Renderer {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
-  onMouseDown(e) {
-    this.mouse = new THREE.Vector2()
-    this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
-    this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
-  }
-
   raycaster = new THREE.Raycaster()
   onMouseMoved(e) {
     this.mouse = null
@@ -246,10 +252,21 @@ export default class Renderer {
     Game.Instance.state.hovered = null
   }
 
-  onMouseUp(e) {
-    if (!this.mouse) {
+  onMouseDown(e) {
+    if (this.blockInput) {
       return
     }
+
+    this.mouse = new THREE.Vector2()
+    this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+    this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
+  }
+
+  onMouseUp(e) {
+    if (!this.mouse || this.blockInput) {
+      return
+    }
+
     Game.Instance.squareClicked(Game.Instance.state.hovered)
   }
 }

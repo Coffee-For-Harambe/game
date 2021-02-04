@@ -1,5 +1,6 @@
 import {
   Vector3,
+  Vector2,
   AnimationMixer,
   AnimationClip,
   TextGeometry,
@@ -126,6 +127,10 @@ export class GridSquare extends Model {
     const selected = state.selectedCharacter
 
     let col = GridSquare.Colors.default
+    if (Game.Instance.renderer.blockInput) {
+      this.mesh.material.color.set(col)
+      return
+    }
 
     if (selected) {
       const start = selected.pos
@@ -220,12 +225,17 @@ export class AnimatedModel extends Model {
     this.action = this.mixer.clipAction(clip)
     this.action.play()
   }
+
+  animate(time) {
+    return false
+  }
 }
 
 export class SquareHighlighter extends AnimatedModel {
   constructor(scene) {
     super("Swoosh.glb", scene, 0, 0)
     this.lastPos = null
+    this.shouldShow = false
   }
 
   modelLoaded(model) {
@@ -242,11 +252,13 @@ export class SquareHighlighter extends AnimatedModel {
       this.lastPos = square
       if (square) {
         this.setWorldPos(square.x, square.y)
-        this.mesh.visible = true
+        this.shouldShow = true
       } else {
-        this.mesh.visible = false
+        this.shouldShow = false
       }
     }
+
+    this.mesh.visible = this.shouldShow && !Game.Instance.renderer.blockInput
   }
 }
 
@@ -254,8 +266,14 @@ export class CharacterModel extends AnimatedModel {
   constructor(character, scene) {
     super(character.modelName, scene, 0, 0)
     this.character = character
-    this.lastPos = null
     character.model = this
+
+    this.lastCharacterPos = new Vector2(0, 0)
+    this.targetPos = null
+
+    this.movementQueue = []
+
+    this.movementSpeed = 1
   }
 
   modelLoaded(model) {
@@ -264,27 +282,46 @@ export class CharacterModel extends AnimatedModel {
     if (this.character.pos.y > 7) {
       this.mesh.rotation.set(0, Math.PI, 0)
     }
-  }
 
-  positionToCharacter() {
-    this.setWorldPos(this.character.x, this.character.y)
+    this.setPos(gridToWorld(this.character.x, this.character.y))
+    this.lastCharacterPos = this.character.pos.clone()
   }
 
   render(time) {
     super.render(time)
 
-    if (this.character.pos.equals(this.lastPos)) {
-      this.lastPos = this.character.pos.copy()
-      this.targetPos = gridToWorld(this.character.x, this.character.y)
-    }
-
-    if (!this.character) {
-      return
-    }
-
     if (this.character.hp < 0) {
       // AND NOT IS PLAYING DYING ANIMATION
       this.shouldRemove = true
+    }
+  }
+
+  animate(time) {
+    super.animate(time)
+
+    if (!this.character.pos.equals(this.lastCharacterPos)) {
+      this.lastCharacterPos = this.character.pos.clone()
+      this.movementQueue = [this.character.pos.clone()]
+      // Replace with character.calculatePath
+    }
+
+    if (!this.targetPos && this.movementQueue.length) {
+      const pos = this.movementQueue.shift()
+      this.targetPos = gridToWorld(pos.x, pos.y)
+      this.startingPos = this.pos.clone()
+      this.movementStart = time
+    }
+
+    if (this.targetPos) {
+      const elapsed = Math.min(1, (time - this.movementStart) / 1000 / this.movementSpeed)
+      const toMove = this.targetPos.clone().sub(this.startingPos.clone()).multiplyScalar(elapsed)
+      this.setPos(toMove.add(this.startingPos))
+
+      if (this.pos.equals(this.targetPos)) {
+        this.targetPos = null
+      }
+
+      return true
     }
   }
 }
