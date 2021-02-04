@@ -32,6 +32,7 @@ export default class Renderer {
     window.addEventListener("resize", this.onWindowResize.bind(this))
 
     window.addEventListener("pointerdown", this.onMouseDown.bind(this), false)
+    window.addEventListener("pointermove", this.onMouseMoved.bind(this), false)
     window.addEventListener("pointerup", this.onMouseUp.bind(this), false)
 
     this.ring = new SquareHighlighter(this.scene)
@@ -65,11 +66,9 @@ export default class Renderer {
         <div style="padding-left: 1rem">
           ${Game.Instance.teams[1].characters.map((c) => c.debugStr()).join("<br />")}
         </div>
-
     `
 
     const toRemove = []
-
     this.scene.traverse(function (obj) {
       if (obj.model instanceof Model) {
         obj.model.render(time)
@@ -213,25 +212,23 @@ export default class Renderer {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
-  raycaster = new THREE.Raycaster()
-  mouse = new THREE.Vector2()
   onMouseDown(e) {
+    this.mouse = new THREE.Vector2()
     this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
     this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
   }
 
-  onMouseUp(e) {
-    const newMouse = new THREE.Vector2()
-    newMouse.x = (e.clientX / window.innerWidth) * 2 - 1
-    newMouse.y = -(e.clientY / window.innerHeight) * 2 + 1
+  raycaster = new THREE.Raycaster()
+  onMouseMoved(e) {
+    this.mouse = null
 
-    if (!newMouse.equals(this.mouse)) {
-      return
-    }
+    const mouse = new THREE.Vector2()
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
 
     this.raycaster.layers.set(1)
 
-    this.raycaster.setFromCamera(this.mouse, this.camera)
+    this.raycaster.setFromCamera(mouse, this.camera)
 
     // calculate objects intersecting the picking ray
     const intersects = this.raycaster.intersectObjects(this.scene.children)
@@ -240,12 +237,19 @@ export default class Renderer {
       if (intersects[i].object.model instanceof GridSquare) {
         const gridPos = intersects[i].object.model.gridPos
         if (gridPos) {
-          Game.Instance.squareClicked({ x: gridPos.x, y: gridPos.y })
+          Game.Instance.state.hovered = { x: gridPos.x, y: gridPos.y }
           return
         }
       }
     }
 
-    Game.Instance.squareClicked(null)
+    Game.Instance.state.hovered = null
+  }
+
+  onMouseUp(e) {
+    if (!this.mouse) {
+      return
+    }
+    Game.Instance.squareClicked(Game.Instance.state.hovered)
   }
 }

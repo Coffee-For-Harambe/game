@@ -149,6 +149,10 @@ export class GridSquare extends Model {
       }
     }
 
+    const hovered = Game.Instance.state.hovered
+    if (hovered && hovered.x == this.gridPos.x && hovered.y == this.gridPos.y) {
+      col = col.clone().multiplyScalar(1.35)
+    }
     this.mesh.material.color.set(col)
   }
 
