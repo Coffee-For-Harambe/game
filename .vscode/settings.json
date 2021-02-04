@@ -14,5 +14,5 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.wordWrapColumn": 80
+  "editor.wordWrapColumn": 100
 }
