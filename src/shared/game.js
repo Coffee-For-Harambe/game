@@ -7,7 +7,6 @@ export default class Game {
     this.state = {
       teamsTurn: 0,
       selectedCharacter: null,
-      selectedSquare: null,
       turnStage: "Moving",
     }
 
@@ -60,7 +59,6 @@ export default class Game {
 
   resetTurnState() {
     this.state.selectedCharacter = null
-    this.state.selectedSquare = null
     this.state.turnStage = "Moving"
   }
 
@@ -104,62 +102,58 @@ export default class Game {
 
   squareClicked(square) {
     let x, y
-    if (square !== null) {
+    let clicked
+
+    const state = this.state
+    const selected = state.selectedCharacter
+
+    if (square) {
       x = square.x
       y = square.y
+      clicked = this.characterGrid[y][x]
     }
 
-    if (this.state.selectedCharacter == null) {
-      const selected = this.getActiveTeam().teamGrid[y][x]
-      if (selected !== 0) {
-        this.state.selectedCharacter = selected
-        console.log("We picked our character!", selected)
-        return
-      }
-    }
-
-    if (
-      this.state.selectedCharacter !== null &&
-      this.state.selectedSquare == null &&
-      this.state.turnStage == "Moving"
-    ) {
-      this.state.selectedSquare = square
-      if (square == null) {
-        this.state.selectedCharacter = null
-        console.log(this.state.selectedCharacter)
-        return
-      } else {
-        if (this.state.selectedCharacter.characterCanReach(square) == true) {
-          this.state.selectedCharacter.moveSprite(square)
-          this.state.turnStage = "Attacking"
-          this.state.selectedSquare = null
-          return
+    if (state.turnStage == "Moving") {
+      if (clicked && clicked.team == this.getActiveTeam()) {
+        state.selectedCharacter = clicked
+      } else if (selected !== null) {
+        if (square == null) {
+          state.selectedCharacter = null
         } else {
-          alert("You cannot reach this! Try moving somewhere highlighted!")
-          return
+          if (selected.canReach(square)) {
+            if (!clicked) {
+              selected.moveSprite(square)
+
+              let canAttack = false
+              for (let potentialEnemy of selected.getOpposingTeam()
+                .characters) {
+                if (selected.canReachAttack(potentialEnemy.pos)) {
+                  canAttack = true
+                  break
+                }
+              }
+
+              if (canAttack) {
+                state.turnStage = "Attacking"
+              } else {
+                this.advanceTurn()
+              }
+            }
+          } else {
+            alert("You can't reach that")
+          }
         }
       }
-    }
-
-    if (
-      this.state.selectedCharacter !== null &&
-      this.state.selectedSquare == null &&
-      this.state.turnStage == "Attacking"
-    ) {
-      if (this.state.selectedCharacter.characterCanAttack(square) == true) {
-        let enemy = this.characterGrid[y][x]
-
-        if (enemy.team !== this.state.team) {
-          this.state.selectedCharacter.attack(enemy)
-          this.advanceTurn()
-        }
+    } else if (state.turnStage == "Attacking") {
+      if (!square || !clicked || clicked.team == this.getActiveTeam()) {
+        alert("Are you sure you want to end your turn without attacking")
       } else {
-        alert(
-          "You wiff, Serr! Try targeting some within the attack range this time."
-        )
-        // reset squer to null??
-        this.state.selectedSquare = null
-        return
+        if (selected.canReachAttack(square)) {
+          selected.attack(clicked)
+          this.advanceTurn()
+        } else {
+          alert("You wiff, Serr! Your attacks can't reach that! :(")
+        }
       }
     }
 

@@ -181,19 +181,25 @@ export class AnimatedModel extends Model {
 export class SquareHighlighter extends AnimatedModel {
   constructor(scene) {
     super("Swoosh.glb", scene, 0, 0)
-    this.visible = false
     this.lastPos = null
   }
 
+  modelLoaded(model) {
+    super.modelLoaded(model)
+    this.mesh.visible = false
+  }
+
   render(time) {
-    const square = Game.Instance.selectedSquare
-    if (square !== this.lastPos) {
+    super.render(time)
+
+    const square = Game.Instance.state.selectedCharacter?.pos
+    if (square != this.lastPos) {
       this.lastPos = square
       if (square) {
         this.setWorldPos(square.x, square.y)
-        this.visible = true
+        this.mesh.visible = true
       } else {
-        this.visible = false
+        this.mesh.visible = false
       }
     }
   }
@@ -203,7 +209,7 @@ export class CharacterModel extends AnimatedModel {
   constructor(character, scene) {
     super(character.modelName, scene, 0, 0)
     this.character = character
-    this.positionToCharacter
+    this.lastPos = null
   }
 
   modelLoaded(model) {
@@ -218,9 +224,14 @@ export class CharacterModel extends AnimatedModel {
   render(time) {
     super.render(time)
 
+    if (this.character.pos != this.lastPos) {
+      this.setWorldPos(this.character.x, this.character.y)
+    }
+
     if (!this.character) {
       return
     }
+
     if (this.character.health < 0) {
       // AND NOT IS PLAYING DYING ANIMATION
       this.scene.remove(this.mesh)

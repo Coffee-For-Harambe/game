@@ -25,6 +25,7 @@ export default class Character {
   constructor(x, y) {
     this.x = x
     this.y = y
+    this.pos = { x, y }
   }
 
   setTeam(team) {
@@ -75,10 +76,11 @@ export default class Character {
     //vec
     this.y = y //vec.y
     this.x = x //vec.x
+    this.pos = { x, y }
     this.game.update()
   }
 
-  characterCanReach(square) {
+  canReach(square) {
     const ourPos = { y: this.y, x: this.x }
     //is distanceTo <= this.character.movement
     let distance = distanceTo(square, ourPos)
@@ -89,7 +91,7 @@ export default class Character {
     }
   }
 
-  characterCanAttack(square) {
+  canReachAttack(square) {
     const ourAtt = { y: this.y, x: this.x }
     let distance = distanceTo(square, ourAtt)
     if (distance <= this.attackRange) {

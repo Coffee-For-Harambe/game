@@ -50,7 +50,7 @@ export default class Renderer {
   }
 
   render(time) {
-   this.debug.innerHTML = `
+    this.debug.innerHTML = `
       <strong>GAME STATE:</strong>
         <div style="padding-left: 1rem">
           turnStage: ${Game.Instance.state.turnStage}<br/>
@@ -76,11 +76,18 @@ export default class Renderer {
 
     `
   
-    for (let model of this.scene.children) {
-      if (model.model) {
-        model.model.render(time)
+    // for (let model of this.scene.children) {
+    //   if (model.model) {
+    //     model.model.render(time)
+    //   }
+    // }
+
+    this.scene.traverse((obj) => {
+      if (obj.model instanceof Model) {
+        obj.model.render(time)
       }
-    }
+    })
+
 
     const dir1 = this.controls.target
       .clone()
@@ -148,7 +155,7 @@ export default class Renderer {
       16000 // zFar
     )
 
-    camera.position.set(-64, 100, 64)
+    camera.position.set(807, 889, 912)
 
     return camera
   }
@@ -245,12 +252,11 @@ export default class Renderer {
         const gridPos = intersects[i].object.model.gridPos
         if (gridPos) {
           Game.Instance.squareClicked({ x: gridPos.x, y: gridPos.y })
-        } else {
-          Game.Instance.squareClicked()
+          return
         }
-
-        break
       }
     }
+
+    Game.Instance.squareClicked(null)
   }
 }
