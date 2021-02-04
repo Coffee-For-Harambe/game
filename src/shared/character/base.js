@@ -12,9 +12,9 @@ export default class Character {
   attackRange = 5
   attackName = "Splash"
   sounds = {
-    attack: [sounds.swish0, sounds.swish1, sounds.swish2, sounds.swish3]
-    footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4]
-    ouch: [sounds.hit0, sounds.hit1, sounds.hit2]
+    attack: [sounds.swish0, sounds.swish1, sounds.swish2, sounds.swish3],
+    footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4],
+    ouch: [sounds.hit0, sounds.hit1, sounds.hit2],
   }
   attackSound = "sound"
   damageSound = "sound"

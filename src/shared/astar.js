@@ -1,12 +1,12 @@
 import Team from "./team"
-import squareClicked from "../game"
+import endClicked from "../game"
 import buildGrid from "./gridutils"
 
 export default class astar {
-  constructor(grid, selectedCharacter, square) {
+  constructor(grid, start, end) {
     this.grid = grid
-    this.selectedCharacter = game.selectedCharacter
-    this.square = game.square
+    this.start = start
+    this.end = end
   }
 
   init(grid) {
@@ -40,12 +40,12 @@ export default class astar {
     }
   }
 
-  search(grid, selectedCharacter, square) {
+  search(grid, start, end) {
     astar.init(grid)
 
     let openList = []
     let closedList = []
-    openList.push(selectedCharacter)
+    openList.push(start)
 
     while (openList.length > 0) {
       // Grab the lowest f(x) to process next
@@ -57,8 +57,8 @@ export default class astar {
       }
       let currentNode = openList[lowInd]
 
-      // square case -- result has been found, return the traced path
-      if (currentNode.pos == square.pos) {
+      // end case -- result has been found, return the traced path
+      if (currentNode.pos == end.pos) {
         let curr = currentNode
         let ret = []
         while (curr.parent) {
@@ -92,7 +92,7 @@ export default class astar {
           // Also, we need to take the h (heuristic) score since we haven't done so yet
 
           gScoreIsBest = true
-          neighbor.h = astar.heuristic(neighbor.pos, square.pos)
+          neighbor.h = astar.heuristic(neighbor.pos, end.pos)
           openList.push(neighbor)
         } else if (gScore < neighbor.g) {
           // We have already seen the node, but last time it had a worse g (distance from start)
@@ -142,4 +142,4 @@ export default class astar {
   }
 }
 
-let astarInstance = new astar.search(grid, { x: 3, y: 5 }, { x: 9, y: 8 })
+let astarInstanceOne = new astar.search(grid, { x: 3, y: 5 } /*start*/, { x: 9, y: 8 } /*end*/)
