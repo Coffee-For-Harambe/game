@@ -24,6 +24,16 @@ body,
   pointer-events: auto;
 }
 
+#mode {
+  display: flex;
+  font-size: large;
+  align-content: center;
+  align-items: center;
+  padding: 5px;
+  color: white;
+  z-index: 1;
+}
+
 #debug {
   margin: 0;
   padding: 4px;
@@ -44,6 +54,28 @@ body,
   color: rgb(1216, 216, 216);
   background: rgb(40, 40, 40);
   overflow-y: auto;
+}
+.outcome {
+  position: fixed;
+  left: 4em;
+  top: 2.5em;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: white;
+  width: 100%;
+  height: 100%;
+  font-size: 150px;
+  visibility: hidden;
+}
+
+.win {
+  color: blue;
+}
+
+.lose {
+  color: red;
 }
 .renderjson a {
   text-decoration: none;
