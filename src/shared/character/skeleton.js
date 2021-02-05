@@ -5,8 +5,7 @@ export default class Skeleton extends Character {
   name = "Revenant"
   shortCode = "Sk"
   modelName = "Skeleton.glb"
-  hp = 3000
-  damage = damage()
+  hp = 4000
   movement = 8
   attackRange = 1
   attackName = "Bash and Slash"
@@ -20,6 +19,7 @@ export default class Skeleton extends Character {
     idle: "Idle",
     damage: "TakeHit",
     attack: "Attack",
+    death: "Death",
   }
   damageResist = -0.1
   initiative = 1

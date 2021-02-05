@@ -8,7 +8,7 @@ export default class Character {
   shortCode = "??"
   modelName = "Skeleton.glb"
   hp = 5000
-  damage = 3000
+  damage = this.damage()
   movement = 5
   attackRange = 5
   attackName = "Splash"
@@ -51,7 +51,9 @@ export default class Character {
   setRenderer(renderer) {
     this.renderer = renderer
   }
-
+  damage() {
+    return (Math.floor(Math.random() * 3) + 2) * 1000
+  }
   whoAmI() {
     console.log(
       this.name,

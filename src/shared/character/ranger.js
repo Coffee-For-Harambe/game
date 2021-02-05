@@ -5,8 +5,7 @@ export default class Ranger extends Character {
   name = "Santi, of The Post Wood"
   shortCode = "Rn"
   modelName = "Ranger.glb"
-  hp = 4000
-  damage = damage()
+  hp = 5000
   //Math.random(0 * 4) * 1000
   movement = 5
   attackRange = 5
@@ -16,6 +15,7 @@ export default class Ranger extends Character {
     idle: "Idle",
     walk: "Walk",
     damage: "RecieveHit",
+    death: "Death",
   }
   damageResist = 0
   initiative = 2

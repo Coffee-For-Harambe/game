@@ -12,21 +12,21 @@ export default class Game {
 
     this.teams = []
     this.teams[0] = new Team([
-      new Character.Rogue(1, 15),
-      new Character.Monk(4, 15),
-      new Character.Ranger(7, 15),
-      new Character.Warrior(10, 15),
-      new Character.Wizard(13, 15),
+      new Character.Rogue(1, 14),
+      new Character.Monk(4, 14),
+      new Character.Ranger(7, 14),
+      new Character.Warrior(10, 14),
+      new Character.Wizard(13, 14),
     ])
 
     this.teams[1] = new Team([
-      new Character.Skeleton(0, 0),
-      new Character.Skeleton(3, 13),
-      new Character.Skeleton(7, 0),
-      new Character.Dragon(9, 0),
+      new Character.Skeleton(2, 1),
+      new Character.Skeleton(3, 1),
+      new Character.Skeleton(8, 2),
+      new Character.Dragon(7, 1),
 
-      new Character.Skeleton(13, 0),
-      new Character.Skeleton(15, 0),
+      new Character.Skeleton(13, 1),
+      new Character.Skeleton(12, 1),
     ])
 
     this.teams.forEach((team) => {
@@ -34,10 +34,6 @@ export default class Game {
     })
 
     this.update()
-  }
-
-  damage() {
-    return Math.random() * 3 * 1000 * 2
   }
 
   getCharacterGrid() {

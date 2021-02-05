@@ -5,8 +5,7 @@ export default class Rogue extends Character {
   name = "Xavier, the Shadow Maw"
   shortCode = "Ro"
   modelName = "Rogue.glb"
-  hp = 3500
-  damage = damage()
+  hp = 4500
   movement = 7
   attackRange = 1
   attackName = "Slice and Dice!"
@@ -15,6 +14,7 @@ export default class Rogue extends Character {
     idle: "Idle",
     walk: "Walk",
     damage: "RecieveHit",
+    death: "Death",
   }
   damageResist = -0.5
   initiative = 1

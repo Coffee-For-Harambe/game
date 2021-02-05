@@ -5,8 +5,7 @@ export default class Warrior extends Character {
   name = "Conan, the Bar-... Warrior"
   shortCode = "Wa"
   modelName = "Warrior.glb"
-  hp = 6000
-  damage = damage()
+  hp = 7000
   movement = 4
   damageResist = 0.2
   attackRange = 1
@@ -18,10 +17,10 @@ export default class Warrior extends Character {
   }
   animations = {
     attack: "Sword_Attack", // Sword_AttackFast
-
     idle: "Idle",
     walk: "Walk",
     damage: "RecieveHit",
+    death: "Death",
   }
   initiative = 5
   points = 0
