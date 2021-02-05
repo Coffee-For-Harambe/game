@@ -1,6 +1,5 @@
 function hideElement() {
   let element = document.getElementById("ui")
-  debugger
   element.classList.toggle("hide")
   // document.querySelector("#ui").toggleClass("ui.hide")
 }
