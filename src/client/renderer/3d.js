@@ -50,8 +50,19 @@ export default class Renderer {
     this.redraw()
   }
 
+  lastFrame = 0
+  frameInterval = 1000 / 30
   render(time) {
-    this.debug.innerHTML = `
+    this.redraw()
+
+    if (time - this.lastFrame < this.frameInterval) {
+      return
+    }
+
+    this.lastFrame = time
+
+    if (window.DEBUGGING) {
+      this.debug.innerHTML = `
       <strong>GAME STATE:</strong>
         <div style="padding-left: 1rem">
           turnStage: ${this.game.state.turnStage}<br/>
@@ -71,6 +82,7 @@ export default class Renderer {
           ${this.game.teams[1].characters.map((c) => c.debugStr()).join("<br />")}
         </div>
     `
+    }
 
     const toRemove = []
 
@@ -116,8 +128,6 @@ export default class Renderer {
         }
       })
     }
-
-    this.redraw()
 
     this.renderer.render(this.scene, this.camera)
     this.cssrenderer.render(this.scene, this.camera)
@@ -249,7 +259,18 @@ export default class Renderer {
   }
 
   raycaster = new THREE.Raycaster()
+  hoverTimerID = null
   onMouseMoved(e) {
+    if (this.hoverTimerID) {
+      window.clearTimeout(this.hoverTimerID)
+    }
+    this.hoverTimerID = setTimeout(() => {
+      this.hoverTimerID = null
+      this.updateHover(e)
+    }, 300)
+  }
+
+  updateHover(e) {
     this.mouse = null
 
     const mouse = new THREE.Vector2()
@@ -264,12 +285,12 @@ export default class Renderer {
     const intersects = this.raycaster.intersectObjects(this.scene.children)
 
     for (let i = 0; i < intersects.length; i++) {
-      if (intersects[i].object.model instanceof GridSquare) {
-        const gridPos = intersects[i].object.model.gridPos
-        if (gridPos) {
-          this.game.state.hovered = { x: gridPos.x, y: gridPos.y }
-          return
-        }
+      const pos = intersects[i].object?.model?.gridPos
+      if (pos) {
+        this.game.state.hovered = { x: pos.x, y: pos.y }
+        const hasCharacter = this.game.characterGrid[pos.y][pos.x]
+        this.canvas.classList.toggle("cursor-pointer", hasCharacter)
+        return
       }
     }
 

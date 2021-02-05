@@ -138,6 +138,9 @@ export class GridSquare extends Model {
   render(time) {
     const state = Game.Instance.state
     const selected = state.selectedCharacter
+    if (this.coordinates) {
+      this.coordinates.visible = window.DEBUGGING ? true : false
+    }
 
     let col = GridSquare.Colors.default
     if (Game.Instance.renderer.blockInput) {
@@ -168,10 +171,6 @@ export class GridSquare extends Model {
         } else {
           col = GridSquare.Colors.attackRange
         }
-      }
-
-      if (this.coordinates) {
-        this.coordinates.visible = window.DEBUG
       }
     }
 
@@ -324,16 +323,15 @@ export class CharacterModel extends AnimatedModel {
     this.movementQueue = []
 
     this.movementSpeed = 0.7
+  }
 
-    this.createHPBar()
+  get gridPos() {
+    return this.character.pos.clone()
   }
 
   modelLoaded(model) {
     super.modelLoaded(model)
     this.playAnimation(this.character.animations.idle)
-    if (this.character.pos.y > 7) {
-      this.mesh.rotation.set(0, Math.PI, 0)
-    }
 
     this.spotlight = new Model("Cone.glb", this.mesh)
     this.spotlight.onModelLoaded(() => {
@@ -346,6 +344,8 @@ export class CharacterModel extends AnimatedModel {
     })
 
     this.setPos(gridToWorld(this.character.x, this.character.y))
+    this.face(new Vector2(7.5, 7.5), true)
+
     this.lastCharacterPos = this.character.pos.clone()
   }
 
@@ -362,10 +362,15 @@ export class CharacterModel extends AnimatedModel {
     }
   }
 
-  face(square) {
+  face(square, force = false) {
     const pos = worldToGrid(this.pos)
     let target = Math.atan2(square.x - pos.x, square.y - pos.y)
-    this.wantsTargetYaw = new Quaternion().setFromEuler(new Euler(0, target, 0))
+    const quaternion = new Quaternion().setFromEuler(new Euler(0, target, 0))
+    if (force) {
+      this.mesh.quaternion.copy(quaternion)
+    } else {
+      this.wantsTargetYaw = quaternion
+    }
   }
 
   animate(time) {
@@ -447,18 +452,6 @@ export class CharacterModel extends AnimatedModel {
     return false
   }
 
-  createHPBar() {
-    // const hp = {}
-    // this.hpbar = hp
-    // hp.canvas = document.createElement("canvas")
-    // hp.ctx = canvas.getContext("2d")
-    // hp.texture = new THREE.CanvasTexture(canvas)
-    // hp.canvas.width = 56
-    // hp.canvas.height = 7
-    // hp.img_100 = new Image("/images/hp_full.png")
-    // hp.img_0 = new Image("/images/hp_empty.png")
-  }
-
   updateHP() {
     if (this.lasthp != this.character.hp) {
       let diff = 0
@@ -466,10 +459,6 @@ export class CharacterModel extends AnimatedModel {
         diff = this.lasthp - this.character.hp
       }
       this.lasthp = this.character.hp
-
-      // const ctx = hp.ctx
-      // const cw = canvas.width, ch = canvas.height
-      // ctx.clear(0, 0, cw, ch)
 
       const hpPct = (this.character.hp / this.character.maxhealth) * 100
       const dmgIndicator = diff > 0 ? `<div class="dmgindicator">-${diff}</div>` : ""
