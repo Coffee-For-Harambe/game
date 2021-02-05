@@ -6,7 +6,7 @@ export default class Warrior extends Character {
   shortCode = "Wa"
   modelName = "Warrior.glb"
   hp = 6000
-  damage = Math.random() * 5 * 1000
+  damage = damage()
   movement = 4
   damageResist = 0.2
   attackRange = 1

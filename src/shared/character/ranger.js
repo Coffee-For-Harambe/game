@@ -6,14 +6,14 @@ export default class Ranger extends Character {
   shortCode = "Rn"
   modelName = "Ranger.glb"
   hp = 4000
-  damage = 10000
+  damage = damage()
   //Math.random(0 * 4) * 1000
   movement = 5
   attackRange = 5
   attackName = "Sure Shot"
   animations = {
     attack: "Bow_Attack_Draw", //Bow_Attack_Shoot
-        idle: "Idle",
+    idle: "Idle",
     walk: "Walk",
     damage: "ReceiveHit",
   }

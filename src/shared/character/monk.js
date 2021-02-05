@@ -6,7 +6,7 @@ export default class Monk extends Character {
   shortCode = "Mo"
   modelName = "Monk.glb"
   hp = 4500
-  damage = Math.random() * 5 * 1000
+  damage = damage()
   movement = 6
   damageResist = 0.15
   attackRange = 1

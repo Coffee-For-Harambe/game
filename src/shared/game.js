@@ -36,6 +36,10 @@ export default class Game {
     this.update()
   }
 
+  damage() {
+    return Math.random() * 3 * 1000 * 2
+  }
+
   getCharacterGrid() {
     const grid = buildGrid()
     this.teams.forEach((team) => {

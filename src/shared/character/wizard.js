@@ -6,7 +6,7 @@ export default class Mage extends Character {
   shortCode = "Wz"
   modelName = "Wizard.glb"
   hp = 3500
-  damage = Math.random() * 4 * 1000
+  damage = damage()
   movement = 5
   attackRange = 6
   attackName = "Smite-ning"

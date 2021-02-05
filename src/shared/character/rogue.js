@@ -6,7 +6,7 @@ export default class Rogue extends Character {
   shortCode = "Ro"
   modelName = "Rogue.glb"
   hp = 3500
-  damage = Math.random() * 3 * 1000 * 2
+  damage = damage()
   movement = 7
   attackRange = 1
   attackName = "Slice and Dice!"

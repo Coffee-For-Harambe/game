@@ -6,7 +6,7 @@ export default class Skeleton extends Character {
   shortCode = "Sk"
   modelName = "Skeleton.glb"
   hp = 3000
-  damage = Math.random() * 3 * 1000
+  damage = damage()
   movement = 8
   attackRange = 1
   attackName = "Bash and Slash"
