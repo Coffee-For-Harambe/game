@@ -12,13 +12,17 @@ export default class Rogue extends Character {
 
     _defineProperty(this, "modelName", "Rogue.glb");
 
-    _defineProperty(this, "hp", 3500);
-
-    _defineProperty(this, "damage", Math.random() * 3 * 1000 * 2);
+    _defineProperty(this, "hp", 6500);
 
     _defineProperty(this, "movement", 7);
 
     _defineProperty(this, "attackRange", 1);
+
+    _defineProperty(this, "attackCount", 2);
+
+    _defineProperty(this, "maxDamage", 1000);
+
+    _defineProperty(this, "minDamage", 250);
 
     _defineProperty(this, "attackName", "Slice and Dice!");
 
@@ -27,7 +31,8 @@ export default class Rogue extends Character {
       //Dagger_Attack2
       idle: "Idle",
       walk: "Walk",
-      damage: "ReceiveHit"
+      damage: "RecieveHit",
+      death: "Death"
     });
 
     _defineProperty(this, "damageResist", -0.5);

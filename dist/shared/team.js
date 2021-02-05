@@ -1,4 +1,5 @@
 import { rebuildInfluenceGrid, buildGrid } from "./gridutils.js";
+import teams from "./game.js";
 export default class Team {
   constructor(characters) {
     this.characters = characters;

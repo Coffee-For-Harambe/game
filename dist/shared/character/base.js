@@ -14,11 +14,11 @@ export default class Character {
 
     _defineProperty(this, "hp", 5000);
 
-    _defineProperty(this, "damage", 3000);
-
     _defineProperty(this, "movement", 5);
 
     _defineProperty(this, "attackRange", 5);
+
+    _defineProperty(this, "attackCount", 1);
 
     _defineProperty(this, "attackName", "Splash");
 
@@ -31,9 +31,14 @@ export default class Character {
     _defineProperty(this, "animations", {
       idle: "Idle",
       walk: "Walk",
-      damage: "ReceiveHit",
-      attack: "Attack"
+      damage: "RecieveHit",
+      attack: "Attack",
+      death: "Death"
     });
+
+    _defineProperty(this, "minDamage", 1000);
+
+    _defineProperty(this, "maxDamage", 3000);
 
     _defineProperty(this, "damageResist", -0.3);
 
@@ -63,10 +68,15 @@ export default class Character {
   setTeam(team) {
     this.team = team;
     this.game = team.game;
+    this.maxhealth = this.hp;
   }
 
   setRenderer(renderer) {
     this.renderer = renderer;
+  }
+
+  damage() {
+    return Math.floor(Math.random() * this.maxDamage + this.minDamage);
   }
 
   whoAmI() {
@@ -91,19 +101,36 @@ export default class Character {
       audio = audio[Math.floor(Math.random() * audio.length)];
     }
 
-    setTimeout(() => audio.play(), 600);
+    audio.currentTime = 0;
+    audio.play();
+
+    if (this.model) {
+      this.model.playAnimation(this.animations.damage, true, false);
+    }
   }
 
   attack(targetCharacter) {
-    console.log("attack");
-    targetCharacter.receiveDamage(this.damage);
-    let audio = this.sounds.attack;
+    for (let i = 0; (_ref = i < this.attackCount) !== null && _ref !== void 0 ? _ref : 1; i++) {
+      var _ref;
 
-    if (audio.length) {
-      audio = audio[Math.floor(Math.random() * audio.length)];
+      setTimeout(() => {
+        setTimeout(() => {
+          targetCharacter.receiveDamage(this.damage());
+        }, 500 * i);
+        let audio = this.sounds.attack;
+
+        if (audio.length) {
+          audio = audio[Math.floor(Math.random() * audio.length)];
+        }
+
+        audio.play();
+
+        if (this.model) {
+          this.model.face(targetCharacter.pos);
+          this.model.playAnimation(this.animations.attack, true, false);
+        }
+      }, 1.3 * 1000 * (i - 1));
     }
-
-    audio.play();
   }
 
   moveSprite(vec) {
@@ -136,11 +163,7 @@ export default class Character {
   }
 
   canReachAttack(square) {
-    const ourAtt = {
-      y: this.y,
-      x: this.x
-    };
-    let distance = distanceTo(square, ourAtt);
+    let distance = distanceTo(square, this.pos);
 
     if (distance <= this.attackRange) {
       return true;

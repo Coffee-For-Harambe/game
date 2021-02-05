@@ -1,10 +1,9 @@
 import renderjson from "./renderjson.js";
-console.log(renderjson);
 renderjson.set_icons("+", "-");
 renderjson.set_show_to_level(1);
 let inspecting;
 let inspector;
-window.DEBUGUTILS_REFRESH = true;
+window.DEBUGUTILS_REFRESH = false;
 window.addEventListener("load", function () {
   inspector = document.getElementById("debugjson");
 });
@@ -23,6 +22,10 @@ function refresh(time) {
 }
 
 export function inspect(obj, depth = 1, time = 60 * 1000) {
+  if (!window.DEBUGGING) {
+    return;
+  }
+
   inspecting = obj;
   lastTime = 0;
   window.DEBUGUTILS_REFRESH = true;
@@ -35,4 +38,21 @@ export function stopInspecting(obj) {
   inspector.innerHTML = "";
   lastTime = 0;
 }
+document.getElementById("debug").style.visibility = "hidden";
+document.getElementById("debugjson").style.visibility = "hidden";
+document.addEventListener("keydown", function (e) {
+  if (e.code == "KeyZ") {
+    window.DEBUGGING = true;
+    document.getElementById("debug").style.visibility = "visible";
+    document.getElementById("debugjson").style.visibility = "visible";
+  }
+});
+document.addEventListener("keydown", function (e) {
+  if (e.code == "KeyX") {
+    window.DEBUGGING = true;
+    window.DEBUGUTILS_REFRESH = false;
+    document.getElementById("debug").style.visibility = "hidden";
+    document.getElementById("debugjson").style.visibility = "hidden";
+  }
+});
 //# sourceMappingURL=debugutils.js.map

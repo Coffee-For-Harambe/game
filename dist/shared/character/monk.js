@@ -12,9 +12,13 @@ export default class Monk extends Character {
 
     _defineProperty(this, "modelName", "Monk.glb");
 
-    _defineProperty(this, "hp", 4500);
+    _defineProperty(this, "hp", 7500);
 
-    _defineProperty(this, "damage", Math.random() * 5 * 1000);
+    _defineProperty(this, "attackCount", 6);
+
+    _defineProperty(this, "maxDamage", 250);
+
+    _defineProperty(this, "minDamage", 100);
 
     _defineProperty(this, "movement", 6);
 

@@ -12,9 +12,7 @@ export default class Mage extends Character {
 
     _defineProperty(this, "modelName", "Wizard.glb");
 
-    _defineProperty(this, "hp", 3500);
-
-    _defineProperty(this, "damage", Math.random() * 4 * 1000);
+    _defineProperty(this, "hp", 6000);
 
     _defineProperty(this, "movement", 5);
 
@@ -33,7 +31,8 @@ export default class Mage extends Character {
       // Spell1, Spell2
       idle: "Idle",
       walk: "Walk",
-      damage: "ReceiveHit"
+      damage: "RecieveHit",
+      death: "Death"
     });
 
     _defineProperty(this, "damageResist", -0.1);

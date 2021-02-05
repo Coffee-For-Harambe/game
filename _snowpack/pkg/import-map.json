@@ -4,6 +4,7 @@
     "three/examples/fonts/droid/droid_sans_regular.typeface.json": "./three/examples/fonts/droid/droid_sans_regular.typeface.json",
     "three/examples/jsm/controls/OrbitControls.js": "./three/examples/jsm/controls/OrbitControls.js",
     "three/examples/jsm/loaders/GLTFLoader.js": "./three/examples/jsm/loaders/GLTFLoader.js",
-    "three/examples/jsm/loaders/RGBELoader.js": "./three/examples/jsm/loaders/RGBELoader.js"
+    "three/examples/jsm/loaders/RGBELoader.js": "./three/examples/jsm/loaders/RGBELoader.js",
+    "three/examples/jsm/renderers/CSS3DRenderer.js": "./three/examples/jsm/renderers/CSS3DRenderer.js"
   }
 }

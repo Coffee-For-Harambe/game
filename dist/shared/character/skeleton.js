@@ -12,9 +12,7 @@ export default class Skeleton extends Character {
 
     _defineProperty(this, "modelName", "Skeleton.glb");
 
-    _defineProperty(this, "hp", 3000);
-
-    _defineProperty(this, "damage", Math.random() * 3 * 1000);
+    _defineProperty(this, "hp", 5555);
 
     _defineProperty(this, "movement", 8);
 
@@ -30,10 +28,15 @@ export default class Skeleton extends Character {
 
     _defineProperty(this, "animations", {
       walk: "Running",
-      damage: "Spawn",
       idle: "Idle",
-      attack: "Attack"
+      damage: "TakeHit",
+      attack: "Attack",
+      death: "Death"
     });
+
+    _defineProperty(this, "maxDamage", 1250);
+
+    _defineProperty(this, "minDamage", 250);
 
     _defineProperty(this, "damageResist", -0.1);
 

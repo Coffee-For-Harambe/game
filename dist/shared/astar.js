@@ -153,19 +153,19 @@ function getNeighbors(grid, node, char) {
   let x = node.x;
   let y = node.y;
 
-  if (x > 0 && grid[y - 1] && (grid[y - 1][x] == 0 || grid[y - 1][x] == char)) {
+  if (y - 1 > 0 && grid[y - 1] && (grid[y - 1][x] == 0 || grid[y - 1][x] == char)) {
     ret.push(new Node(x, y - 1));
   }
 
-  if (x < 15 && grid[y + 1] && (grid[y + 1][x] == 0 || grid[y + 1][x] == char)) {
+  if (y + 1 < 15 && grid[y + 1] && (grid[y + 1][x] == 0 || grid[y + 1][x] == char)) {
     ret.push(new Node(x, y + 1));
   }
 
-  if (y > 0 && (grid[y][x - 1] == 0 || grid[y][x - 1] == char)) {
+  if (x - 1 > 0 && (grid[y][x - 1] == 0 || grid[y][x - 1] == char)) {
     ret.push(new Node(x - 1, y));
   }
 
-  if (y < 15 && (grid[y][x + 1] == 0 || grid[y][x + 1] == char)) {
+  if (x + 1 < 15 && (grid[y][x + 1] == 0 || grid[y][x + 1] == char)) {
     ret.push(new Node(x + 1, y));
   }
 

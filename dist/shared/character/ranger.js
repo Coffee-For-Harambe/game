@@ -12,13 +12,15 @@ export default class Ranger extends Character {
 
     _defineProperty(this, "modelName", "Ranger.glb");
 
-    _defineProperty(this, "hp", 4000);
-
-    _defineProperty(this, "damage", 10000);
+    _defineProperty(this, "hp", 6000);
 
     _defineProperty(this, "movement", 5);
 
     _defineProperty(this, "attackRange", 5);
+
+    _defineProperty(this, "maxDamage", 2500);
+
+    _defineProperty(this, "minDamage", 750);
 
     _defineProperty(this, "attackName", "Sure Shot");
 
@@ -27,8 +29,13 @@ export default class Ranger extends Character {
       //Bow_Attack_Shoot
       idle: "Idle",
       walk: "Walk",
-      damage: "ReceiveHit"
+      damage: "RecieveHit",
+      death: "Death"
     });
+
+    _defineProperty(this, "maxDamage", 2000);
+
+    _defineProperty(this, "minDamage", 500);
 
     _defineProperty(this, "damageResist", 0);
 

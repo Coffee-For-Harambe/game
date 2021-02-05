@@ -17,10 +17,34 @@ body,
   position: fixed;
   top: 0;
   pointer-events: none;
+  z-index: 100;
+}
+
+body {
+  cursor: url(/images/cursor_dagger.cur), default;
+}
+
+canvas.cursor-pointer {
+  cursor: url(/images/pointer_dagger.cur), default;
+}
+
+a,
+a img {
+  cursor: url(/images/pointer_dagger.cur), pointer;
 }
 
 #ui > * {
   pointer-events: auto;
+}
+
+#mode {
+  display: flex;
+  font-size: large;
+  align-content: center;
+  align-items: center;
+  padding: 5px;
+  color: white;
+  z-index: 1;
 }
 
 #debug {
@@ -43,6 +67,29 @@ body,
   color: rgb(1216, 216, 216);
   background: rgb(40, 40, 40);
   overflow-y: auto;
+}
+.outcome {
+  position: fixed;
+  left: 4em;
+  top: 2.5em;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: white;
+  width: 100%;
+  height: 100%;
+  font-size: 150px;
+}
+
+#win {
+  color: blue;
+  visibility: hidden;
+}
+
+#lose {
+  color: red;
+  visibility: hidden;
 }
 .renderjson a {
   text-decoration: none;
@@ -75,4 +122,64 @@ body,
 }
 .renderjson .array.syntax {
   color: rgb(220, 150, 86);
+}
+
+#cssrenderer,
+#cssrenderer > * {
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+}
+#cssrenderer,
+#cssrenderer * {
+  pointer-events: none;
+}
+
+.hpbar {
+  background-image: url("/images/hp_empty.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  content: "";
+  width: 224px; /*  56*4  */
+  height: 28px; /*  7*4  */
+  position: relative;
+}
+
+.hpbar .hp {
+  background-image: url("/images/hp_full.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  content: "";
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.charoverlay .dmgindicator {
+  animation: fadeout 2s;
+  animation-fill-mode: forwards;
+  color: red;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 4em;
+  overflow: hidden;
+  text-align: right;
+  text-shadow: 2px 2px 2px black, 6px 6px 2px #333;
+  letter-spacing: 6px;
+  padding: 6px;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+    transform: translateY(0) skewX(-30deg);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(40px) skewX(-30deg);
+  }
 }

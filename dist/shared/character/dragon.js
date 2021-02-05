@@ -12,29 +12,33 @@ export default class Dragon extends Character {
 
     _defineProperty(this, "modelName", "Dragon.glb");
 
-    _defineProperty(this, "hp", 7000);
+    _defineProperty(this, "hp", 10000);
 
-    _defineProperty(this, "damage", Math.random() * 5 * 1000);
+    _defineProperty(this, "movement", 6);
 
-    _defineProperty(this, "movement", 7);
-
-    _defineProperty(this, "attackRange", 5);
+    _defineProperty(this, "attackRange", 4);
 
     _defineProperty(this, "attackName", "Burninate!");
 
     _defineProperty(this, "sounds", {
       footstep: [sounds.flap],
-      attack: [sounds.dGrowl0, sounds.dGrowl1]
+      attack: [sounds.dGrowl0, sounds.dGrowl1],
+      ouch: [sounds.sGroan0, sounds.sGroan1, sounds.sGroan2]
     });
+
+    _defineProperty(this, "maxDamage", 1750);
+
+    _defineProperty(this, "minDamage", 750);
 
     _defineProperty(this, "animations", {
       damage: "Hit",
       walk: "Idle",
       attack: "Attack",
-      idle: "Idle"
+      idle: "Idle",
+      death: "Death"
     });
 
-    _defineProperty(this, "damageResist", -0.3);
+    _defineProperty(this, "damageResist", 0.3);
 
     _defineProperty(this, "initiative", 2);
 

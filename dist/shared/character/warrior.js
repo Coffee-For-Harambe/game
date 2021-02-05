@@ -12,9 +12,7 @@ export default class Warrior extends Character {
 
     _defineProperty(this, "modelName", "Warrior.glb");
 
-    _defineProperty(this, "hp", 6000);
-
-    _defineProperty(this, "damage", Math.random() * 5 * 1000);
+    _defineProperty(this, "hp", 9000);
 
     _defineProperty(this, "movement", 4);
 
@@ -35,8 +33,13 @@ export default class Warrior extends Character {
       // Sword_AttackFast
       idle: "Idle",
       walk: "Walk",
-      damage: "ReceiveHit"
+      damage: "RecieveHit",
+      death: "Death"
     });
+
+    _defineProperty(this, "maxDamage", 3000);
+
+    _defineProperty(this, "minDamage", 1000);
 
     _defineProperty(this, "initiative", 5);
 
