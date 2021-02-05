@@ -11,6 +11,7 @@ export default class Character {
   damage = this.damage()
   movement = 5
   attackRange = 5
+  attackCount = 1
   attackName = "Splash"
   sounds = {
     attack: [sounds.swish0, sounds.swish1, sounds.swish2, sounds.swish3],
@@ -53,7 +54,7 @@ export default class Character {
     this.renderer = renderer
   }
   damage() {
-    return (Math.floor(Math.random() * 3) + 2) * 1000
+    return Math.floor(Math.random() * this.maxDamage) + this.minDamage
   }
   whoAmI() {
     console.log(

@@ -5,9 +5,12 @@ export default class Rogue extends Character {
   name = "Xavier, the Shadow Maw"
   shortCode = "Ro"
   modelName = "Rogue.glb"
-  hp = 4500
+  hp = 6500
   movement = 7
   attackRange = 1
+  attackCount = 2
+  maxDamage = 1000
+  minDamage = 250
   attackName = "Slice and Dice!"
   animations = {
     attack: "Dager_Attack", //Dagger_Attack2

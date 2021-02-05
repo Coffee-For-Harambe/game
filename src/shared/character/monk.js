@@ -5,7 +5,10 @@ export default class Monk extends Character {
   name = "Vasily, Fist Whisperer"
   shortCode = "Mo"
   modelName = "Monk.glb"
-  hp = 5500
+  hp = 7500
+  attackCount = 6
+  maxDamage = 250
+  minDamage = 100
   movement = 6
   damageResist = 0.15
   attackRange = 1

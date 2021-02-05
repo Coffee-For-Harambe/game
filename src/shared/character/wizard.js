@@ -5,7 +5,7 @@ export default class Mage extends Character {
   name = "Ishmael, Storm Bender"
   shortCode = "Wz"
   modelName = "Wizard.glb"
-  hp = 5500
+  hp = 6000
   movement = 5
   attackRange = 6
   attackName = "Smite-ning"
