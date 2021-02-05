@@ -12,23 +12,29 @@ window.addEventListener("load", function () {
   inspector = document.getElementById("debugjson")
 })
 
-function refresh() {
-  if (inspecting && window.DEBUGUTILS_REFRESH) {
-    requestAnimationFrame(refresh)
+let lastTime = 0
+function refresh(time) {
+  if (inspecting && window.DEBUGUTILS_REFRESH && time - lastTime > (1 / 15) * 1000) {
     inspector.innerHTML = ""
     inspector.appendChild(renderjson(inspecting))
+    requestAnimationFrame(refresh)
+    lastTime = time
   }
 }
 
 export function inspect(obj, depth = 1, time = 60 * 1000) {
   inspecting = obj
-  renderjson.set_show_to_level(depth)
+  lastTime = 0
   window.DEBUGUTILS_REFRESH = true
-  refresh()
+
+  renderjson.set_show_to_level(depth)
+  refresh(1000)
+
   setTimeout(stopInspecting, time)
 }
 
 export function stopInspecting(obj) {
   inspecting = null
   inspector.innerHTML = ""
+  lastTime = 0
 }
