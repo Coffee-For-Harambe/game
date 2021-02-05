@@ -1,6 +1,5 @@
 import renderjson from "./renderjson"
 
-console.log(renderjson)
 renderjson.set_icons("+", "-")
 renderjson.set_show_to_level(1)
 
