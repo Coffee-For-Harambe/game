@@ -4,15 +4,14 @@ module.exports = {
     public: { url: "/", static: true },
     src: { url: "/dist" },
   },
-  plugins: ["@snowpack/plugin-babel", "@snowpack/plugin-webpack"],
+  plugins: ["@snowpack/plugin-babel"],
   routes: [
     /* Enable an SPA Fallback in development: */
     // {"match": "routes", "src": ".*", "dest": "/index.html"},
   ],
   optimize: {
-    bundle: true,
-    minify: true,
-    target: "es2018",
+    /* Example: Bundle your final build: */
+    // "bundle": true,
   },
   packageOptions: {
     /* ... */
