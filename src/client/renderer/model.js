@@ -227,8 +227,12 @@ export class AnimatedModel extends Model {
     this.mixer.stopAllAction()
 
     const clip = AnimationClip.findByName(this.model.animations, anim)
-    this.action = this.mixer.clipAction(clip)
-    this.action.play()
+    if (clip) {
+      this.action = this.mixer.clipAction(clip)
+      this.action.play()
+    } else {
+      console.log("Animation not found on model:", anim, this.src)
+    }
   }
 
   animate(time) {
@@ -273,7 +277,7 @@ export class CharacterModel extends AnimatedModel {
     this.character = character
     character.model = this
 
-    this.lastCharacterPos = new Vector2(0, 0)
+    // this.lastCharacterPos = new Vector2(0, 0)
     this.targetPos = null
 
     this.movementQueue = []
@@ -283,7 +287,7 @@ export class CharacterModel extends AnimatedModel {
 
   modelLoaded(model) {
     super.modelLoaded(model)
-    this.playAnimation("Idle")
+    this.playAnimation(this.character.animations.idle)
     if (this.character.pos.y > 7) {
       this.mesh.rotation.set(0, Math.PI, 0)
     }
@@ -309,9 +313,13 @@ export class CharacterModel extends AnimatedModel {
 
   animate(time) {
     super.animate(time)
+    if (!this.lastCharacterPos) {
+      return
+    }
 
     if (!this.character.pos.equals(this.lastCharacterPos)) {
       inspect(this)
+      this.playAnimation(this.character.animations.walk)
       this.movementQueue = computePath(
         this.lastCharacterPos.clone(),
         this.character.pos.clone(),
@@ -337,12 +345,12 @@ export class CharacterModel extends AnimatedModel {
     }
 
     if (this.targetYaw) {
-      const elapsed = Math.min(1, (time - this.yawStart) / 1000 / this.movementSpeed)
+      const elapsed = Math.min(1, (time - this.yawStart) / 1000 / (this.movementSpeed / 2))
 
       this.mesh.quaternion.copy(this.startingYaw)
       this.mesh.quaternion.slerp(this.targetYaw, elapsed)
 
-      if (elapsed == 1) {
+      if (elapsed == 1 || this.mesh.quaternion.dot(this.targetYaw) > 0.999) {
         this.targetYaw = null
         this.yawStart = null
       } else {
@@ -363,6 +371,10 @@ export class CharacterModel extends AnimatedModel {
         this.targetPos = null
         this.movementStart = null
         this.startingGridPos = null
+
+        if (!this.movementQueue.length) {
+          this.playAnimation(this.character.animations.idle)
+        }
       }
 
       return true

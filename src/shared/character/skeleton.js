@@ -15,6 +15,13 @@ export default class Skeleton extends Character {
     attack: [sounds.swish0, sounds.swish1, sounds.swish2, sounds.swish3],
     footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4],
   }
+  animations = {
+    walk: "Running",
+    damage: "Spawn",
+    idle: "Idle",
+
+    attack: "Attack",
+  }
   damageResist = -0.1
   initiative = 1
   points = 0

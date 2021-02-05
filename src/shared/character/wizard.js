@@ -15,6 +15,12 @@ export default class Mage extends Character {
     footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4],
     ouch: [sounds.hit0, sounds.hit1, sounds.hit2],
   }
+  animations = {
+    attack: "Staff_Attack", // Spell1, Spell2
+    idle: "Idle",
+    walk: "Walk",
+    damage: "ReceiveHit",
+  }
   damageResist = -0.1
   points = 0
   influencePos = 10

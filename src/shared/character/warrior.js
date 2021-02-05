@@ -16,6 +16,13 @@ export default class Warrior extends Character {
     footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4],
     ouch: [sounds.hit0, sounds.hit1, sounds.hit2],
   }
+  animations = {
+    attack: "Sword_Attack", // Sword_AttackFast
+
+    idle: "Idle",
+    walk: "Walk",
+    damage: "ReceiveHit",
+  }
   initiative = 5
   points = 0
   influencePos = 10

@@ -14,6 +14,12 @@ export default class Dragon extends Character {
     footstep: [sounds.flap],
     attack: [sounds.dGrowl0, sounds.dGrowl1],
   }
+  animations = {
+    damage: "Hit",
+    walk: "Idle",
+    attack: "Attack",
+    idle: "Idle",
+  }
   damageResist = -0.3
   initiative = 2
   points = 0

@@ -17,6 +17,14 @@ export default class Character {
     footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4],
     ouch: [sounds.hit0, sounds.hit1, sounds.hit2],
   }
+
+  animations = {
+    idle: "Idle",
+    walk: "Walk",
+    damage: "ReceiveHit",
+    attack: "Attack",
+  }
+
   damageResist = -0.3
   initiative = 2
   points = 0
