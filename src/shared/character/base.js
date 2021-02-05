@@ -21,7 +21,7 @@ export default class Character {
   animations = {
     idle: "Idle",
     walk: "Walk",
-    damage: "ReceiveHit",
+    damage: "RecieveHit",
     attack: "Attack",
   }
 
@@ -77,17 +77,28 @@ export default class Character {
     if (audio.length) {
       audio = audio[Math.floor(Math.random() * audio.length)]
     }
-    setTimeout(() => audio.play(), 600)
+    audio.play()
+
+    if (this.model) {
+      this.model.playAnimation(this.animations.damage, true, false)
+    }
   }
 
   attack(targetCharacter) {
-    console.log("attack")
-    targetCharacter.receiveDamage(this.damage)
+    setTimeout(() => {
+      targetCharacter.receiveDamage(this.damage)
+    }, 700)
+
     let audio = this.sounds.attack
     if (audio.length) {
       audio = audio[Math.floor(Math.random() * audio.length)]
     }
     audio.play()
+
+    if (this.model) {
+      this.model.face(targetCharacter.pos)
+      this.model.playAnimation(this.animations.attack, true, false)
+    }
   }
 
   moveSprite(vec) {

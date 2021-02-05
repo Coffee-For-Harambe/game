@@ -17,9 +17,8 @@ export default class Skeleton extends Character {
   }
   animations = {
     walk: "Running",
-    damage: "Spawn",
     idle: "Idle",
-
+    damage: "TakeHit",
     attack: "Attack",
   }
   damageResist = -0.1

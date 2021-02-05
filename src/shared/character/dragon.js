@@ -13,6 +13,7 @@ export default class Dragon extends Character {
   sounds = {
     footstep: [sounds.flap],
     attack: [sounds.dGrowl0, sounds.dGrowl1],
+    ouch: [sounds.sGroan0, sounds.sGroan1, sounds.sGroan2],
   }
   animations = {
     damage: "Hit",

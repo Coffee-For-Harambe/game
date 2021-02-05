@@ -222,14 +222,34 @@ export class AnimatedModel extends Model {
     this.lastDraw = time
   }
 
-  playAnimation(anim) {
+  playAnimation(anim, additive = false, loop = true) {
     this.lastDraw = 0
-    this.mixer.stopAllAction()
+    if (!additive) {
+      this.mixer.stopAllAction()
+    }
 
     const clip = AnimationClip.findByName(this.model.animations, anim)
     if (clip) {
-      this.action = this.mixer.clipAction(clip)
-      this.action.play()
+      const action = this.mixer.clipAction(clip)
+      if (additive) {
+        if (!loop) {
+          action.setLoop(THREE.LoopOnce, 1)
+          action.clampWhenFinished = false
+        }
+        if (this.action) {
+          if (this.additiveAction) {
+            this.additiveAction.stop()
+          }
+          action.fadeIn(0.3)
+          this.additiveAction = action
+        } else {
+          action.play()
+        }
+      } else {
+        this.mixer.stopAllAction()
+        this.action = action
+      }
+      action.play()
     } else {
       console.log("Animation not found on model:", anim, this.src)
     }
@@ -256,7 +276,7 @@ export class SquareHighlighter extends AnimatedModel {
     super.render(time)
 
     const square = Game.Instance.state.selectedCharacter?.pos
-    if (square != this.lastPos) {
+    if (square != this.lastPos || (square && !square.equals(this.lastPos))) {
       this.playAnimation("Swoosh")
       this.lastPos = square
       if (square) {
@@ -326,7 +346,6 @@ export class CharacterModel extends AnimatedModel {
         this.character
       )
       this.lastCharacterPos = this.character.pos.clone()
-      // Replace with character.calculatePath
     }
 
     if (!this.targetPos && this.movementQueue.length) {
