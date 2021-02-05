@@ -2,6 +2,7 @@ import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
+import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer.js"
 
 import { inspect, stopInspecting } from "../debugutils"
 
@@ -25,7 +26,8 @@ export default class Renderer {
     this.scene = this.setupScene()
 
     this.camera = this.setupCamera()
-    this.renderer = this.setupRenderer()
+
+    this.setupRenderer()
     this.setupHDR()
 
     this.setupGrid()
@@ -118,6 +120,7 @@ export default class Renderer {
     this.redraw()
 
     this.renderer.render(this.scene, this.camera)
+    this.cssrenderer.render(this.scene, this.camera)
     this.controls.update()
   }
 
@@ -159,14 +162,32 @@ export default class Renderer {
   }
 
   setupRenderer() {
+    const cssrenderer = new CSS3DRenderer()
+    this.cssrenderer = cssrenderer
+
+    cssrenderer.domElement.style.position = "fixed"
+    cssrenderer.domElement.style.top = 0
+    cssrenderer.domElement.style.left = 0
+    cssrenderer.domElement.style.bottom = 0
+    cssrenderer.domElement.style.right = 0
+    cssrenderer.domElement.style.pointerEvents = "none"
+    cssrenderer.domElement.id = "cssrenderer"
+    document.body.appendChild(cssrenderer.domElement)
+    cssrenderer.setSize(window.innerWidth, window.innerHeight)
+
     const renderSettings = {
       canvas: this.canvas,
       antialias: true,
     }
 
     const renderer = new THREE.WebGLRenderer(renderSettings)
+    this.renderer = renderer
+
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(window.innerWidth, window.innerHeight)
+
+    renderer.shadowMap.enabled = true
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
     renderer.physicallyCorrectLights = true
     renderer.toneMapping = THREE.ACESFilmicToneMapping
@@ -174,8 +195,6 @@ export default class Renderer {
     renderer.toneMappingExposure = 1
     // renderer.outputEncoding = THREE.LinearEncoding
     renderer.outputEncoding = THREE.sRGBEncoding
-
-    return renderer
   }
 
   setupHDR() {
@@ -224,6 +243,7 @@ export default class Renderer {
     this.camera.aspect = window.innerWidth / window.innerHeight
     this.camera.updateProjectionMatrix()
 
+    this.cssrenderer.setSize(window.innerWidth, window.innerHeight)
     this.renderer.setSize(window.innerWidth, window.innerHeight)
   }
 

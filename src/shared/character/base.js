@@ -46,6 +46,7 @@ export default class Character {
   setTeam(team) {
     this.team = team
     this.game = team.game
+    this.maxhealth = this.hp
   }
 
   setRenderer(renderer) {

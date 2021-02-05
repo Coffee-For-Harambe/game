@@ -12,6 +12,7 @@ import {
   Quaternion,
 } from "three"
 
+import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer.js"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { gridToWorld, worldToGrid, WORLD_SCALE, WORLD_SCALE_V } from "./3dutils"
 import Game from "../../shared/game"
@@ -73,8 +74,14 @@ export class Model {
 
     if (this.fullScene) {
       this.mesh = model.scene
+      this.model.scene.traverse((obj) => {
+        obj.castShadow = true
+        obj.receiveShadow = true
+      })
     } else {
       this.mesh = model.scene.children[0]
+      this.mesh.castShadow = true
+      this.mesh.receiveShadow = true
     }
 
     if (this.layer) {
@@ -312,6 +319,8 @@ export class CharacterModel extends AnimatedModel {
     this.movementQueue = []
 
     this.movementSpeed = 0.7
+
+    this.createHPBar()
   }
 
   modelLoaded(model) {
@@ -327,6 +336,7 @@ export class CharacterModel extends AnimatedModel {
 
   render(time) {
     super.render(time)
+    this.updateHP()
   }
 
   face(square) {
@@ -398,7 +408,6 @@ export class CharacterModel extends AnimatedModel {
       const elapsed = Math.min(1, (time - this.movementStart) / 1000 / this.movementSpeed)
       const toMove = this.targetPos.clone().sub(this.startingPos.clone()).multiplyScalar(elapsed)
       this.setPos(toMove.add(this.startingPos))
-
       if (elapsed == 1) {
         this.targetPos = null
         this.movementStart = null
@@ -413,5 +422,54 @@ export class CharacterModel extends AnimatedModel {
     }
 
     return false
+  }
+
+  createHPBar() {
+    // const hp = {}
+    // this.hpbar = hp
+    // hp.canvas = document.createElement("canvas")
+    // hp.ctx = canvas.getContext("2d")
+    // hp.texture = new THREE.CanvasTexture(canvas)
+    // hp.canvas.width = 56
+    // hp.canvas.height = 7
+    // hp.img_100 = new Image("/images/hp_full.png")
+    // hp.img_0 = new Image("/images/hp_empty.png")
+  }
+
+  updateHP() {
+    if (this.lasthp != this.character.hp) {
+      let diff = 0
+      if (this.lasthp) {
+        diff = this.lasthp - this.character.hp
+      }
+      this.lasthp = this.character.hp
+
+      // const ctx = hp.ctx
+      // const cw = canvas.width, ch = canvas.height
+      // ctx.clear(0, 0, cw, ch)
+
+      const hpPct = (this.character.hp / this.character.maxhealth) * 100
+      const dmgIndicator = diff > 0 ? `<div class="dmgindicator">-${diff}</div>` : ""
+
+      const html = `
+        <div class="charoverlay">
+          <div class="hpbar">
+            <div class="hp" style="width: ${hpPct}%"></div>
+          </div>
+          ${dmgIndicator}
+        </div>
+      `
+
+      if (!this.hpoverlay) {
+        this.hpoverlay = document.createElement("div")
+        this.hpsprite = new CSS3DSprite(this.hpoverlay)
+        this.hpsprite.scale.set(0.25 / 4, 0.25 / 4, 0.25 / 4)
+        // this.hpsprite.position.set(0, -0.05 * WORLD_SCALE, 0)
+        this.hpsprite.position.set(0, 3.5, 0)
+        this.mesh.add(this.hpsprite)
+      }
+
+      this.hpoverlay.innerHTML = html
+    }
   }
 }
