@@ -1,24 +1,21 @@
-# New Project
+# Coffee For Harambe - The Game
 
-> ✨ Bootstrapped with Create Snowpack App (CSA).
+## Play it here!
+You can play the latest deployed version of the game over at http://coffe-for-harambe.co 
 
-## Available Scripts
 
-### npm start
+## Running Locally
+1. Clone the repository
+2. Run `npm install`
+3. Run `npm start`
+   This starts the app in development mode on http://localhost:8080 by default. The page will automatically reload if any files are modified
 
-Runs the app in the development mode.
-Open http://localhost:8080 to view it in the browser.
+## Creating a Release Ruild
+1. Clone the repository
+2. Run `npm install`
+3. Run `npm start` 
+   This uses snowpack to create the `build/` folder.
 
-The page will reload if you make edits.
-You will also see any lint errors in the console.
-
-### npm run build
-
-Builds a static copy of your site to the `build/` folder.
-Your app is ready to be deployed!
-
-**For the best production performance:** Add a build bundler plugin like [@snowpack/plugin-webpack](https://github.com/snowpackjs/snowpack/tree/main/plugins/plugin-webpack) or [snowpack-plugin-rollup-bundle](https://github.com/ParamagicDev/snowpack-plugin-rollup-bundle) to your `snowpack.config.json` config file.
-
-### Q: What about Eject?
-
-No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
+## Deploying
+1. Create a merge request from the `master` branch onto the `live` branch.
+2. The CD pipeline (GitHub Actions) will update the GitHub Pages deployment automatically!
