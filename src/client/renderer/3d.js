@@ -3,6 +3,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 
+import { inspect, stopInspecting } from "../debugutils"
+
 import Game from "../../shared/game"
 import { Model, AnimatedModel, GridSquare, SquareHighlighter, CharacterModel } from "./model"
 
@@ -31,9 +33,9 @@ export default class Renderer {
 
     window.addEventListener("resize", this.onWindowResize.bind(this))
 
-    window.addEventListener("pointerdown", this.onMouseDown.bind(this), false)
-    window.addEventListener("pointermove", this.onMouseMoved.bind(this), false)
-    window.addEventListener("pointerup", this.onMouseUp.bind(this), false)
+    canvas.addEventListener("pointerdown", this.onMouseDown.bind(this), false)
+    canvas.addEventListener("pointermove", this.onMouseMoved.bind(this), false)
+    canvas.addEventListener("pointerup", this.onMouseUp.bind(this), false)
 
     this.ring = new SquareHighlighter(this.scene)
 
@@ -50,21 +52,21 @@ export default class Renderer {
     this.debug.innerHTML = `
       <strong>GAME STATE:</strong>
         <div style="padding-left: 1rem">
-          turnStage: ${Game.Instance.state.turnStage}<br/>
+          turnStage: ${this.game.state.turnStage}<br/>
           selectedCharacter: ${
-            Game.Instance.state.selectedCharacter
-              ? Game.Instance.state.selectedCharacter.debugStr()
+            this.game.state.selectedCharacter
+              ? this.game.state.selectedCharacter.debugStr()
               : "null"
           }<br/>
-          teamsTurn: ${Game.Instance.state.teamsTurn}<br/>
+          teamsTurn: ${this.game.state.teamsTurn}<br/>
         </div>
       <strong>TEAM1:</strong>
         <div style="padding-left: 1rem">
-          ${Game.Instance.teams[0].characters.map((c) => c.debugStr()).join("<br />")}
+          ${this.game.teams[0].characters.map((c) => c.debugStr()).join("<br />")}
         </div>
       <strong>TEAM2:</strong>
         <div style="padding-left: 1rem">
-          ${Game.Instance.teams[1].characters.map((c) => c.debugStr()).join("<br />")}
+          ${this.game.teams[1].characters.map((c) => c.debugStr()).join("<br />")}
         </div>
     `
 
@@ -123,7 +125,7 @@ export default class Renderer {
   }
 
   update() {
-    Game.Instance.teams.forEach((team) => {
+    this.game.teams.forEach((team) => {
       team.characters.forEach((character) => {
         if (!character.model) {
           character.model = new CharacterModel(character, this.scene)
@@ -243,13 +245,13 @@ export default class Renderer {
       if (intersects[i].object.model instanceof GridSquare) {
         const gridPos = intersects[i].object.model.gridPos
         if (gridPos) {
-          Game.Instance.state.hovered = { x: gridPos.x, y: gridPos.y }
+          this.game.state.hovered = { x: gridPos.x, y: gridPos.y }
           return
         }
       }
     }
 
-    Game.Instance.state.hovered = null
+    this.game.state.hovered = null
   }
 
   onMouseDown(e) {
@@ -267,6 +269,7 @@ export default class Renderer {
       return
     }
 
-    Game.Instance.squareClicked(Game.Instance.state.hovered)
+    this.game.squareClicked(this.game.state.hovered)
+    inspect(this.game.state.selectedCharacter)
   }
 }

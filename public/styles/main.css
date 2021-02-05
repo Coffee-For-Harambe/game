@@ -3,6 +3,8 @@ body,
 #canvas,
 #canvas2,
 #ui {
+  position: fixed;
+  z-index: 0;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -23,10 +25,53 @@ body,
 
 #debug {
   margin: 0;
-  padding: 0;
-  overflow: hidden;
   padding: 4px;
+  overflow: hidden;
+  position: fixed;
+  right: 0;
   color: white;
   font-family: monospace;
   background: rgba(0, 0, 0, 0.25);
+}
+
+/*   debugjson stuff   */
+#debugjson {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  color: rgb(1216, 216, 216);
+  background: rgb(40, 40, 40);
+}
+.renderjson a {
+  text-decoration: none;
+  color: rgb(216, 216, 216);
+}
+.renderjson .disclosure {
+  color: rgb(171, 70, 66);
+  font-size: 150%;
+}
+.renderjson .syntax {
+  color: rgb(184, 184, 184);
+}
+.renderjson .string {
+  color: rgb(161, 181, 108);
+}
+.renderjson .number {
+  color: rgb(247, 202, 136);
+}
+.renderjson .boolean {
+  color: rgb(186, 139, 175);
+}
+.renderjson .key {
+  color: rgb(216, 216, 216);
+}
+.renderjson .keyword {
+  color: rgb(186, 139, 175);
+}
+.renderjson .object.syntax {
+  color: rgb(134, 193, 185);
+}
+.renderjson .array.syntax {
+  color: rgb(220, 150, 86);
 }

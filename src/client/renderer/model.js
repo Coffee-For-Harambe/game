@@ -296,6 +296,15 @@ export class CharacterModel extends AnimatedModel {
     }
   }
 
+  face(square) {
+    let target = Math.atan2(square.x - this.pos.x, -square.y + this.pos.y)
+    if (target - this.mesh.rotation > Math.PI) {
+      target -= Math.PI
+    }
+
+    this.wantsTargetYaw = target
+  }
+
   animate(time) {
     super.animate(time)
 
@@ -310,8 +319,18 @@ export class CharacterModel extends AnimatedModel {
       this.targetPos = gridToWorld(pos.x, pos.y)
       this.startingPos = this.pos.clone()
       this.movementStart = time
+      this.face(pos.x, pos.y)
     }
 
+    if (this.wantsTargetYaw) {
+      this.wantsTargetYaw = null
+
+      this.yawStart = time
+      this.startingYaw = this.mesh.rotation.y
+      this.targetYaw = this.wantsTargetYaw
+    }
+
+    let isAnimating = false
     if (this.targetPos) {
       const elapsed = Math.min(1, (time - this.movementStart) / 1000 / this.movementSpeed)
       const toMove = this.targetPos.clone().sub(this.startingPos.clone()).multiplyScalar(elapsed)
@@ -321,7 +340,23 @@ export class CharacterModel extends AnimatedModel {
         this.targetPos = null
       }
 
-      return true
+      isAnimating = true
     }
+
+    if (this.targetYaw) {
+      const elapsed = Math.min(1, (time - this.yawStart) / 1000 / this.movementSpeed)
+      const toRotate = (this.targetYaw - this.startingYaw) * elapsed
+
+      const rot = this.mesh.rotation
+      this.mesh.rotation.set(rot.x, toRotate, rot.z)
+
+      if (this.targetYaw == rot.y) {
+        this.targetYaw = null
+      }
+
+      isAnimating = true
+    }
+
+    return isAnimating
   }
 }
