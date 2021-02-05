@@ -10,6 +10,7 @@ import {
   Color,
   Euler,
   Quaternion,
+  AdditiveBlending,
 } from "three"
 
 import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer.js"
@@ -330,6 +331,16 @@ export class CharacterModel extends AnimatedModel {
       this.mesh.rotation.set(0, Math.PI, 0)
     }
 
+    this.spotlight = new Model("Cone.glb", this.mesh)
+    this.spotlight.onModelLoaded(() => {
+      this.spotlight.mesh.scale.set(1, 1, 1)
+      this.spotlight.mesh.layers.set(2)
+
+      this.spotlight.mesh.material.transparent = true
+      this.spotlight.mesh.material.opacity = 0.1
+      this.spotlight.mesh.material.blending = AdditiveBlending
+    })
+
     this.setPos(gridToWorld(this.character.x, this.character.y))
     this.lastCharacterPos = this.character.pos.clone()
   }
@@ -337,6 +348,14 @@ export class CharacterModel extends AnimatedModel {
   render(time) {
     super.render(time)
     this.updateHP()
+    if (this.spotlight && this.spotlight.mesh) {
+      const anySelected = Game.Instance.state.selectedCharacter
+      const ourTeam = Game.Instance.getActiveTeam() == this.character.team
+      const isHuman = !this.character.team.isComputer
+      const canPlay = !Game.Instance.renderer.blockInput
+
+      this.spotlight.mesh.visible = canPlay && !anySelected && ourTeam && isHuman
+    }
   }
 
   face(square) {

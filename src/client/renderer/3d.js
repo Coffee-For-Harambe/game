@@ -157,6 +157,7 @@ export default class Renderer {
 
     camera.position.set(807, 889, 912)
     camera.layers.enable(1)
+    camera.layers.enable(2)
 
     return camera
   }
