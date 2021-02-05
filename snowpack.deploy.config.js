@@ -1,8 +1,8 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   mount: {
-    public: { url: "/game", static: true },
-    src: { url: "/game/dist" },
+    public: { url: "/", static: true },
+    src: { url: "/dist" },
   },
   plugins: ["@snowpack/plugin-babel"],
   routes: [

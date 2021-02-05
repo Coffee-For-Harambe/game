@@ -29,7 +29,7 @@ export class Model {
     this.loader = new GLTFLoader()
 
     this.loader.load(
-      "/3d/" + src,
+      "/game/3d/" + src,
       this.modelLoaded.bind(this),
       this.modelLoadProgress.bind(this),
       this.modelLoadError.bind(this)

@@ -184,7 +184,7 @@ export default class Renderer {
 
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
-      .load("/images/lilienstein_1k.hdr", (texture) => {
+      .load("/game/images/lilienstein_1k.hdr", (texture) => {
         const envMap = pmremGenerator.fromEquirectangular(texture).texture
 
         texture.magFilter = THREE.LinearFilter

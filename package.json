@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "snowpack dev",
-    "build": "snowpack build",
+    "build": "snowpack build --config snowpack.deploy.config.js",
     "sandbox": "node --experimental-specifier-resolution=node src/sandbox.js",
     "sandbox-watch": "nodemon --experimental-specifier-resolution=node src/sandbox.js",
     "test": "/bin/true"
