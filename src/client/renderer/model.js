@@ -299,7 +299,6 @@ export class SquareHighlighter extends AnimatedModel {
       if (square) {
         this.lastPos = square.clone()
         this.setWorldPos(square.x, square.y)
-        console.log("WetWorldPos", square, this.pos)
         this.shouldShow = true
       } else {
         this.lastPos = null
