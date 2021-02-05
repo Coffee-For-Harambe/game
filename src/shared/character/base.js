@@ -1,6 +1,6 @@
 import { buildGrid, distanceTo } from "../gridutils"
 import { Vector2 } from "three"
-import sounds from "../../client/sounds"
+import * as sounds from "../../client/sounds"
 import astar from "../astar"
 
 export default class Character {

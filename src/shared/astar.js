@@ -1,6 +1,6 @@
-import getCharacterGrid from "../team"
-import Game from "../game"
-import buildGrid from "./gridutils"
+import getCharacterGrid from "./team"
+import Game from "./game"
+import { buildGrid } from "./gridutils"
 
 export default class astar {
   constructor(grid, start, end) {
