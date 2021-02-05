@@ -8,10 +8,12 @@ import {
   MeshBasicMaterial,
   Mesh,
   Color,
+  Euler,
+  Quaternion,
 } from "three"
 
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
-import { gridToWorld, WORLD_SCALE, WORLD_SCALE_V } from "./3dutils"
+import { gridToWorld, worldToGrid, WORLD_SCALE, WORLD_SCALE_V } from "./3dutils"
 import Game from "../../shared/game"
 import { distanceTo } from "../../shared/gridutils"
 import { computePath } from "../../shared/astar"
@@ -276,7 +278,7 @@ export class CharacterModel extends AnimatedModel {
 
     this.movementQueue = []
 
-    this.movementSpeed = 1
+    this.movementSpeed = 0.7
   }
 
   modelLoaded(model) {
@@ -300,12 +302,9 @@ export class CharacterModel extends AnimatedModel {
   }
 
   face(square) {
-    let target = Math.atan2(square.x - this.pos.x, -square.y + this.pos.y)
-    if (target - this.mesh.rotation > Math.PI) {
-      target -= Math.PI
-    }
-
-    this.wantsTargetYaw = target
+    const pos = worldToGrid(this.pos)
+    let target = Math.atan2(square.x - pos.x, square.y - pos.y)
+    this.wantsTargetYaw = new Quaternion().setFromEuler(new Euler(0, target, 0))
   }
 
   animate(time) {
@@ -326,45 +325,49 @@ export class CharacterModel extends AnimatedModel {
       const pos = this.movementQueue.shift()
       this.targetPos = gridToWorld(pos.x, pos.y)
       this.startingPos = this.pos.clone()
-      this.movementStart = time
-      this.face(pos.x, pos.y)
+      this.face(pos)
     }
 
     if (this.wantsTargetYaw) {
-      this.wantsTargetYaw = null
-
       this.yawStart = time
-      this.startingYaw = this.mesh.rotation.y
+      this.startingYaw = this.mesh.quaternion.clone()
       this.targetYaw = this.wantsTargetYaw
-    }
 
-    let isAnimating = false
-    if (this.targetPos) {
-      const elapsed = Math.min(1, (time - this.movementStart) / 1000 / this.movementSpeed)
-      const toMove = this.targetPos.clone().sub(this.startingPos.clone()).multiplyScalar(elapsed)
-      this.setPos(toMove.add(this.startingPos))
-
-      if (this.pos.equals(this.targetPos)) {
-        this.targetPos = null
-      }
-
-      isAnimating = true
+      this.wantsTargetYaw = null
     }
 
     if (this.targetYaw) {
       const elapsed = Math.min(1, (time - this.yawStart) / 1000 / this.movementSpeed)
-      const toRotate = (this.targetYaw - this.startingYaw) * elapsed
 
-      const rot = this.mesh.rotation
-      this.mesh.rotation.set(rot.x, toRotate, rot.z)
+      this.mesh.quaternion.copy(this.startingYaw)
+      this.mesh.quaternion.slerp(this.targetYaw, elapsed)
 
-      if (this.targetYaw == rot.y) {
+      if (elapsed == 1) {
         this.targetYaw = null
+        this.yawStart = null
+      } else {
+        return true
       }
-
-      isAnimating = true
     }
 
-    return isAnimating
+    if (this.targetPos) {
+      if (!this.movementStart) {
+        this.movementStart = time
+      }
+
+      const elapsed = Math.min(1, (time - this.movementStart) / 1000 / this.movementSpeed)
+      const toMove = this.targetPos.clone().sub(this.startingPos.clone()).multiplyScalar(elapsed)
+      this.setPos(toMove.add(this.startingPos))
+
+      if (elapsed == 1) {
+        this.targetPos = null
+        this.movementStart = null
+        this.startingGridPos = null
+      }
+
+      return true
+    }
+
+    return false
   }
 }
