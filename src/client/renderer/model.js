@@ -14,6 +14,8 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { gridToWorld, WORLD_SCALE, WORLD_SCALE_V } from "./3dutils"
 import Game from "../../shared/game"
 import { distanceTo } from "../../shared/gridutils"
+import { computePath } from "../../shared/astar"
+import { inspect } from "../debugutils"
 
 import droidJSON from "three/examples/fonts/droid/droid_sans_regular.typeface.json"
 const font = new Font(droidJSON)
@@ -310,8 +312,13 @@ export class CharacterModel extends AnimatedModel {
     super.animate(time)
 
     if (!this.character.pos.equals(this.lastCharacterPos)) {
+      inspect(this)
+      this.movementQueue = computePath(
+        this.lastCharacterPos.clone(),
+        this.character.pos.clone(),
+        this.character
+      )
       this.lastCharacterPos = this.character.pos.clone()
-      this.movementQueue = [this.character.pos.clone()]
       // Replace with character.calculatePath
     }
 

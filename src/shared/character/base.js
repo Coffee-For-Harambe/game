@@ -1,7 +1,7 @@
 import { buildGrid, distanceTo } from "../gridutils"
 import { Vector2 } from "three"
 import * as sounds from "../../client/sounds"
-import astar from "../astar"
+import { computePath } from "../astar"
 
 export default class Character {
   name = "Basic Character"
@@ -95,10 +95,13 @@ export default class Character {
     //is distanceTo <= this.character.movement
     let distance = distanceTo(square, ourPos)
     if (distance <= this.movement) {
-      astar.search(buildGrid(), ourPos, square)
-    } else {
-      return false
+      const path = computePath(ourPos, square)
+      if (path.length > 0 && path.length <= this.movement) {
+        return true
+      }
     }
+
+    return false
   }
 
   canReachAttack(square) {

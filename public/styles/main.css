@@ -42,6 +42,7 @@ body,
   z-index: 9999;
   color: rgb(1216, 216, 216);
   background: rgb(40, 40, 40);
+  overflow-y: auto;
 }
 .renderjson a {
   text-decoration: none;
