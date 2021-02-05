@@ -23,7 +23,17 @@ export default class Mage extends Character {
     _defineProperty(this, "attackName", "Smite-ning");
 
     _defineProperty(this, "sounds", {
-      zap: [sounds.zap0, sounds.zap1]
+      attack: [sounds.zap0, sounds.zap1],
+      footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4],
+      ouch: [sounds.hit0, sounds.hit1, sounds.hit2]
+    });
+
+    _defineProperty(this, "animations", {
+      attack: "Staff_Attack",
+      // Spell1, Spell2
+      idle: "Idle",
+      walk: "Walk",
+      damage: "ReceiveHit"
     });
 
     _defineProperty(this, "damageResist", -0.1);

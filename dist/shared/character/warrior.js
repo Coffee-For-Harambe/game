@@ -25,7 +25,17 @@ export default class Warrior extends Character {
     _defineProperty(this, "attackName", "CONAN SMAAASH");
 
     _defineProperty(this, "sounds", {
-      swordAtk: [sounds.sword0, sounds.sword1, sounds.sword2]
+      attack: [sounds.sword0, sounds.sword1, sounds.sword2],
+      footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4],
+      ouch: [sounds.hit0, sounds.hit1, sounds.hit2]
+    });
+
+    _defineProperty(this, "animations", {
+      attack: "Sword_Attack",
+      // Sword_AttackFast
+      idle: "Idle",
+      walk: "Walk",
+      damage: "ReceiveHit"
     });
 
     _defineProperty(this, "initiative", 5);

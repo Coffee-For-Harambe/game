@@ -12,9 +12,12 @@ let lastTime = 0;
 
 function refresh(time) {
   if (inspecting && window.DEBUGUTILS_REFRESH && time - lastTime > 1 / 15 * 1000) {
-    inspector.innerHTML = "";
-    inspector.appendChild(renderjson(inspecting));
-    requestAnimationFrame(refresh);
+    if (inspector) {
+      inspector.innerHTML = "";
+      inspector.appendChild(renderjson(inspecting));
+      requestAnimationFrame(refresh);
+    }
+
     lastTime = time;
   }
 }

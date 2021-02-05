@@ -23,7 +23,16 @@ export default class Skeleton extends Character {
     _defineProperty(this, "attackName", "Bash and Slash");
 
     _defineProperty(this, "sounds", {
-      sGroan: [sounds.sGroan0, sounds.sGroan1, sounds.sGroan2]
+      ouch: [sounds.sGroan0, sounds.sGroan1, sounds.sGroan2],
+      attack: [sounds.swish0, sounds.swish1, sounds.swish2, sounds.swish3],
+      footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4]
+    });
+
+    _defineProperty(this, "animations", {
+      walk: "Running",
+      damage: "Spawn",
+      idle: "Idle",
+      attack: "Attack"
     });
 
     _defineProperty(this, "damageResist", -0.1);

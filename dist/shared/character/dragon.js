@@ -23,13 +23,16 @@ export default class Dragon extends Character {
     _defineProperty(this, "attackName", "Burninate!");
 
     _defineProperty(this, "sounds", {
-      flap: [sounds.flap],
-      dGrowl: [sounds.dGrowl0, sounds.dGrowl1]
+      footstep: [sounds.flap],
+      attack: [sounds.dGrowl0, sounds.dGrowl1]
     });
 
-    _defineProperty(this, "attackSound", "sound");
-
-    _defineProperty(this, "damageSound", "sound");
+    _defineProperty(this, "animations", {
+      damage: "Hit",
+      walk: "Idle",
+      attack: "Attack",
+      idle: "Idle"
+    });
 
     _defineProperty(this, "damageResist", -0.3);
 

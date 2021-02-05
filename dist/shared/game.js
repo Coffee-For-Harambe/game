@@ -127,7 +127,9 @@ export default class Game {
       }
     } else if (state.turnStage == "Attacking") {
       if (!square || !clicked || clicked.team == this.getActiveTeam()) {
-        alert("Are you sure you want to end your turn without attacking");
+        if (confirm("Are you sure you want to end your turn without attacking?")) {
+          this.advanceTurn();
+        }
       } else {
         if (selected.canReachAttack(square)) {
           selected.attack(clicked);

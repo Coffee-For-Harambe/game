@@ -22,6 +22,14 @@ export default class Rogue extends Character {
 
     _defineProperty(this, "attackName", "Slice and Dice!");
 
+    _defineProperty(this, "animations", {
+      attack: "Dager_Attack",
+      //Dagger_Attack2
+      idle: "Idle",
+      walk: "Walk",
+      damage: "ReceiveHit"
+    });
+
     _defineProperty(this, "damageResist", -0.5);
 
     _defineProperty(this, "initiative", 1);

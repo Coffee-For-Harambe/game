@@ -22,6 +22,14 @@ export default class Ranger extends Character {
 
     _defineProperty(this, "attackName", "Sure Shot");
 
+    _defineProperty(this, "animations", {
+      attack: "Bow_Attack_Draw",
+      //Bow_Attack_Shoot
+      idle: "Idle",
+      walk: "Walk",
+      damage: "ReceiveHit"
+    });
+
     _defineProperty(this, "damageResist", 0);
 
     _defineProperty(this, "initiative", 2);

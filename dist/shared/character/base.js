@@ -3,7 +3,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 import { buildGrid, distanceTo } from "../gridutils.js";
 import { Vector2 } from "../../../_snowpack/pkg/three.js";
 import * as sounds from "../../client/sounds/index.js";
-import astar from "../astar.js";
+import { computePath } from "../astar.js";
 export default class Character {
   constructor(x, y) {
     _defineProperty(this, "name", "Basic Character");
@@ -28,9 +28,12 @@ export default class Character {
       ouch: [sounds.hit0, sounds.hit1, sounds.hit2]
     });
 
-    _defineProperty(this, "attackSound", "sound");
-
-    _defineProperty(this, "damageSound", "sound");
+    _defineProperty(this, "animations", {
+      idle: "Idle",
+      walk: "Walk",
+      damage: "ReceiveHit",
+      attack: "Attack"
+    });
 
     _defineProperty(this, "damageResist", -0.3);
 
@@ -82,14 +85,24 @@ export default class Character {
 
   receiveDamage(damage) {
     this.hp -= damage - damage * this.damageResist;
-    let audio = new Audio(this.damageSound);
-    audio.play();
+    let audio = this.sounds.ouch;
+
+    if (audio.length) {
+      audio = audio[Math.floor(Math.random() * audio.length)];
+    }
+
+    setTimeout(() => audio.play(), 600);
   }
 
   attack(targetCharacter) {
     console.log("attack");
     targetCharacter.receiveDamage(this.damage);
-    let audio = new Audio(this.damageSound);
+    let audio = this.sounds.attack;
+
+    if (audio.length) {
+      audio = audio[Math.floor(Math.random() * audio.length)];
+    }
+
     audio.play();
   }
 
@@ -112,10 +125,14 @@ export default class Character {
     let distance = distanceTo(square, ourPos);
 
     if (distance <= this.movement) {
-      astar.search(buildGrid(), ourPos, square);
-    } else {
-      return false;
+      const path = computePath(ourPos, square);
+
+      if (path.length > 0 && path.length <= this.movement) {
+        return true;
+      }
     }
+
+    return false;
   }
 
   canReachAttack(square) {

@@ -1,10 +1,12 @@
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-import { Vector3, Vector2, AnimationMixer, AnimationClip, TextGeometry, Font, MeshBasicMaterial, Mesh, Color } from "../../../_snowpack/pkg/three.js";
+import { Vector3, Vector2, AnimationMixer, AnimationClip, TextGeometry, Font, MeshBasicMaterial, Mesh, Color, Euler, Quaternion } from "../../../_snowpack/pkg/three.js";
 import { GLTFLoader } from "../../../_snowpack/pkg/three/examples/jsm/loaders/GLTFLoader.js";
-import { gridToWorld, WORLD_SCALE, WORLD_SCALE_V } from "./3dutils.js";
+import { gridToWorld, worldToGrid, WORLD_SCALE, WORLD_SCALE_V } from "./3dutils.js";
 import Game from "../../shared/game.js";
 import { distanceTo } from "../../shared/gridutils.js";
+import { computePath } from "../../shared/astar.js";
+import { inspect } from "../debugutils.js";
 import droidJSON from "../../../_snowpack/pkg/three/examples/fonts/droid/droid_sans_regular.typeface.json.proxy.js";
 const font = new Font(droidJSON);
 export class Model {
@@ -204,8 +206,13 @@ export class AnimatedModel extends Model {
     this.lastDraw = 0;
     this.mixer.stopAllAction();
     const clip = AnimationClip.findByName(this.model.animations, anim);
-    this.action = this.mixer.clipAction(clip);
-    this.action.play();
+
+    if (clip) {
+      this.action = this.mixer.clipAction(clip);
+      this.action.play();
+    } else {
+      console.log("Animation not found on model:", anim, this.src);
+    }
   }
 
   animate(time) {
@@ -251,16 +258,16 @@ export class CharacterModel extends AnimatedModel {
   constructor(character, scene) {
     super(character.modelName, scene, 0, 0);
     this.character = character;
-    character.model = this;
-    this.lastCharacterPos = new Vector2(0, 0);
+    character.model = this; // this.lastCharacterPos = new Vector2(0, 0)
+
     this.targetPos = null;
     this.movementQueue = [];
-    this.movementSpeed = 1;
+    this.movementSpeed = 0.7;
   }
 
   modelLoaded(model) {
     super.modelLoaded(model);
-    this.playAnimation("Idle");
+    this.playAnimation(this.character.animations.idle);
 
     if (this.character.pos.y > 7) {
       this.mesh.rotation.set(0, Math.PI, 0);
@@ -280,66 +287,75 @@ export class CharacterModel extends AnimatedModel {
   }
 
   face(square) {
-    let target = Math.atan2(square.x - this.pos.x, -square.y + this.pos.y);
-
-    if (target - this.mesh.rotation > Math.PI) {
-      target -= Math.PI;
-    }
-
-    this.wantsTargetYaw = target;
+    const pos = worldToGrid(this.pos);
+    let target = Math.atan2(square.x - pos.x, square.y - pos.y);
+    this.wantsTargetYaw = new Quaternion().setFromEuler(new Euler(0, target, 0));
   }
 
   animate(time) {
     super.animate(time);
 
+    if (!this.lastCharacterPos) {
+      return;
+    }
+
     if (!this.character.pos.equals(this.lastCharacterPos)) {
-      this.lastCharacterPos = this.character.pos.clone();
-      this.movementQueue = [this.character.pos.clone()]; // Replace with character.calculatePath
+      inspect(this);
+      this.playAnimation(this.character.animations.walk);
+      this.movementQueue = computePath(this.lastCharacterPos.clone(), this.character.pos.clone(), this.character);
+      this.lastCharacterPos = this.character.pos.clone(); // Replace with character.calculatePath
     }
 
     if (!this.targetPos && this.movementQueue.length) {
       const pos = this.movementQueue.shift();
       this.targetPos = gridToWorld(pos.x, pos.y);
       this.startingPos = this.pos.clone();
-      this.movementStart = time;
-      this.face(pos.x, pos.y);
+      this.face(pos);
     }
 
     if (this.wantsTargetYaw) {
-      this.wantsTargetYaw = null;
       this.yawStart = time;
-      this.startingYaw = this.mesh.rotation.y;
+      this.startingYaw = this.mesh.quaternion.clone();
       this.targetYaw = this.wantsTargetYaw;
+      this.wantsTargetYaw = null;
     }
 
-    let isAnimating = false;
+    if (this.targetYaw) {
+      const elapsed = Math.min(1, (time - this.yawStart) / 1000 / (this.movementSpeed / 2));
+      this.mesh.quaternion.copy(this.startingYaw);
+      this.mesh.quaternion.slerp(this.targetYaw, elapsed);
+
+      if (elapsed == 1 || this.mesh.quaternion.dot(this.targetYaw) > 0.999) {
+        this.targetYaw = null;
+        this.yawStart = null;
+      } else {
+        return true;
+      }
+    }
 
     if (this.targetPos) {
+      if (!this.movementStart) {
+        this.movementStart = time;
+      }
+
       const elapsed = Math.min(1, (time - this.movementStart) / 1000 / this.movementSpeed);
       const toMove = this.targetPos.clone().sub(this.startingPos.clone()).multiplyScalar(elapsed);
       this.setPos(toMove.add(this.startingPos));
 
-      if (this.pos.equals(this.targetPos)) {
+      if (elapsed == 1) {
         this.targetPos = null;
+        this.movementStart = null;
+        this.startingGridPos = null;
+
+        if (!this.movementQueue.length) {
+          this.playAnimation(this.character.animations.idle);
+        }
       }
 
-      isAnimating = true;
+      return true;
     }
 
-    if (this.targetYaw) {
-      const elapsed = Math.min(1, (time - this.yawStart) / 1000 / this.movementSpeed);
-      const toRotate = (this.targetYaw - this.startingYaw) * elapsed;
-      const rot = this.mesh.rotation;
-      this.mesh.rotation.set(rot.x, toRotate, rot.z);
-
-      if (this.targetYaw == rot.y) {
-        this.targetYaw = null;
-      }
-
-      isAnimating = true;
-    }
-
-    return isAnimating;
+    return false;
   }
 
 }
