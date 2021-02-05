@@ -119,33 +119,35 @@ export default class Game {
 
     if (state.turnStage == "Moving") {
       if (clicked && clicked.team == this.getActiveTeam()) {
-        state.selectedCharacter = clicked
+        if (clicked.hp > 0) {
+          state.selectedCharacter = clicked
+        }
       } else if (selected !== null) {
         if (square == null) {
           state.selectedCharacter = null
         } else {
-          if (selected.canReach(square)) {
-            if (!clicked) {
-              selected.moveSprite(square)
+          if (selected.canReach(square) && !clicked) {
+            selected.moveSprite(square)
 
-              let canAttack = false
-              for (let potentialEnemy of selected.getOpposingTeam().characters) {
-                if (selected.canReachAttack(potentialEnemy.pos)) {
-                  canAttack = true
-                  break
-                }
+            let canAttack = false
+            for (let potentialEnemy of selected.getOpposingTeam().characters) {
+              if (selected.canReachAttack(potentialEnemy.pos)) {
+                canAttack = true
+                break
               }
+            }
 
-              if (canAttack) {
-                state.turnStage = "Attacking"
-              } else {
-                this.advanceTurn()
-              }
-            } else if (selected.canReachAttack(square)) {
-              selected.attack(clicked)
+            if (canAttack) {
+              state.turnStage = "Attacking"
+            } else {
               this.advanceTurn()
             }
           } else {
+            if (clicked && clicked.team != selected.team && selected.canReachAttack(square)) {
+              selected.attack(clicked)
+              this.advanceTurn()
+              return
+            }
             alert("You can't reach that")
           }
         }

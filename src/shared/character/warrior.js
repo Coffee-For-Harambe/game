@@ -21,7 +21,7 @@ export default class Warrior extends Character {
 
     idle: "Idle",
     walk: "Walk",
-    damage: "ReceiveHit",
+    damage: "RecieveHit",
   }
   initiative = 5
   points = 0

@@ -15,7 +15,7 @@ export default class Ranger extends Character {
     attack: "Bow_Attack_Draw", //Bow_Attack_Shoot
     idle: "Idle",
     walk: "Walk",
-    damage: "ReceiveHit",
+    damage: "RecieveHit",
   }
   damageResist = 0
   initiative = 2

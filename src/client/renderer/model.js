@@ -147,7 +147,11 @@ export class GridSquare extends Model {
         dist <= selected.movement &&
         (!standingOnUs || standingOnUs != selected)
       ) {
-        col = GridSquare.Colors.walkable
+        if (standingOnUs && standingOnUs.team != selected.team && dist <= selected.attackRange) {
+          col = GridSquare.Colors.attackable
+        } else {
+          col = GridSquare.Colors.walkable
+        }
       } else if (state.turnStage == "Attacking" && dist <= selected.attackRange) {
         if (standingOnUs) {
           if (standingOnUs.team !== selected.team) {
@@ -276,13 +280,18 @@ export class SquareHighlighter extends AnimatedModel {
     super.render(time)
 
     const square = Game.Instance.state.selectedCharacter?.pos
-    if (square != this.lastPos || (square && !square.equals(this.lastPos))) {
+    if (!square) {
+      this.lastPos = null
+      this.shouldShow = false
+    } else if (!this.lastPos || !square.equals(this.lastPos)) {
       this.playAnimation("Swoosh")
-      this.lastPos = square
       if (square) {
+        this.lastPos = square.clone()
         this.setWorldPos(square.x, square.y)
+        console.log("WetWorldPos", square, this.pos)
         this.shouldShow = true
       } else {
+        this.lastPos = null
         this.shouldShow = false
       }
     }
@@ -318,11 +327,6 @@ export class CharacterModel extends AnimatedModel {
 
   render(time) {
     super.render(time)
-
-    if (this.character.hp < 0) {
-      // AND NOT IS PLAYING DYING ANIMATION
-      this.shouldRemove = true
-    }
   }
 
   face(square) {
@@ -335,6 +339,15 @@ export class CharacterModel extends AnimatedModel {
     super.animate(time)
     if (!this.lastCharacterPos) {
       return
+    }
+
+    if (this.character.hp < 0) {
+      if (!this.isDying) {
+        this.isDying = true
+        this.playAnimation(this.character.animations.death)
+        setTimeout(() => (this.shouldRemove = true), 1000)
+      }
+      return true
     }
 
     if (!this.character.pos.equals(this.lastCharacterPos)) {

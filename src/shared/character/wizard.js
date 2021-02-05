@@ -19,7 +19,7 @@ export default class Mage extends Character {
     attack: "Staff_Attack", // Spell1, Spell2
     idle: "Idle",
     walk: "Walk",
-    damage: "ReceiveHit",
+    damage: "RecieveHit",
   }
   damageResist = -0.1
   points = 0

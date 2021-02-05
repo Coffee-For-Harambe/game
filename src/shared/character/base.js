@@ -23,6 +23,7 @@ export default class Character {
     walk: "Walk",
     damage: "RecieveHit",
     attack: "Attack",
+    death: "Death",
   }
 
   damageResist = -0.3

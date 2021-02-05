@@ -14,7 +14,7 @@ export default class Rogue extends Character {
     attack: "Dager_Attack", //Dagger_Attack2
     idle: "Idle",
     walk: "Walk",
-    damage: "ReceiveHit",
+    damage: "RecieveHit",
   }
   damageResist = -0.5
   initiative = 1
