@@ -11,7 +11,9 @@ export default class Mage extends Character {
   attackRange = 6
   attackName = "Smite-ning"
   sounds = {
-    zap: [sounds.zap0, sounds.zap1],
+    attack: [sounds.zap0, sounds.zap1],
+    footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4],
+    ouch: [sounds.hit0, sounds.hit1, sounds.hit2],
   }
   damageResist = -0.1
   points = 0

@@ -17,8 +17,6 @@ export default class Character {
     footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4],
     ouch: [sounds.hit0, sounds.hit1, sounds.hit2],
   }
-  attackSound = "sound"
-  damageSound = "sound"
   damageResist = -0.3
   initiative = 2
   points = 0
@@ -67,14 +65,20 @@ export default class Character {
 
   receiveDamage(damage) {
     this.hp -= damage - damage * this.damageResist
-    let audio = new Audio(this.damageSound)
-    audio.play()
+    let audio = this.sounds.ouch
+    if (audio.length) {
+      audio = audio[Math.floor(Math.random() * audio.length)]
+    }
+    setTimeout(() => audio.play(), 600)
   }
 
   attack(targetCharacter) {
     console.log("attack")
     targetCharacter.receiveDamage(this.damage)
-    let audio = new Audio(this.damageSound)
+    let audio = this.sounds.attack
+    if (audio.length) {
+      audio = audio[Math.floor(Math.random() * audio.length)]
+    }
     audio.play()
   }
 
