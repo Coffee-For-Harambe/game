@@ -8,6 +8,7 @@ export default class Game {
       teamsTurn: 0,
       selectedCharacter: null,
       turnStage: "Moving",
+      gameOver: false,
     }
 
     this.teams = []
@@ -92,6 +93,17 @@ export default class Game {
     this.characterGrid = this.getCharacterGrid()
     if (this.renderer) {
       this.renderer.update()
+    }
+    if (this.teams[0].characters.length <= 0) {
+      this.state.gameOver = 0
+    } else if (this.teams[1].characters.length <= 0) {
+      this.state.gameOver = 1
+    }
+    if (this.state.gameOver) {
+      document.getElementById("lose").style.visibility =
+        this.state.gameOver == 0 ? "visible" : "hidden"
+      document.getElementById("win").style.visibility =
+        this.state.gameOver == 1 ? "visible" : "hidden"
     }
   }
 

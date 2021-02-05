@@ -80,15 +80,16 @@ a img {
   width: 100%;
   height: 100%;
   font-size: 150px;
+}
+
+#win {
+  color: blue;
   visibility: hidden;
 }
 
-.win {
-  color: blue;
-}
-
-.lose {
+#lose {
   color: red;
+  visibility: hidden;
 }
 .renderjson a {
   text-decoration: none;
