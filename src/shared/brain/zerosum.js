@@ -4,7 +4,7 @@
     — Inquisitor Bronislaw Czevak at the Conclave of Har
 */
 
-// THIS SHIT HERE MOVES THE NPC AROUND.
+// BBBBBBRRRRAAAAAAAIIIIIINNNSSSSSSS.
 function npcMove(char) {
   let cx = char.x,
     cy = char.y
@@ -19,12 +19,43 @@ function npcMove(char) {
       }
       const realInfluence = weight - dist
       if (realInfluence > bestChoice.influence) {
-        goodChoice.push(bestChoice) // No longer the best but we'll keep you in mind
+        goodChoice.push(bestChoice)
         bestChoice = { x: x, y: y, influence: realInfluence }
       }
-      /* check position vs best choice */
     }
-    console.log(char.shortCode, "x=", cx, "y=", cy)
-    console.log("Our best choice so far seems to be", bestChoice)
   }
+
+  // This is where the AI cheats a little. But you can see where everything is, so should it.
+  let dist = 0
+  let curPC = 0
+  for (let i = 0; i < human.characters.length; i++) {
+    curPC = i
+    //Find each PC on the grid, if distanceTo = 1 attack at its x, y.
+    dist = distanceTo(
+      { x: cx, y: cy },
+      { x: human.characters[curPC].x, y: human.characters[curPC].y }
+    )
+    if (dist == 1) {
+      //pass attack function @ human.characters[curPC]
+    }
+  }
+ // if we cannot attack then we need to check for moves
+  if (cy != bestChoice.y) {
+    if (cx != bestChoice.x) {
+      // add a distance check to PC's if greater than 1
+      // move to bestChoice.y, bestChoice.x
+      console.log("MOVE ME")
+    }
+  }
+  if (cy == bestChoice.y) {
+    if (cx == bestChoice.x) {
+      // console.log("I AM STUCK")
+      // Hack move for the time being, it's not stupid if it works. 
+      bestChoice = { x: cx + 7, y: cy }
+      // pass moveTo(char) function here with bestChoice.y, bestChoice.x
+    }
+  }
+
+  console.log(char.shortCode, "x=", cx, "y=", cy)
+  console.log("Our best choice so far seems to be", bestChoice)
 }
