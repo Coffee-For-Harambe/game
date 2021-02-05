@@ -52,7 +52,7 @@ let flap = new Audio()
 let dGrowl0 = new Audio()
 let dGrowl1 = new Audio()
 
-flap, (src = "./sfx/monsters/dragonflap.mp3")
+flap.src = "./sfx/monsters/dragonflap.mp3"
 dGrowl0.src = "./sfx/monsters/Dragon_Growl_00.mp3"
 dGrowl1.src = "./sfx/monsters/Dragon_Growl_01.mp3"
 
