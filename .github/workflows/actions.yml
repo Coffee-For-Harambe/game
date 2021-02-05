@@ -1,0 +1,24 @@
+name: build
+on:
+  push:
+    branches:
+      - "live"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish generated content to GitHub Pages
+        uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+        with:
+          dir: build
+          branch: gh-pages
+          token: ${{ secrets.ACCESS_TOKEN }}
