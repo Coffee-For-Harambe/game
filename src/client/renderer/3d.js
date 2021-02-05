@@ -97,6 +97,7 @@ export default class Renderer {
 
     for (let obj of toRemove) {
       this.scene.remove(obj)
+      this.game.update()
     }
 
     const dir1 = this.controls.target.clone().sub(this.camera.position.clone()).normalize()
