@@ -169,6 +169,10 @@ export class GridSquare extends Model {
           col = GridSquare.Colors.attackRange
         }
       }
+
+      if (this.coordinates) {
+        this.coordinates.visible = window.DEBUG
+      }
     }
 
     const hovered = Game.Instance.state.hovered
