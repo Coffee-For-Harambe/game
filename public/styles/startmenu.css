@@ -4,20 +4,23 @@
   padding: 0;
   background-color: lightgray;
   background-image: url("/images/background.png");
-  background-size: cover;
+  background-color: black;
+  background-size: contain;
+  background-position: center;
   background-repeat: no-repeat;
+  height: 100vh;
 }
 
-.top-section {
+#top-section {
   width: 100vw;
   background-color: #222222;
-  display: none;
   display: flex;
   justify-content: space-between;
 }
 
 #stats-enemy,
 #stats-alies {
+  display: none;
   background-color: aqua;
   width: 17vw;
   height: 13vh;
@@ -39,12 +42,12 @@
 #start-menu {
   width: 25vw;
   height: 65vh;
-  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 27vh;
+  margin-top: 37vh;
   margin-left: 4vw;
 }
 
@@ -59,7 +62,7 @@
   padding-bottom: 14vh;
   width: 200px;
   height: 100px;
-  background-image: url("/images/Title.png");
+  background-image: url("/images/logo.png");
   background-size: contain;
   background-repeat: no-repeat;
 }

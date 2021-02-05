@@ -9,19 +9,59 @@
       content="Ironhack Miami 2021 Group Project - Team Coffee For Harambe"
     />
     <link rel="stylesheet" type="text/css" href="/styles/main.css" />
+    <link rel="stylesheet" type="text/css" href="/styles/startmenu.css" />
     <title>Coffee for Harambe</title>
   </head>
   <body>
     <canvas id="canvas"></canvas>
 
-    <div id="ui">
-      <!-- <button>Hi there</button> -->
+    <div id="ui" class="startmenu">
+      <div id="main-page">
+        <!-- top section is hidden at the start menu -->
+        <div id="top-section">
+          <div id="stats-alies"></div>
+
+          <div id="stats-enemy"></div>
+        </div>
+        <!-- top section is hidden at the start menu -->
+
+        <!-- Characters main page -->
+        <div id="characters-screen">
+          <!-- Start menu -->
+          <div id="start-menu">
+            <div id="game-title">
+              <!-- <img src="#" , alt="title-of-the-game" /> -->
+            </div>
+
+            <div>
+              <a class="buttons-start-menu" type="submit" id="start">
+                <img src="/images/play-button.png" , alt="Start-button" />
+              </a>
+            </div>
+
+            <div>
+              <a href="#" class="buttons-start-menu" type="submit" id="new">
+                <img src="/images/NewButton.png" , alt="Instructions" />
+              </a>
+            </div>
+            <div>
+              <a href="#" class="buttons-start-menu" type="submit" id="Options">
+                <img src="/images/OptionsButton.png" , alt="Sound" />
+              </a>
+            </div>
+          </div>
+          <!-- End of Start menu -->
+
+          <!-- End of Characters main page -->
+        </div>
+      </div>
     </div>
 
     <div id="debug"></div>
     <div id="debugjson"></div>
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script type="module" src="/dist/client/ui/startmenu.js"></script>
     <script type="module" src="/dist/client/index.js"></script>
     <!--
       This HTML file is a template.
