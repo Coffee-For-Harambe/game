@@ -110,7 +110,7 @@ export class Model {
 export class GridSquare extends Model {
   constructor(scene, x, y) {
     super("Floor_Modular.glb", scene, x, y)
-    this.gridPos = { x, y }
+    this.gridPos = new Vector2(x, y)
     this.setWorldPos(x, y)
   }
 
@@ -158,8 +158,10 @@ export class GridSquare extends Model {
         dist <= selected.movement &&
         (!standingOnUs || standingOnUs != selected)
       ) {
-        if (standingOnUs && standingOnUs.team != selected.team && dist <= selected.attackRange) {
-          col = GridSquare.Colors.attackable
+        if (standingOnUs) {
+          if (standingOnUs.team != selected.team && dist <= selected.attackRange) {
+            col = GridSquare.Colors.attackable
+          }
         } else {
           col = GridSquare.Colors.walkable
         }
@@ -455,7 +457,7 @@ export class CharacterModel extends AnimatedModel {
     if (this.lasthp != this.character.hp) {
       let diff = 0
       if (this.lasthp) {
-        diff = this.lasthp - this.character.hp
+        diff = Math.floor(this.lasthp - this.character.hp)
       }
       this.lasthp = this.character.hp
 

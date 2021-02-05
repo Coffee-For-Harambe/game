@@ -56,7 +56,7 @@ export default class Character {
   }
 
   damage() {
-    return Math.floor(Math.random() * this.maxDamage) + this.minDamage
+    return Math.floor(Math.random() * this.maxDamage + this.minDamage)
   }
 
   whoAmI() {
@@ -85,6 +85,7 @@ export default class Character {
     if (audio.length) {
       audio = audio[Math.floor(Math.random() * audio.length)]
     }
+    audio.currentTime = 0
     audio.play()
 
     if (this.model) {
@@ -93,11 +94,11 @@ export default class Character {
   }
 
   attack(targetCharacter) {
-    for (let i = 1; i < this.attackCount ?? 1; i++) {
+    for (let i = 0; i < this.attackCount ?? 1; i++) {
       setTimeout(() => {
         setTimeout(() => {
           targetCharacter.receiveDamage(this.damage())
-        }, 700 * i)
+        }, 500 * i)
 
         let audio = this.sounds.attack
         if (audio.length) {
@@ -109,7 +110,7 @@ export default class Character {
           this.model.face(targetCharacter.pos)
           this.model.playAnimation(this.animations.attack, true, false)
         }
-      }, 1.2 * (i - 1))
+      }, 1.3 * 1000 * (i - 1))
     }
   }
 
@@ -136,8 +137,7 @@ export default class Character {
   }
 
   canReachAttack(square) {
-    const ourAtt = { y: this.y, x: this.x }
-    let distance = distanceTo(square, ourAtt)
+    let distance = distanceTo(square, this.pos)
     if (distance <= this.attackRange) {
       return true
     } else {
