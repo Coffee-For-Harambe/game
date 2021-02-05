@@ -144,7 +144,7 @@ export default class Game {
               this.advanceTurn()
               return
             }
-            alert("You can't reach that")
+            alert("Try moving somewhere else!")
           }
         }
       }
