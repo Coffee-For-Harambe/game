@@ -267,7 +267,7 @@ export default class Renderer {
     this.hoverTimerID = setTimeout(() => {
       this.hoverTimerID = null
       this.updateHover(e)
-    }, 300)
+    }, 60)
   }
 
   updateHover(e) {
@@ -301,6 +301,8 @@ export default class Renderer {
     if (this.blockInput) {
       return
     }
+
+    this.updateHover(e)
 
     this.mouse = new THREE.Vector2()
     this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1

@@ -8,7 +8,6 @@ export default class Character {
   shortCode = "??"
   modelName = "Skeleton.glb"
   hp = 5000
-  damage = this.damage()
   movement = 5
   attackRange = 5
   attackCount = 1
@@ -27,6 +26,8 @@ export default class Character {
     death: "Death",
   }
 
+  minDamage = 1000
+  maxDamage = 3000
   damageResist = -0.3
   initiative = 2
   points = 0
@@ -53,9 +54,11 @@ export default class Character {
   setRenderer(renderer) {
     this.renderer = renderer
   }
+
   damage() {
     return Math.floor(Math.random() * this.maxDamage) + this.minDamage
   }
+
   whoAmI() {
     console.log(
       this.name,
@@ -90,19 +93,23 @@ export default class Character {
   }
 
   attack(targetCharacter) {
-    setTimeout(() => {
-      targetCharacter.receiveDamage(this.damage)
-    }, 700)
+    for (let i = 1; i < this.attackCount ?? 1; i++) {
+      setTimeout(() => {
+        setTimeout(() => {
+          targetCharacter.receiveDamage(this.damage())
+        }, 700 * i)
 
-    let audio = this.sounds.attack
-    if (audio.length) {
-      audio = audio[Math.floor(Math.random() * audio.length)]
-    }
-    audio.play()
+        let audio = this.sounds.attack
+        if (audio.length) {
+          audio = audio[Math.floor(Math.random() * audio.length)]
+        }
+        audio.play()
 
-    if (this.model) {
-      this.model.face(targetCharacter.pos)
-      this.model.playAnimation(this.animations.attack, true, false)
+        if (this.model) {
+          this.model.face(targetCharacter.pos)
+          this.model.playAnimation(this.animations.attack, true, false)
+        }
+      }, 1.2 * (i - 1))
     }
   }
 
