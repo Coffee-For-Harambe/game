@@ -12,7 +12,7 @@ export const songCredits = new Audio()
 songBattle0.src = "/music/shadowsOfMisdeeds_battleA.mp3"
 songBattle1.src = "/music/aFightInFields_battleB.mp3"
 songTitle.src = "/music/mushroomDance_title.ogg"
-songwin.src = "/music/cantStopWinning_win.mp3"
+songWin.src = "/music/cantStopWinning_win.mp3"
 songLose.src = "/music/theFallen_lose.mp3"
 songCredits.src = "/music/visionsOfFreedom_credits.mp3"
 

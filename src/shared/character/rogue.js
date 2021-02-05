@@ -1,4 +1,5 @@
 import Character from "./base"
+import * as sounds from "../../client/sounds"
 
 export default class Rogue extends Character {
   name = "Xavier, the Shadow Maw"

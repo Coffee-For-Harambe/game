@@ -20,6 +20,7 @@ const font = new Font(droidJSON)
 
 export class Model {
   constructor(src, scene, x, y, fullScene = false) {
+    this.pos = new Vector3()
     this.setWorldPos(x, y)
     this.src = src
     this.scene = scene
@@ -40,7 +41,7 @@ export class Model {
   }
 
   setPos(pos) {
-    this.pos = pos
+    this.pos.copy(pos)
     if (this.mesh) {
       this.mesh.position.copy(this.pos)
       this.mesh.updateMatrix()

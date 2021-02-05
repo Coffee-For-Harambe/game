@@ -1,4 +1,5 @@
 import Character from "./base"
+import * as sounds from "../../client/sounds"
 
 export default class Ranger extends Character {
   name = "Santi, of The Post Wood"

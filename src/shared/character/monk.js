@@ -1,4 +1,5 @@
 import Character from "./base"
+import * as sounds from "../../client/sounds"
 
 export default class Monk extends Character {
   name = "Vasily, Fist Whisperer"
