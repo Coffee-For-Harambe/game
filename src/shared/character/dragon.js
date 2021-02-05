@@ -11,11 +11,15 @@ export default class Dragon extends Character {
   attackRange = 5
   attackName = "Burninate!"
   sounds = {
-    flap: [sounds.flap],
-    dGrowl: [sounds.dGrowl0, sounds.dGrowl1],
+    footstep: [sounds.flap],
+    attack: [sounds.dGrowl0, sounds.dGrowl1],
   }
-  attackSound = "sound"
-  damageSound = "sound"
+  animations = {
+    damage: "Hit",
+    walk: "Idle",
+    attack: "Attack",
+    idle: "Idle",
+  }
   damageResist = -0.3
   initiative = 2
   points = 0

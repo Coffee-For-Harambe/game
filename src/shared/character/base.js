@@ -1,7 +1,7 @@
 import { buildGrid, distanceTo } from "../gridutils"
 import { Vector2 } from "three"
 import * as sounds from "../../client/sounds"
-import astar from "../astar"
+import { computePath } from "../astar"
 
 export default class Character {
   name = "Basic Character"
@@ -17,8 +17,14 @@ export default class Character {
     footstep: [sounds.foot0, sounds.foot1, sounds.foot2, sounds.foot3, sounds.foot4],
     ouch: [sounds.hit0, sounds.hit1, sounds.hit2],
   }
-  attackSound = "sound"
-  damageSound = "sound"
+
+  animations = {
+    idle: "Idle",
+    walk: "Walk",
+    damage: "ReceiveHit",
+    attack: "Attack",
+  }
+
   damageResist = -0.3
   initiative = 2
   points = 0
@@ -67,14 +73,20 @@ export default class Character {
 
   receiveDamage(damage) {
     this.hp -= damage - damage * this.damageResist
-    let audio = new Audio(this.damageSound)
-    audio.play()
+    let audio = this.sounds.ouch
+    if (audio.length) {
+      audio = audio[Math.floor(Math.random() * audio.length)]
+    }
+    setTimeout(() => audio.play(), 600)
   }
 
   attack(targetCharacter) {
     console.log("attack")
     targetCharacter.receiveDamage(this.damage)
-    let audio = new Audio(this.damageSound)
+    let audio = this.sounds.attack
+    if (audio.length) {
+      audio = audio[Math.floor(Math.random() * audio.length)]
+    }
     audio.play()
   }
 
@@ -91,10 +103,13 @@ export default class Character {
     //is distanceTo <= this.character.movement
     let distance = distanceTo(square, ourPos)
     if (distance <= this.movement) {
-      astar.search(buildGrid(), ourPos, square)
-    } else {
-      return false
+      const path = computePath(ourPos, square)
+      if (path.length > 0 && path.length <= this.movement) {
+        return true
+      }
     }
+
+    return false
   }
 
   canReachAttack(square) {

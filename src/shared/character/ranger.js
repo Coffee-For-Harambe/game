@@ -11,6 +11,12 @@ export default class Ranger extends Character {
   movement = 5
   attackRange = 5
   attackName = "Sure Shot"
+  animations = {
+    attack: "Bow_Attack_Draw", //Bow_Attack_Shoot
+        idle: "Idle",
+    walk: "Walk",
+    damage: "ReceiveHit",
+  }
   damageResist = 0
   initiative = 2
   points = 0

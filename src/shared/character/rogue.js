@@ -10,6 +10,12 @@ export default class Rogue extends Character {
   movement = 7
   attackRange = 1
   attackName = "Slice and Dice!"
+  animations = {
+    attack: "Dager_Attack", //Dagger_Attack2
+    idle: "Idle",
+    walk: "Walk",
+    damage: "ReceiveHit",
+  }
   damageResist = -0.5
   initiative = 1
   points = 0
