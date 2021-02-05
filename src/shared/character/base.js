@@ -78,11 +78,11 @@ export default class Character {
     audio.play()
   }
 
-  moveSprite({ x, y }) {
+  moveSprite(vec) {
     //vec
-    this.y = y //vec.y
-    this.x = x //vec.x
-    this.pos = new Vector2(x, y)
+    this.y = vec.y //vec.y
+    this.x = vec.x //vec.x
+    this.pos.copy(vec)
     this.game.update()
   }
 
