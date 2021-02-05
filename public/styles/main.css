@@ -20,6 +20,19 @@ body,
   z-index: 100;
 }
 
+body {
+  cursor: url(/images/cursor_dagger.cur), default;
+}
+
+canvas.cursor-pointer {
+  cursor: url(/images/pointer_dagger.cur), default;
+}
+
+a,
+a img {
+  cursor: url(/images/pointer_dagger.cur), pointer;
+}
+
 #ui > * {
   pointer-events: auto;
 }
