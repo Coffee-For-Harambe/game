@@ -4,6 +4,7 @@ import buildGrid from "./gridutils"
 
 export default class astar {
   constructor(grid, start, end) {
+    //(buildGrid(), selectedCharacter(S), square(E))
     this.grid = grid
     this.start = start
     this.end = end
@@ -11,7 +12,6 @@ export default class astar {
 
   init(grid) {
     grid = buildGrid()
-    return grid
   }
   //remove the node from openlist, add it to closedList
   removeGraphNode(node) {
@@ -41,7 +41,7 @@ export default class astar {
   }
 
   search(grid, start, end) {
-    astar.init(grid)
+    astar.init()
 
     let openList = []
     let closedList = []
@@ -141,5 +141,3 @@ export default class astar {
     return ret
   }
 }
-
-let astarInstanceOne = new astar.search(grid, { x: 3, y: 5 } /*start*/, { x: 9, y: 8 } /*end*/)

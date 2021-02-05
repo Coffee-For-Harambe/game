@@ -1,6 +1,7 @@
-import { distanceTo } from "../gridutils"
+import { buildGrid, distanceTo } from "../gridutils"
 import { Vector2 } from "three"
 import sounds from "../../client/sounds"
+import astar from "../astar"
 
 export default class Character {
   name = "Basic Character"
@@ -90,7 +91,7 @@ export default class Character {
     //is distanceTo <= this.character.movement
     let distance = distanceTo(square, ourPos)
     if (distance <= this.movement) {
-      return true
+      astar.search(buildGrid(), ourPos, square)
     } else {
       return false
     }
