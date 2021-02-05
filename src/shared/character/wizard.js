@@ -5,8 +5,7 @@ export default class Mage extends Character {
   name = "Ishmael, Storm Bender"
   shortCode = "Wz"
   modelName = "Wizard.glb"
-  hp = 3500
-  damage = Math.random() * 4 * 1000
+  hp = 6000
   movement = 5
   attackRange = 6
   attackName = "Smite-ning"
@@ -19,7 +18,8 @@ export default class Mage extends Character {
     attack: "Staff_Attack", // Spell1, Spell2
     idle: "Idle",
     walk: "Walk",
-    damage: "ReceiveHit",
+    damage: "RecieveHit",
+    death: "Death",
   }
   damageResist = -0.1
   points = 0

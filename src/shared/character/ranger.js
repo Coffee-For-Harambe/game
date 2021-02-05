@@ -5,18 +5,22 @@ export default class Ranger extends Character {
   name = "Santi, of The Post Wood"
   shortCode = "Rn"
   modelName = "Ranger.glb"
-  hp = 4000
-  damage = 10000
+  hp = 6000
   //Math.random(0 * 4) * 1000
   movement = 5
   attackRange = 5
+  maxDamage = 2500
+  minDamage = 750
   attackName = "Sure Shot"
   animations = {
     attack: "Bow_Attack_Draw", //Bow_Attack_Shoot
-        idle: "Idle",
+    idle: "Idle",
     walk: "Walk",
-    damage: "ReceiveHit",
+    damage: "RecieveHit",
+    death: "Death",
   }
+  maxDamage = 2000
+  minDamage = 500
   damageResist = 0
   initiative = 2
   points = 0

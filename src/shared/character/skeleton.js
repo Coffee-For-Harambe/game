@@ -5,8 +5,7 @@ export default class Skeleton extends Character {
   name = "Revenant"
   shortCode = "Sk"
   modelName = "Skeleton.glb"
-  hp = 3000
-  damage = Math.random() * 3 * 1000
+  hp = 5555
   movement = 8
   attackRange = 1
   attackName = "Bash and Slash"
@@ -17,11 +16,13 @@ export default class Skeleton extends Character {
   }
   animations = {
     walk: "Running",
-    damage: "Spawn",
     idle: "Idle",
-
+    damage: "TakeHit",
     attack: "Attack",
+    death: "Death",
   }
+  maxDamage = 1250
+  minDamage = 250
   damageResist = -0.1
   initiative = 1
   points = 0

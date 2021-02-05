@@ -8,9 +8,9 @@ export default class Character {
   shortCode = "??"
   modelName = "Skeleton.glb"
   hp = 5000
-  damage = 3000
   movement = 5
   attackRange = 5
+  attackCount = 1
   attackName = "Splash"
   sounds = {
     attack: [sounds.swish0, sounds.swish1, sounds.swish2, sounds.swish3],
@@ -21,10 +21,13 @@ export default class Character {
   animations = {
     idle: "Idle",
     walk: "Walk",
-    damage: "ReceiveHit",
+    damage: "RecieveHit",
     attack: "Attack",
+    death: "Death",
   }
 
+  minDamage = 1000
+  maxDamage = 3000
   damageResist = -0.3
   initiative = 2
   points = 0
@@ -45,10 +48,15 @@ export default class Character {
   setTeam(team) {
     this.team = team
     this.game = team.game
+    this.maxhealth = this.hp
   }
 
   setRenderer(renderer) {
     this.renderer = renderer
+  }
+
+  damage() {
+    return Math.floor(Math.random() * this.maxDamage + this.minDamage)
   }
 
   whoAmI() {
@@ -77,17 +85,33 @@ export default class Character {
     if (audio.length) {
       audio = audio[Math.floor(Math.random() * audio.length)]
     }
-    setTimeout(() => audio.play(), 600)
+    audio.currentTime = 0
+    audio.play()
+
+    if (this.model) {
+      this.model.playAnimation(this.animations.damage, true, false)
+    }
   }
 
   attack(targetCharacter) {
-    console.log("attack")
-    targetCharacter.receiveDamage(this.damage)
-    let audio = this.sounds.attack
-    if (audio.length) {
-      audio = audio[Math.floor(Math.random() * audio.length)]
+    for (let i = 0; i < this.attackCount ?? 1; i++) {
+      setTimeout(() => {
+        setTimeout(() => {
+          targetCharacter.receiveDamage(this.damage())
+        }, 500 * i)
+
+        let audio = this.sounds.attack
+        if (audio.length) {
+          audio = audio[Math.floor(Math.random() * audio.length)]
+        }
+        audio.play()
+
+        if (this.model) {
+          this.model.face(targetCharacter.pos)
+          this.model.playAnimation(this.animations.attack, true, false)
+        }
+      }, 1.3 * 1000 * (i - 1))
     }
-    audio.play()
   }
 
   moveSprite(vec) {
@@ -113,8 +137,7 @@ export default class Character {
   }
 
   canReachAttack(square) {
-    const ourAtt = { y: this.y, x: this.x }
-    let distance = distanceTo(square, ourAtt)
+    let distance = distanceTo(square, this.pos)
     if (distance <= this.attackRange) {
       return true
     } else {

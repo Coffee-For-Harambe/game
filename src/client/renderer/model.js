@@ -10,8 +10,10 @@ import {
   Color,
   Euler,
   Quaternion,
+  AdditiveBlending,
 } from "three"
 
+import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer.js"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { gridToWorld, worldToGrid, WORLD_SCALE, WORLD_SCALE_V } from "./3dutils"
 import Game from "../../shared/game"
@@ -73,8 +75,14 @@ export class Model {
 
     if (this.fullScene) {
       this.mesh = model.scene
+      this.model.scene.traverse((obj) => {
+        obj.castShadow = true
+        obj.receiveShadow = true
+      })
     } else {
       this.mesh = model.scene.children[0]
+      this.mesh.castShadow = true
+      this.mesh.receiveShadow = true
     }
 
     if (this.layer) {
@@ -102,7 +110,7 @@ export class Model {
 export class GridSquare extends Model {
   constructor(scene, x, y) {
     super("Floor_Modular.glb", scene, x, y)
-    this.gridPos = { x, y }
+    this.gridPos = new Vector2(x, y)
     this.setWorldPos(x, y)
   }
 
@@ -130,6 +138,9 @@ export class GridSquare extends Model {
   render(time) {
     const state = Game.Instance.state
     const selected = state.selectedCharacter
+    if (this.coordinates) {
+      this.coordinates.visible = window.DEBUGGING ? true : false
+    }
 
     let col = GridSquare.Colors.default
     if (Game.Instance.renderer.blockInput) {
@@ -147,7 +158,13 @@ export class GridSquare extends Model {
         dist <= selected.movement &&
         (!standingOnUs || standingOnUs != selected)
       ) {
-        col = GridSquare.Colors.walkable
+        if (standingOnUs) {
+          if (standingOnUs.team != selected.team && dist <= selected.attackRange) {
+            col = GridSquare.Colors.attackable
+          }
+        } else {
+          col = GridSquare.Colors.walkable
+        }
       } else if (state.turnStage == "Attacking" && dist <= selected.attackRange) {
         if (standingOnUs) {
           if (standingOnUs.team !== selected.team) {
@@ -222,14 +239,34 @@ export class AnimatedModel extends Model {
     this.lastDraw = time
   }
 
-  playAnimation(anim) {
+  playAnimation(anim, additive = false, loop = true) {
     this.lastDraw = 0
-    this.mixer.stopAllAction()
+    if (!additive) {
+      this.mixer.stopAllAction()
+    }
 
     const clip = AnimationClip.findByName(this.model.animations, anim)
     if (clip) {
-      this.action = this.mixer.clipAction(clip)
-      this.action.play()
+      const action = this.mixer.clipAction(clip)
+      if (additive) {
+        if (!loop) {
+          action.setLoop(THREE.LoopOnce, 1)
+          action.clampWhenFinished = false
+        }
+        if (this.action) {
+          if (this.additiveAction) {
+            this.additiveAction.stop()
+          }
+          action.fadeIn(0.3)
+          this.additiveAction = action
+        } else {
+          action.play()
+        }
+      } else {
+        this.mixer.stopAllAction()
+        this.action = action
+      }
+      action.play()
     } else {
       console.log("Animation not found on model:", anim, this.src)
     }
@@ -256,13 +293,17 @@ export class SquareHighlighter extends AnimatedModel {
     super.render(time)
 
     const square = Game.Instance.state.selectedCharacter?.pos
-    if (square != this.lastPos) {
+    if (!square) {
+      this.lastPos = null
+      this.shouldShow = false
+    } else if (!this.lastPos || !square.equals(this.lastPos)) {
       this.playAnimation("Swoosh")
-      this.lastPos = square
       if (square) {
+        this.lastPos = square.clone()
         this.setWorldPos(square.x, square.y)
         this.shouldShow = true
       } else {
+        this.lastPos = null
         this.shouldShow = false
       }
     }
@@ -285,36 +326,67 @@ export class CharacterModel extends AnimatedModel {
     this.movementSpeed = 0.7
   }
 
+  get gridPos() {
+    return this.character.pos.clone()
+  }
+
   modelLoaded(model) {
     super.modelLoaded(model)
     this.playAnimation(this.character.animations.idle)
-    if (this.character.pos.y > 7) {
-      this.mesh.rotation.set(0, Math.PI, 0)
-    }
+
+    this.spotlight = new Model("Cone.glb", this.mesh)
+    this.spotlight.onModelLoaded(() => {
+      this.spotlight.mesh.scale.set(1, 1, 1)
+      this.spotlight.mesh.layers.set(2)
+
+      this.spotlight.mesh.material.transparent = true
+      this.spotlight.mesh.material.opacity = 0.1
+      this.spotlight.mesh.material.blending = AdditiveBlending
+    })
 
     this.setPos(gridToWorld(this.character.x, this.character.y))
+    this.face(new Vector2(7.5, 7.5), true)
+
     this.lastCharacterPos = this.character.pos.clone()
   }
 
   render(time) {
     super.render(time)
+    this.updateHP()
+    if (this.spotlight && this.spotlight.mesh) {
+      const anySelected = Game.Instance.state.selectedCharacter
+      const ourTeam = Game.Instance.getActiveTeam() == this.character.team
+      const isHuman = !this.character.team.isComputer
+      const canPlay = !Game.Instance.renderer.blockInput
 
-    if (this.character.hp < 0) {
-      // AND NOT IS PLAYING DYING ANIMATION
-      this.shouldRemove = true
+      this.spotlight.mesh.visible = canPlay && !anySelected && ourTeam && isHuman
     }
   }
 
-  face(square) {
+  face(square, force = false) {
     const pos = worldToGrid(this.pos)
     let target = Math.atan2(square.x - pos.x, square.y - pos.y)
-    this.wantsTargetYaw = new Quaternion().setFromEuler(new Euler(0, target, 0))
+    const quaternion = new Quaternion().setFromEuler(new Euler(0, target, 0))
+    if (force) {
+      this.mesh.quaternion.copy(quaternion)
+    } else {
+      this.wantsTargetYaw = quaternion
+    }
   }
 
   animate(time) {
     super.animate(time)
     if (!this.lastCharacterPos) {
       return
+    }
+
+    if (this.character.hp < 0) {
+      if (!this.isDying) {
+        this.isDying = true
+        this.playAnimation(this.character.animations.death)
+        setTimeout(() => (this.shouldRemove = true), 1000)
+      }
+      return true
     }
 
     if (!this.character.pos.equals(this.lastCharacterPos)) {
@@ -326,7 +398,6 @@ export class CharacterModel extends AnimatedModel {
         this.character
       )
       this.lastCharacterPos = this.character.pos.clone()
-      // Replace with character.calculatePath
     }
 
     if (!this.targetPos && this.movementQueue.length) {
@@ -366,7 +437,6 @@ export class CharacterModel extends AnimatedModel {
       const elapsed = Math.min(1, (time - this.movementStart) / 1000 / this.movementSpeed)
       const toMove = this.targetPos.clone().sub(this.startingPos.clone()).multiplyScalar(elapsed)
       this.setPos(toMove.add(this.startingPos))
-
       if (elapsed == 1) {
         this.targetPos = null
         this.movementStart = null
@@ -381,5 +451,38 @@ export class CharacterModel extends AnimatedModel {
     }
 
     return false
+  }
+
+  updateHP() {
+    if (this.lasthp != this.character.hp) {
+      let diff = 0
+      if (this.lasthp) {
+        diff = Math.floor(this.lasthp - this.character.hp)
+      }
+      this.lasthp = this.character.hp
+
+      const hpPct = (this.character.hp / this.character.maxhealth) * 100
+      const dmgIndicator = diff > 0 ? `<div class="dmgindicator">-${diff}</div>` : ""
+
+      const html = `
+        <div class="charoverlay">
+          <div class="hpbar">
+            <div class="hp" style="width: ${hpPct}%"></div>
+          </div>
+          ${dmgIndicator}
+        </div>
+      `
+
+      if (!this.hpoverlay) {
+        this.hpoverlay = document.createElement("div")
+        this.hpsprite = new CSS3DSprite(this.hpoverlay)
+        this.hpsprite.scale.set(0.25 / 4, 0.25 / 4, 0.25 / 4)
+        // this.hpsprite.position.set(0, -0.05 * WORLD_SCALE, 0)
+        this.hpsprite.position.set(0, 3.5, 0)
+        this.mesh.add(this.hpsprite)
+      }
+
+      this.hpoverlay.innerHTML = html
+    }
   }
 }

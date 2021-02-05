@@ -8,25 +8,26 @@ export default class Game {
       teamsTurn: 0,
       selectedCharacter: null,
       turnStage: "Moving",
+      gameOver: false,
     }
 
     this.teams = []
     this.teams[0] = new Team([
-      new Character.Rogue(1, 15),
-      new Character.Monk(4, 15),
-      new Character.Ranger(7, 15),
-      new Character.Warrior(10, 15),
-      new Character.Wizard(13, 15),
+      new Character.Rogue(1, 14),
+      new Character.Monk(4, 14),
+      new Character.Ranger(7, 14),
+      new Character.Warrior(10, 14),
+      new Character.Wizard(13, 14),
     ])
 
     this.teams[1] = new Team([
-      new Character.Skeleton(0, 0),
-      new Character.Skeleton(3, 13),
-      new Character.Skeleton(7, 0),
-      new Character.Dragon(9, 0),
+      new Character.Skeleton(2, 1),
+      new Character.Skeleton(3, 1),
+      new Character.Skeleton(8, 2),
+      new Character.Dragon(7, 1),
 
-      new Character.Skeleton(13, 0),
-      new Character.Skeleton(15, 0),
+      new Character.Skeleton(13, 1),
+      new Character.Skeleton(12, 1),
     ])
 
     this.teams.forEach((team) => {
@@ -93,6 +94,17 @@ export default class Game {
     if (this.renderer) {
       this.renderer.update()
     }
+    if (this.teams[0].characters.length <= 0) {
+      this.state.gameOver = 0
+    } else if (this.teams[1].characters.length <= 0) {
+      this.state.gameOver = 1
+    }
+    if (this.state.gameOver) {
+      document.getElementById("lose").style.visibility =
+        this.state.gameOver == 0 ? "visible" : "hidden"
+      document.getElementById("win").style.visibility =
+        this.state.gameOver == 1 ? "visible" : "hidden"
+    }
   }
 
   // export function distanceTo(v1, v2) {
@@ -115,34 +127,36 @@ export default class Game {
 
     if (state.turnStage == "Moving") {
       if (clicked && clicked.team == this.getActiveTeam()) {
-        state.selectedCharacter = clicked
+        if (clicked.hp > 0) {
+          state.selectedCharacter = clicked
+        }
       } else if (selected !== null) {
         if (square == null) {
           state.selectedCharacter = null
         } else {
-          if (selected.canReach(square)) {
-            if (!clicked) {
-              selected.moveSprite(square)
+          if (selected.canReach(square) && !clicked) {
+            selected.moveSprite(square)
 
-              let canAttack = false
-              for (let potentialEnemy of selected.getOpposingTeam().characters) {
-                if (selected.canReachAttack(potentialEnemy.pos)) {
-                  canAttack = true
-                  break
-                }
+            let canAttack = false
+            for (let potentialEnemy of selected.getOpposingTeam().characters) {
+              if (selected.canReachAttack(potentialEnemy.pos)) {
+                canAttack = true
+                break
               }
+            }
 
-              if (canAttack) {
-                state.turnStage = "Attacking"
-              } else {
-                this.advanceTurn()
-              }
-            } else if (selected.canReachAttack(square)) {
-              selected.attack(clicked)
+            if (canAttack) {
+              state.turnStage = "Attacking"
+            } else {
               this.advanceTurn()
             }
           } else {
-            alert("You can't reach that")
+            if (clicked && clicked.team != selected.team && selected.canReachAttack(square)) {
+              selected.attack(clicked)
+              this.advanceTurn()
+              return
+            }
+            alert("Try moving somewhere else!")
           }
         }
       }

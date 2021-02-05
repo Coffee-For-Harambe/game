@@ -1,5 +1,9 @@
-document.querySelector("#start").onclick = hideElement
-
 function hideElement() {
-  document.querySelector("#ui").toggleClass("ui.hide")
+  let element = document.getElementById("ui")
+  element.classList.toggle("hide")
+  // document.querySelector("#ui").toggleClass("ui.hide")
 }
+
+document.querySelector("#start").addEventListener("click", hideElement)
+document.querySelector("#new").addEventListener("click", hideElement)
+document.querySelector("#Options").addEventListener("click", hideElement)
