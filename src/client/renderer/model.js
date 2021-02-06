@@ -241,34 +241,33 @@ export class AnimatedModel extends Model {
 
   playAnimation(anim, additive = false, loop = true) {
     this.lastDraw = 0
-    if (!additive) {
-      this.mixer.stopAllAction()
-    }
 
     const clip = AnimationClip.findByName(this.model.animations, anim)
     if (clip) {
       const action = this.mixer.clipAction(clip)
+      if (!loop) {
+        action.setLoop(THREE.LoopOnce, 1)
+        action.clampWhenFinished = true
+      }
       if (additive) {
-        if (!loop) {
-          action.setLoop(THREE.LoopOnce, 1)
-          action.clampWhenFinished = false
-        }
         if (this.action) {
           if (this.additiveAction) {
             this.additiveAction.stop()
           }
           action.fadeIn(0.3)
           this.additiveAction = action
-        } else {
-          action.play()
         }
+        action.play()
       } else {
         this.mixer.stopAllAction()
+        if (this.action) {
+          action.crossFadeFrom(this.action, 0.1, true)
+        }
+        action.play()
         this.action = action
       }
-      action.play()
     } else {
-      console.log("Animation not found on model:", anim, this.src)
+      console.error("Animation not found on model:", anim, this.src)
     }
   }
 
@@ -379,7 +378,7 @@ export class CharacterModel extends AnimatedModel {
     if (this.character.hp <= 0) {
       if (!this.isDying) {
         this.isDying = true
-        this.playAnimation(this.character.animations.death, false, false)
+        this.playAnimation(this.character.animations.death, true, false)
         setTimeout(() => {
           this.shouldRemove = true
         }, 1000)
