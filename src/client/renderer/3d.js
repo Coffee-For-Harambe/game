@@ -197,8 +197,8 @@ export default class Renderer {
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(window.innerWidth, window.innerHeight)
 
-    renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    // renderer.shadowMap.enabled = true
+    // renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
     renderer.physicallyCorrectLights = true
     renderer.toneMapping = THREE.ACESFilmicToneMapping

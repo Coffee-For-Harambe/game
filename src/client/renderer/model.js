@@ -75,14 +75,14 @@ export class Model {
 
     if (this.fullScene) {
       this.mesh = model.scene
-      this.model.scene.traverse((obj) => {
-        obj.castShadow = true
-        obj.receiveShadow = true
-      })
+      // this.model.scene.traverse((obj) => {
+      // obj.castShadow = true
+      // obj.receiveShadow = true
+      // })
     } else {
       this.mesh = model.scene.children[0]
-      this.mesh.castShadow = true
-      this.mesh.receiveShadow = true
+      // this.mesh.castShadow = true
+      // this.mesh.receiveShadow = true
     }
 
     if (this.layer) {
