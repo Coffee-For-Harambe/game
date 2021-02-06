@@ -55,15 +55,13 @@ export class Model {
     this.model = model;
 
     if (this.fullScene) {
-      this.mesh = model.scene;
-      this.model.scene.traverse(obj => {
-        obj.castShadow = true;
-        obj.receiveShadow = true;
-      });
+      this.mesh = model.scene; // this.model.scene.traverse((obj) => {
+      // obj.castShadow = true
+      // obj.receiveShadow = true
+      // })
     } else {
-      this.mesh = model.scene.children[0];
-      this.mesh.castShadow = true;
-      this.mesh.receiveShadow = true;
+      this.mesh = model.scene.children[0]; // this.mesh.castShadow = true
+      // this.mesh.receiveShadow = true
     }
 
     if (this.layer) {
@@ -358,18 +356,20 @@ export class CharacterModel extends AnimatedModel {
   animate(time) {
     super.animate(time);
 
-    if (!this.lastCharacterPos) {
-      return;
-    }
-
-    if (this.character.hp < 0) {
+    if (this.character.hp <= 0) {
       if (!this.isDying) {
         this.isDying = true;
-        this.playAnimation(this.character.animations.death);
-        setTimeout(() => this.shouldRemove = true, 1000);
+        this.playAnimation(this.character.animations.death, false, false);
+        setTimeout(() => {
+          this.shouldRemove = true;
+        }, 1000);
       }
 
       return true;
+    }
+
+    if (!this.lastCharacterPos) {
+      return;
     }
 
     if (!this.character.pos.equals(this.lastCharacterPos)) {
@@ -425,6 +425,10 @@ export class CharacterModel extends AnimatedModel {
         }
       }
 
+      return true;
+    }
+
+    if (this.character.attacksLeft) {
       return true;
     }
 
