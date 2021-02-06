@@ -86,6 +86,12 @@ export default class Renderer {
 
     const toRemove = []
 
+    if (Game.Instance.state.selectedCharacter) {
+      if (Game.Instance.state.selectedCharacter.hp <= 0) {
+        Game.Instance.resetTurnState()
+      }
+    }
+
     let blockInput = false
     this.scene.traverse((obj) => {
       if (obj.model instanceof AnimatedModel) {
@@ -110,7 +116,19 @@ export default class Renderer {
     this.blockInput = blockInput
 
     for (let obj of toRemove) {
+      const childRemove = []
+      obj.traverse((child) => {
+        obj.layers.set(0)
+        child.layers.set(0)
+        childRemove.push(child)
+      })
+
+      for (let child of childRemove) {
+        obj.remove(child)
+      }
+
       this.scene.remove(obj)
+
       this.game.update()
     }
 
@@ -197,8 +215,8 @@ export default class Renderer {
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(window.innerWidth, window.innerHeight)
 
-    renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    // renderer.shadowMap.enabled = true
+    // renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
     renderer.physicallyCorrectLights = true
     renderer.toneMapping = THREE.ACESFilmicToneMapping
@@ -313,6 +331,8 @@ export default class Renderer {
     if (!this.mouse || this.blockInput) {
       return
     }
+
+    this.updateHover(e)
 
     this.game.squareClicked(this.game.state.hovered)
     inspect(this.game.state.selectedCharacter)
