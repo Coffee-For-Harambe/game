@@ -38,6 +38,7 @@ export default class Character {
   movedThisRound = false
   attackedThisRound = false
   renderer = null
+  attacksLeft = 0
 
   constructor(x, y) {
     this.x = x
@@ -94,11 +95,21 @@ export default class Character {
   }
 
   attack(targetCharacter) {
+    this.attacksLeft = this.attackCount
+    const hitDelay = 500
     for (let i = 0; i < this.attackCount ?? 1; i++) {
       setTimeout(() => {
+        if (targetCharacter.hp < 0) {
+          this.attacksLeft = 0
+          return
+        }
+
         setTimeout(() => {
           targetCharacter.receiveDamage(this.damage())
-        }, 500 * i)
+          setTimeout(() => {
+            this.attacksLeft--
+          }, hitDelay)
+        }, hitDelay)
 
         let audio = this.sounds.attack
         if (audio.length) {
@@ -110,7 +121,7 @@ export default class Character {
           this.model.face(targetCharacter.pos)
           this.model.playAnimation(this.animations.attack, true, false)
         }
-      }, 1.3 * 1000 * (i - 1))
+      }, 1.5 * 1000 * i + i * hitDelay)
     }
   }
 

@@ -86,6 +86,12 @@ export default class Renderer {
 
     const toRemove = []
 
+    if (Game.Instance.state.selectedCharacter) {
+      if (Game.Instance.state.selectedCharacter.hp <= 0) {
+        Game.Instance.resetTurnState()
+      }
+    }
+
     let blockInput = false
     this.scene.traverse((obj) => {
       if (obj.model instanceof AnimatedModel) {
@@ -102,6 +108,12 @@ export default class Renderer {
         obj.model.render(time)
 
         if (obj.model.shouldRemove) {
+          obj.traverse((child) => {
+            obj.layers.set(0)
+            this.scene.remove(child)
+            obj.remove(child)
+            this.scene.remove(child)
+          })
           toRemove.push(obj)
         }
       }
@@ -313,6 +325,8 @@ export default class Renderer {
     if (!this.mouse || this.blockInput) {
       return
     }
+
+    this.updateHover(e)
 
     this.game.squareClicked(this.game.state.hovered)
     inspect(this.game.state.selectedCharacter)
