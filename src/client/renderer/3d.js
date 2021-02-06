@@ -108,12 +108,6 @@ export default class Renderer {
         obj.model.render(time)
 
         if (obj.model.shouldRemove) {
-          obj.traverse((child) => {
-            obj.layers.set(0)
-            this.scene.remove(child)
-            obj.remove(child)
-            this.scene.remove(child)
-          })
           toRemove.push(obj)
         }
       }
@@ -122,7 +116,19 @@ export default class Renderer {
     this.blockInput = blockInput
 
     for (let obj of toRemove) {
+      const childRemove = []
+      obj.traverse((child) => {
+        obj.layers.set(0)
+        child.layers.set(0)
+        childRemove.push(child)
+      })
+
+      for (let child of childRemove) {
+        obj.remove(child)
+      }
+
       this.scene.remove(obj)
+
       this.game.update()
     }
 
