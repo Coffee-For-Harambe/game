@@ -48,7 +48,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 37vh;
-  margin-left: 4vw;
+  margin-left: 2vw;
 }
 
 #start-menu img {
@@ -98,6 +98,7 @@
 
 /* Slide out vertically - and fade   using Dom and JS*/
 #ui {
+  display: none;
   height: 100vh;
   width: 100vw;
   opacity: 1;
@@ -109,4 +110,79 @@
   height: 1px;
   width: 100vw;
 }
+
 /* Slide out vertically - and fade  using Dom and JS */
+
+/*   Credits   */
+#credits {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 5;
+  height: 1px;
+  width: 100vw;
+}
+
+#credits.show {
+  opacity: 0;
+  height: 100px;
+  width: 100vw;
+  background-color: #222222;
+  color: #eee1b1;
+}
+
+#developers-txt h2 {
+  padding-bottom: 10vh;
+}
+
+.developer h3 {
+}
+
+.developer a {
+  text-decoration: none;
+  font-size: 1.2em;
+  font-weight: 900;
+}
+.developer {
+  width: 35vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 27vw;
+}
+
+#credits div {
+  margin: 20px 30px;
+}
+
+#credits h2,
+h4 {
+  text-align: center;
+}
+
+#credits h2,
+h1 {
+  margin-top: 100px;
+  font-size: 1.8em;
+}
+
+#credits h4 {
+  font-size: 1.3em;
+  margin-bottom: 70px;
+}
+
+p:nth-child(even) {
+  padding-left: 170px;
+}
+
+p:nth-child(odd) {
+  font-size: 1.3em;
+}
+
+#close-credits-btn {
+  width: 60px;
+  height: 40px;
+  background-image: url("../images/exit-btn.png");
+}
+/*   Credits   */
