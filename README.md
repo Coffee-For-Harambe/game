@@ -1,3 +1,10 @@
+Features TBA:
+1. Intro screen instructions and UI
+2. Restart button
+3. Camera fix (fixed position viewport, multiple selectable angles)
+
+
+
 # Coffee For Harambe - The Game
 
 ## Play it here!
