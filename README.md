@@ -3,8 +3,6 @@ Features TBA:
 2. Restart button
 3. Camera fix (fixed position viewport, multiple selectable angles)
 
-
-
 # Coffee For Harambe - The Game
 
 ## Play it here!
@@ -26,3 +24,5 @@ You can play the latest deployed version of the game over at http://coffe-for-ha
 ## Deploying
 1. Create a merge request from the `master` branch onto the `live` branch.
 2. The CD pipeline (GitHub Actions) will update the GitHub Pages deployment automatically!
+
+
