@@ -322,7 +322,7 @@ export class CharacterModel extends AnimatedModel {
 
     this.movementQueue = []
 
-    this.movementSpeed = 0.7
+    this.movementSpeed = 0.25
   }
 
   get gridPos() {
