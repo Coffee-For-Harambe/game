@@ -33,7 +33,7 @@ a img {
   cursor: url(/images/pointer_dagger.cur), pointer;
 }
 
-#ui > * {
+#ui>* {
   pointer-events: auto;
 }
 
@@ -68,6 +68,7 @@ a img {
   background: rgb(40, 40, 40);
   overflow-y: auto;
 }
+
 .outcome {
   position: fixed;
   left: 4em;
@@ -91,45 +92,81 @@ a img {
   color: red;
   visibility: hidden;
 }
+
+#start_btn {
+  margin: 20% 42%;
+  border: none;
+  appearance: none;
+  outline: none;
+  display: inline-block;
+  font-size: 1.5em;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 12px 48px 12px 48px;
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: #1bafdb;
+  border: 2px solid #ffffff;
+}
+
+#start_btn {
+  transition-duration: 0.4s;
+}
+
+#start_btn:hover {
+  font-size: 1.6em;
+  background-color: #05c46b;
+}
+
 .renderjson a {
   text-decoration: none;
   color: rgb(216, 216, 216);
 }
+
 .renderjson .disclosure {
   color: rgb(171, 70, 66);
   font-size: 150%;
 }
+
 .renderjson .syntax {
   color: rgb(184, 184, 184);
 }
+
 .renderjson .string {
   color: rgb(161, 181, 108);
 }
+
 .renderjson .number {
   color: rgb(247, 202, 136);
 }
+
 .renderjson .boolean {
   color: rgb(186, 139, 175);
 }
+
 .renderjson .key {
   color: rgb(216, 216, 216);
 }
+
 .renderjson .keyword {
   color: rgb(186, 139, 175);
 }
+
 .renderjson .object.syntax {
   color: rgb(134, 193, 185);
 }
+
 .renderjson .array.syntax {
   color: rgb(220, 150, 86);
 }
 
 #cssrenderer,
-#cssrenderer > * {
+#cssrenderer>* {
   z-index: 2;
   height: 100%;
   width: 100%;
 }
+
 #cssrenderer,
 #cssrenderer * {
   pointer-events: none;
@@ -140,8 +177,10 @@ a img {
   background-size: cover;
   background-repeat: no-repeat;
   content: "";
-  width: 224px; /*  56*4  */
-  height: 28px; /*  7*4  */
+  width: 224;
+  /*  56*4  */
+  height: 28px;
+  /*  7*4  */
   position: relative;
 }
 
@@ -175,9 +214,11 @@ a img {
     opacity: 1;
     transform: translateY(0) skewX(-30deg);
   }
+
   40% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     transform: translateY(40px) skewX(-30deg);
