@@ -1,4 +1,14 @@
-#main-page {
+#title_banner {
+  width: 20rem;
+  height: auto;
+
+  margin: 2rem 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+}
+
+
+#start_page {
   position: 0;
   margin: 0;
   padding: 0;
@@ -11,178 +21,53 @@
   height: 100vh;
 }
 
-#top-section {
-  width: 100vw;
-  background-color: #222222;
-  display: flex;
-  justify-content: space-between;
-}
+#start_menu {
 
-#stats-enemy,
-#stats-alies {
-  display: none;
-  background-color: aqua;
-  width: 17vw;
-  height: 13vh;
-  background-size: cover;
-  background-repeat: no-repeat;
-  opacity: 0.3;
-}
-
-#stats-alies {
-  background-image: url("/images/stats-alies.png");
-}
-
-#stats-enemy {
-  text-align: right;
-  float: right;
-  background-image: url("/images/stats-enemy.png");
-}
-
-#start-menu {
-  width: 25vw;
-  height: 65vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2rem 1rem;
+  width: 15rem;
+  height: auto;
+  background-color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 37vh;
-  margin-left: 2vw;
+
 }
 
-#start-menu img {
-  margin-bottom: 10px;
+#new_btn,
+#start_btn,
+#options_btn {
   width: 150px;
-  height: 45px;
+  height: 2.5rem;
+  margin-bottom: 10px;
 }
 
-#game-title {
-  margin: 0;
-  padding-bottom: 14vh;
-  width: 200px;
-  height: 100px;
-  background-image: url("/images/logo.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.buttons-start-menu {
+/* 
+#s #start_btn {
+  margin: 20% 42%;
   border: none;
-  background-color: black;
-}
-
-#characters-screen {
-  width: 100vw;
-  height: 65vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 25vh;
-}
-
-#left-panel-characters,
-#right-panel-characters {
-  width: 30vw;
-  height: 65vh;
-}
-
-#left-panel-characters {
-  background-image: url("/images/stats enemy.png");
-}
-
-#right-panel-characters {
-  background-image: url("/images/stats enemy.png");
-}
-
-/* Slide out vertically - and fade   using Dom and JS*/
-#ui {
-  display: none;
-  height: 100vh;
-  width: 100vw;
-  opacity: 1;
-  transition: all 0.75s ease;
-}
-
-#ui.hide {
-  opacity: 0;
-  height: 1px;
-  width: 100vw;
-}
-
-/* Slide out vertically - and fade  using Dom and JS */
-
-/*   Credits   */
-#credits {
-  position: fixed;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  z-index: 5;
-  height: 1px;
-  width: 100vw;
-}
-
-#credits.show {
-  opacity: 0;
-  height: 100px;
-  width: 100vw;
-  background-color: #222222;
-  color: #eee1b1;
-}
-
-#developers-txt h2 {
-  padding-bottom: 10vh;
-}
-
-.developer h3 {
-}
-
-.developer a {
+  appearance: none;
+  outline: none;
+  display: inline-block;
+  font-size: 1.5em;
+  cursor: pointer;
   text-decoration: none;
-  font-size: 1.2em;
-  font-weight: 900;
-}
-.developer {
-  width: 35vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 27vw;
+  padding: 12px 48px 12px 48px;
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: #1bafdb;
+  border: 2px solid #ffffff;
 }
 
-#credits div {
-  margin: 20px 30px;
+#start_btn {
+  transition-duration: 0.4s;
 }
 
-#credits h2,
-h4 {
-  text-align: center;
-}
-
-#credits h2,
-h1 {
-  margin-top: 100px;
-  font-size: 1.8em;
-}
-
-#credits h4 {
-  font-size: 1.3em;
-  margin-bottom: 70px;
-}
-
-p:nth-child(even) {
-  padding-left: 170px;
-}
-
-p:nth-child(odd) {
-  font-size: 1.3em;
-}
-
-#close-credits-btn {
-  width: 60px;
-  height: 40px;
-  background-image: url("../images/exit-btn.png");
-}
-/*   Credits   */
+#start_btn:hover {
+  font-size: 1.6em;
+  background-color: #05c46b;
+} */
