@@ -29,3 +29,14 @@ function toggleElement(id,toggle) {
   element.style.display = display;
 }
 
+
+
+
+// Escape key opens menu
+window.addEventListener('keydown', function(e){
+  if((e.key=='Escape'||e.key=='Esc') && (e.target.nodeName=='BODY') && hadGameStarted){
+      console.log("exc")
+      e.preventDefault();
+      toggleGame()
+    }
+});
