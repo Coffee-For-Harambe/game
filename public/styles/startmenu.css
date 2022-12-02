@@ -38,36 +38,10 @@
 
 }
 
-#new_btn,
-#start_btn,
-#options_btn {
+#play_btn,
+#options_btn,
+#new_game_btn {
   width: 150px;
   height: 2.5rem;
   margin-bottom: 10px;
 }
-
-/* 
-#s #start_btn {
-  margin: 20% 42%;
-  border: none;
-  appearance: none;
-  outline: none;
-  display: inline-block;
-  font-size: 1.5em;
-  cursor: pointer;
-  text-decoration: none;
-  padding: 12px 48px 12px 48px;
-  border-radius: 4px;
-  color: #ffffff;
-  background-color: #1bafdb;
-  border: 2px solid #ffffff;
-}
-
-#start_btn {
-  transition-duration: 0.4s;
-}
-
-#start_btn:hover {
-  font-size: 1.6em;
-  background-color: #05c46b;
-} */

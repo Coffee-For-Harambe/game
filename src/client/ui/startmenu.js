@@ -1,42 +1,31 @@
-let startBtn = document.getElementById('start_btn');
-startBtn.addEventListener("click", _ =>{
-  console.log('working')
-  toggleScreen('start_menu', false);
-  toggleScreen('canvas', true);
+let isMenuOpen = true;
+let hadGameStarted = false;
 
+
+
+let playBtn = document.getElementById('play_btn');
+  playBtn.addEventListener("click", _ =>{
+  toggleGame()
+  if(!hadGameStarted){ hadGameStarted == true}
+})
+
+let newGameBtn = document.getElementById('new_game_btn');
+newGameBtn.addEventListener("click", _ =>{
+  hadGameStarted = true
+  toggleGame()
 })
 
 
-function toggleScreen(id,toggle) {
+function toggleGame(){
+  isMenuOpen = !isMenuOpen
+  toggleElement('start_page',isMenuOpen ? true : false);
+  toggleElement('canvas', isMenuOpen ? false : true);
+}
+
+
+function toggleElement(id,toggle) {
   let element = document.getElementById(id);
   let display = ( toggle ) ? 'block' : 'none';
   element.style.display = display;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-// function hideElement() {
-//   let element = document.getElementById("ui")
-//   element.classList.toggle("hide")
-//   // document.querySelector("#ui").toggleClass("ui.hide")
-// }
-
-// function showCredits() {
-//   hideElement()
-//   let creditsG = document.getElementById("credits")
-//   element.classList.toggle("show")
-//   // document.querySelector("#ui").toggleClass("ui.hide")
-// }
-
-// document.querySelector("#start").addEventListener("click", hideElement)
-// document.querySelector("#new").addEventListener("click", hideElement)
-// document.querySelector("#credits").addEventListener("click", showCredits)
