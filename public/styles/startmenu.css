@@ -24,17 +24,18 @@
 #start_menu {
 
   position: absolute;
-  top: 45%;
+  top: 40%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -42%);
   padding: 2rem 1rem;
-  width: 15rem;
+  width: 260px;
   height: auto;
   background-color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 3px;
 
 }
 
@@ -45,3 +46,43 @@
   height: 2.5rem;
   margin-bottom: 10px;
 }
+
+#instructions {
+  width: 380px;
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  padding: 0 40px;
+  border-radius: 3px;
+  background-color: black;
+  color: rgb(115, 97, 97);
+  /* text-align: justify; */
+}
+
+/* 
+#s #play_btn {
+  margin: 20% 42%;
+  border: none;
+  appearance: none;
+  outline: none;
+  display: inline-block;
+  font-size: 1.5em;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 12px 48px 12px 48px;
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: #1bafdb;
+  border: 2px solid #ffffff;
+}
+
+#play_btn {
+  transition-duration: 0.4s;
+}
+
+#play_btn:hover {
+  font-size: 1.6em;
+  background-color: #05c46b;
+} */
