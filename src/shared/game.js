@@ -25,7 +25,6 @@ export default class Game {
       new Character.Skeleton(3, 1),
       new Character.Skeleton(8, 2),
       new Character.Dragon(7, 1),
-
       new Character.Skeleton(13, 1),
       new Character.Skeleton(12, 1),
     ])
@@ -83,28 +82,35 @@ export default class Game {
   getActiveTeam() {
     return this.teams[this.state.teamsTurn]
   }
+  
 
   getActiveTurnStage() {
     return this.teams[this.state.turnStage]
   }
 
+  closeCanvas(){
+    document.getElementById("start_page").style.display = 'block';
+    document.getElementById("canvas").style.display = 'none';
+  }
+
   update() {
     this.teams.forEach((team) => team.update())
     this.characterGrid = this.getCharacterGrid()
-    if (this.renderer) {
-      this.renderer.update()
-    }
+    
+    if (this.renderer) {this.renderer.update() }
+
     if (this.teams[0].characters.length <= 0) {
-      this.state.gameOver = 0
-    } else if (this.teams[1].characters.length <= 0) {
-      this.state.gameOver = 1
+      this.state.gameOver = true
+      this.closeCanvas()
+      document.getElementById("lose").style.visibility = "visible"
     }
-    if (this.state.gameOver) {
-      document.getElementById("lose").style.visibility =
-        this.state.gameOver == 0 ? "visible" : "hidden"
-      document.getElementById("win").style.visibility =
-        this.state.gameOver == 1 ? "visible" : "hidden"
+    
+    if (this.teams[1].characters.length <= 0) {
+      this.state.gameOver = true
+      this.closeCanvas()
+      document.getElementById("win").style.visibility = "visible"
     }
+   
   }
 
   // export function distanceTo(v1, v2) {
